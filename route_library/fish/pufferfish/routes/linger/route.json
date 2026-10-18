@@ -1,0 +1,41 @@
+{
+ "id": "linger",
+ "name": "Linger",
+ "dur": [
+  14,
+  18
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.6
+  ],
+  [
+   0.45,
+   0.6
+  ],
+  [
+   0.55,
+   0.6
+  ],
+  [
+   1.1,
+   0.55
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.5,
+   "hold": [
+    4,
+    4
+   ]
+  }
+ ],
+ "purpose": "Stops in the middle for 4 s, an easy shared target.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

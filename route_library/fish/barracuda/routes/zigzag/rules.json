@@ -1,0 +1,9 @@
+{
+ "route": "zigzag",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "fast_crosser": 1,
+ "split_safe": false,
+ "seasons": {},
+ "why": "Straight legs with a stop at every corner."
+}

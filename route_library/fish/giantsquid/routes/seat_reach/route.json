@@ -1,0 +1,60 @@
+{
+ "id": "seatReach",
+ "name": "Seat reach",
+ "dur": [
+  40,
+  50
+ ],
+ "pts": [
+  [
+   1.15,
+   0.5
+  ],
+  [
+   0.6,
+   0.5
+  ],
+  [
+   0.5,
+   0.3
+  ],
+  [
+   0.5,
+   0.5
+  ],
+  [
+   0.5,
+   0.7
+  ],
+  [
+   0.3,
+   0.5
+  ],
+  [
+   -0.15,
+   0.5
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.35,
+   "hold": [
+    3,
+    3
+   ]
+  },
+  {
+   "at": 0.6,
+   "hold": [
+    3,
+    3
+   ]
+  }
+ ],
+ "purpose": "Holds in the middle, leans toward the top seats, then the bottom seats.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

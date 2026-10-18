@@ -1,0 +1,24 @@
+{
+ "id": "diag",
+ "name": "Diagonal dash",
+ "dur": [
+  6,
+  8
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.12
+  ],
+  [
+   1.1,
+   0.88
+  ]
+ ],
+ "purpose": "Corner to corner.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

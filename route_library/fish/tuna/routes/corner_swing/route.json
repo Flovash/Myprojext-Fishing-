@@ -1,0 +1,37 @@
+{
+ "id": "cornerSwing",
+ "name": "Corner swing",
+ "dur": [
+  12,
+  15
+ ],
+ "pts": [
+  [
+   -0.08,
+   1.05
+  ],
+  [
+   0.25,
+   0.42
+  ],
+  [
+   0.5,
+   0.32
+  ],
+  [
+   0.75,
+   0.42
+  ],
+  [
+   1.08,
+   1.05
+  ]
+ ],
+ "crosser": true,
+ "purpose": "Corner to the neighbouring corner in an arch; flips to open up or down away from the Shark.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

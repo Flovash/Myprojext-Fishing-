@@ -1,0 +1,10 @@
+{
+ "route": "seabed",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Rows take turns: bottom, then top."
+ ],
+ "seasons": {},
+ "why": "Walks the full bottom row, past every bottom seat."
+}

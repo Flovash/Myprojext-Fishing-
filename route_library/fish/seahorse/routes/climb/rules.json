@@ -1,0 +1,10 @@
+{
+ "route": "climb",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Pick the seat column with the least small-fish time."
+ ],
+ "seasons": {},
+ "why": "Climbs slowly from the bottom seats to the top seats."
+}

@@ -1,0 +1,9 @@
+{
+ "route": "inspector",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "Curious",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Drops in to look at one seat and climbs back out; that seat feels watched."
+}

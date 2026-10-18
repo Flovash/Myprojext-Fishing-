@@ -1,0 +1,9 @@
+{
+ "route": "escort",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "status": "in game (v5)",
+ "seasons": {},
+ "why": "Circles around a big fish while it travels (in game)."
+}

@@ -1,0 +1,67 @@
+{
+ "id": "hopAlong",
+ "name": "Hop along",
+ "dur": [
+  12,
+  15
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.18
+  ],
+  [
+   0.15,
+   0.2
+  ],
+  [
+   0.32,
+   0.25
+  ],
+  [
+   0.5,
+   0.2
+  ],
+  [
+   0.68,
+   0.25
+  ],
+  [
+   0.85,
+   0.2
+  ],
+  [
+   1.1,
+   0.18
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.25,
+   "hold": [
+    1,
+    1
+   ]
+  },
+  {
+   "at": 0.5,
+   "hold": [
+    1,
+    1
+   ]
+  },
+  {
+   "at": 0.75,
+   "hold": [
+    1,
+    1
+   ]
+  }
+ ],
+ "purpose": "Hops along one seat row, a short stop at each seat.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

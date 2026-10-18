@@ -1,0 +1,48 @@
+{
+ "id": "feedLoop",
+ "name": "Feeding loop",
+ "dur": [
+  30,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.62
+  ],
+  [
+   0.14,
+   0.58
+  ],
+  [
+   0.26,
+   0.42
+  ],
+  [
+   0.36,
+   0.56
+  ],
+  [
+   0.26,
+   0.72
+  ],
+  [
+   0.14,
+   0.6
+  ],
+  [
+   0.2,
+   0.45
+  ],
+  [
+   -0.1,
+   0.4
+  ]
+ ],
+ "purpose": "Circles one side; followers bunch around it.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

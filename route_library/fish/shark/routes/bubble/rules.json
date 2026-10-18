@@ -1,0 +1,9 @@
+{
+ "route": "bubble",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "Curious",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Lingers near the center with small turns."
+}

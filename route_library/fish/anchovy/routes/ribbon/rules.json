@@ -1,0 +1,10 @@
+{
+ "route": "ribbon",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Use when the middle band is empty."
+ ],
+ "seasons": {},
+ "why": "A long silver wave through the middle band."
+}

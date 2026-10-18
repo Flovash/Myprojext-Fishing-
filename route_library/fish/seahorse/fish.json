@@ -1,0 +1,27 @@
+{
+ "name": "Seahorse",
+ "group": "small",
+ "pays": "6-15x",
+ "role": "The little treat. Slow, rare and worth a bit more.",
+ "home": "Seat corners; moves up and down rather than across",
+ "habit": "Alone or a pair. Very slow, upright, bobbing.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "At most 1 Seahorse visit per seat corner every 2 minutes."
+ ],
+ "id": "seahorse",
+ "game_id": "seahorse",
+ "group_sizes": [
+  1,
+  2
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "climb",
+  "cornerBob",
+  "pairDance"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

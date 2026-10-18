@@ -1,0 +1,49 @@
+{
+ "id": "ambush",
+ "name": "Ambush",
+ "dur": [
+  14,
+  18
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.35,
+   0.5
+  ],
+  [
+   1.1,
+   0.15
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.3,
+   "hold": [
+    1.2,
+    2
+   ]
+  }
+ ],
+ "speed": [
+  [
+   0.3,
+   0.45
+  ],
+  [
+   1,
+   2
+  ]
+ ],
+ "sharp": true,
+ "crosser": true,
+ "purpose": "Creeps in, holds still, then darts out to a corner.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

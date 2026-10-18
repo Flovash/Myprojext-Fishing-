@@ -1,0 +1,36 @@
+{
+ "id": "peek",
+ "name": "Peek",
+ "dur": [
+  6,
+  8
+ ],
+ "pts": [
+  [
+   0.4,
+   1.1
+  ],
+  [
+   0.42,
+   0.7
+  ],
+  [
+   0.5,
+   0.62
+  ],
+  [
+   0.58,
+   0.7
+  ],
+  [
+   0.6,
+   1.1
+  ]
+ ],
+ "purpose": "Pops up from a seat edge, looks around, and dives back.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

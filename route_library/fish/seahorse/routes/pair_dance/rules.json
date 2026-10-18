@@ -1,0 +1,10 @@
+{
+ "route": "pairDance",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Only when the middle is clear of big fish."
+ ],
+ "seasons": {},
+ "why": "Two Seahorses, one from the top and one from the bottom, meet near the middle and go home."
+}

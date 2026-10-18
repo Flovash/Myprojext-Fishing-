@@ -1,0 +1,41 @@
+{
+ "id": "seatSweep",
+ "name": "Seat sweep",
+ "dur": null,
+ "pts": [
+  [
+   -0.1,
+   0.82
+  ],
+  [
+   0.4,
+   0.84
+  ],
+  [
+   0.8,
+   0.8
+  ],
+  [
+   0.92,
+   0.5
+  ],
+  [
+   0.8,
+   0.2
+  ],
+  [
+   0.4,
+   0.16
+  ],
+  [
+   -0.1,
+   0.2
+  ]
+ ],
+ "purpose": "Along one seat row, around, back along the other.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

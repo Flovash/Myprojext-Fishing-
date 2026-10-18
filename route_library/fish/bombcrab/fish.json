@@ -1,0 +1,30 @@
+{
+ "name": "Bomb Crab",
+ "group": "special",
+ "pays": "10x + blast",
+ "role": "The crowd clearer. Catching it blows up fish nearby (150 px) for a big shared moment.",
+ "home": "The seabed: the seat rows along the top and bottom edges",
+ "habit": "Walks sideways along a seat row. The director sends it when a crowd has gathered.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Only when at least 8 fish are within its blast radius somewhere on its path.",
+  "Max 1 on screen; at least 40 s between crabs.",
+  "Not during a boss scene.",
+  "Not within 10 s of a Lightning Eel."
+ ],
+ "id": "bombcrab",
+ "game_id": "crab",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "seabed",
+  "intoCrowd",
+  "ceiling"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

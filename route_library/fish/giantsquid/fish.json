@@ -1,0 +1,42 @@
+{
+ "name": "Giant Squid",
+ "group": "boss",
+ "pays": "500-1000x",
+ "role": "The reacher. Tentacles stretch toward the seats.",
+ "home": "Center, reaching out to both seat rows",
+ "habit": "Swims backwards in jets; holds still to reach. Squirts ink when hit hard (show only).",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Bosses own the stage: no big fish, the big-fish clock waits.",
+  "Mediums only as escorts; small fish keep 0.15 away from the boss.",
+  "The boss spends equal time near top, bottom, left and right seats.",
+  "It never leaves before the scene ends (minus 4 s)."
+ ],
+ "reactions": [
+  {
+   "name": "Ink",
+   "trigger": "20 hits in 3 s",
+   "effect": "ink cloud and a jet away"
+  }
+ ],
+ "phases": [
+  "Jet in",
+  "Reach each seat row",
+  "Jet across",
+  "Exit"
+ ],
+ "id": "giantsquid",
+ "game_id": "gsquid",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "seatReach",
+  "jet"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

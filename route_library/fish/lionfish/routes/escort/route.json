@@ -1,0 +1,30 @@
+{
+ "id": "escort",
+ "name": "Escort ring",
+ "dur": null,
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.3,
+   0.45
+  ],
+  [
+   0.6,
+   0.5
+  ],
+  [
+   1.1,
+   0.45
+  ]
+ ],
+ "dynamic": "rides with a big fish",
+ "purpose": "Circles around a big fish while it travels (in game).",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

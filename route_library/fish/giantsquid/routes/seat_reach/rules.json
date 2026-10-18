@@ -1,0 +1,8 @@
+{
+ "route": "seatReach",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Holds in the middle, leans toward the top seats, then the bottom seats."
+}

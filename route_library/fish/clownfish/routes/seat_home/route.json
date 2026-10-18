@@ -1,0 +1,45 @@
+{
+ "id": "seatHome",
+ "name": "Seat home",
+ "dur": [
+  8,
+  11
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.85
+  ],
+  [
+   0.2,
+   0.82
+  ],
+  [
+   0.3,
+   0.8
+  ],
+  [
+   0.25,
+   0.72
+  ],
+  [
+   -0.1,
+   0.78
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.45,
+   "hold": [
+    3,
+    3
+   ]
+  }
+ ],
+ "purpose": "Swims to one seat, hangs there 3 s, and goes back the way it came.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

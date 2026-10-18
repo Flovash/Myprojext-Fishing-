@@ -1,0 +1,28 @@
+{
+ "id": "rush",
+ "name": "Rush",
+ "dur": [
+  7,
+  9
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.85
+  ],
+  [
+   0.5,
+   0.5
+  ],
+  [
+   1.1,
+   0.15
+  ]
+ ],
+ "purpose": "Fast corner-to-corner run.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

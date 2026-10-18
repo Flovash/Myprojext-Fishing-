@@ -1,0 +1,10 @@
+{
+ "route": "seatHome",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Target seat = the seat with the least tiny-fish time lately."
+ ],
+ "seasons": {},
+ "why": "Swims to one seat, hangs there 3 s, and goes back the way it came."
+}

@@ -1,0 +1,10 @@
+{
+ "route": "driftDown",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Pick a top seat with little traffic as the start."
+ ],
+ "seasons": {},
+ "why": "Floats down from the top seats to the bottom seats."
+}

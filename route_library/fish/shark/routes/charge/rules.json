@@ -1,0 +1,9 @@
+{
+ "route": "charge",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "Aggressive",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Fast straight run across in 6-8 s: a jolt."
+}

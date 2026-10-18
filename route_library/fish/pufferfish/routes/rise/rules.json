@@ -1,0 +1,10 @@
+{
+ "route": "rise",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Mirror to the top half every other time so top seats get it too."
+ ],
+ "seasons": {},
+ "why": "Comes up from the bottom seats, turns, and sinks back."
+}

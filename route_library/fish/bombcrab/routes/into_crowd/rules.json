@@ -1,0 +1,10 @@
+{
+ "route": "intoCrowd",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Target = densest fish spot within 0.35 of a seat row."
+ ],
+ "seasons": {},
+ "why": "Walks toward the busiest spot, waits there 3 s, and walks back."
+}

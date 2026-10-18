@@ -1,0 +1,44 @@
+{
+ "id": "hook",
+ "name": "Hook back",
+ "dur": [
+  7,
+  9
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.64
+  ],
+  [
+   0.5,
+   0.64
+  ],
+  [
+   0.62,
+   0.6
+  ],
+  [
+   0.66,
+   0.53
+  ],
+  [
+   0.62,
+   0.46
+  ],
+  [
+   0.5,
+   0.42
+  ],
+  [
+   -0.1,
+   0.42
+  ]
+ ],
+ "purpose": "Dashes in, snaps back out the same side.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

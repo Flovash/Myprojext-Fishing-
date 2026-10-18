@@ -1,0 +1,9 @@
+{
+ "route": "spear",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "fast_crosser": 1,
+ "split_safe": true,
+ "seasons": {},
+ "why": "Drops straight down (or up) through the screen."
+}

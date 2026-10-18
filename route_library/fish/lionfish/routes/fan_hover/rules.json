@@ -1,0 +1,8 @@
+{
+ "route": "fanHover",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Drifts slowly with two stops to fan its fins."
+}

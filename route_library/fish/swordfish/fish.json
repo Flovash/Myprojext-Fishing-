@@ -1,0 +1,23 @@
+{
+ "name": "Swordfish",
+ "group": "medium",
+ "pays": "15-35x",
+ "role": "Bully: fast, risky, top medium pay.",
+ "home": "Anywhere, fast",
+ "habit": "Straight lines with at most one hard angle. The only medium that goes top to bottom.",
+ "status": "in game (v8)",
+ "id": "swordfish",
+ "game_id": "sword",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "spear",
+  "ricochet",
+  "lowSlash"
+ ]
+}

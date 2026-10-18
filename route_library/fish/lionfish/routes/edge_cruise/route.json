@@ -1,0 +1,28 @@
+{
+ "id": "edgeCruise",
+ "name": "Edge cruise",
+ "dur": [
+  12,
+  15
+ ],
+ "pts": [
+  [
+   0.08,
+   -0.1
+  ],
+  [
+   0.1,
+   0.5
+  ],
+  [
+   0.08,
+   1.1
+  ]
+ ],
+ "purpose": "Slides down a side edge, past the corner seats.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

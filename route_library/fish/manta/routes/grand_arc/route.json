@@ -1,0 +1,36 @@
+{
+ "id": "grandArc",
+ "name": "Grand arc",
+ "dur": [
+  30,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.78
+  ],
+  [
+   0.22,
+   0.32
+  ],
+  [
+   0.5,
+   0.2
+  ],
+  [
+   0.78,
+   0.32
+  ],
+  [
+   1.1,
+   0.78
+  ]
+ ],
+ "purpose": "Covers most of the screen. In a meeting no Shark lane fits, so the Shark waits off screen.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

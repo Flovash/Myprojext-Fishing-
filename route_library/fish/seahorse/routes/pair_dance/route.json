@@ -1,0 +1,37 @@
+{
+ "id": "pairDance",
+ "name": "Pair dance",
+ "dur": [
+  14,
+  18
+ ],
+ "pts": [
+  [
+   0.45,
+   -0.1
+  ],
+  [
+   0.47,
+   0.3
+  ],
+  [
+   0.5,
+   0.42
+  ],
+  [
+   0.53,
+   0.3
+  ],
+  [
+   0.55,
+   -0.1
+  ]
+ ],
+ "twin": true,
+ "purpose": "Two Seahorses, one from the top and one from the bottom, meet near the middle and go home.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

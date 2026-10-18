@@ -1,0 +1,29 @@
+{
+ "name": "Lightning Eel",
+ "group": "special",
+ "pays": "12x + chain",
+ "role": "The spark. Catching it chains to 6 nearby fish, the big excitement spike.",
+ "home": "Long lanes through busy water",
+ "habit": "Swims in an S, fast, alone. Glows brighter the more fish are near it.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Max 1 on screen; at least 45 s between eels.",
+  "Route must pass at least 10 fish so the chain has targets.",
+  "Not during a boss scene."
+ ],
+ "id": "eel",
+ "game_id": "eel",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "longSine",
+  "throughSchool",
+  "edgeSnap"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

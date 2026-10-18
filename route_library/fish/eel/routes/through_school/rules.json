@@ -1,0 +1,10 @@
+{
+ "route": "throughSchool",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Only when a school of 6+ is on screen."
+ ],
+ "seasons": {},
+ "why": "Follows the path of the biggest Sardine school so the chain hits."
+}

@@ -1,0 +1,27 @@
+{
+ "name": "Butterflyfish",
+ "group": "tiny",
+ "pays": "3-6x",
+ "role": "Color and calm. Gentle movers that fill the quiet parts of a wave.",
+ "home": "Upper middle of the screen",
+ "habit": "Travel in pairs inside a group of 3-6, fluttering up and down as they go.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Used most in calm scenes; fewer during hunts."
+ ],
+ "id": "butterflyfish",
+ "game_id": "butterfly",
+ "group_sizes": [
+  3,
+  6
+ ],
+ "formations_allowed": [
+  "school"
+ ],
+ "route_order": [
+  "pairFlutter",
+  "loop",
+  "driftDown"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

@@ -1,0 +1,28 @@
+{
+ "id": "split",
+ "name": "Split",
+ "dur": [
+  12,
+  16
+ ],
+ "pts": [
+  [
+   0.5,
+   -0.1
+  ],
+  [
+   0.48,
+   0.5
+  ],
+  [
+   0.5,
+   1.1
+  ]
+ ],
+ "purpose": "Top to bottom through the center. Nothing crosses the middle while it is there; each half keeps its own fish.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

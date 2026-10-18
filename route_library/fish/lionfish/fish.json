@@ -1,0 +1,28 @@
+{
+ "name": "Lionfish",
+ "group": "small",
+ "pays": "5-10x",
+ "role": "The escort. Rides with big fish so the big moments have small catches around them.",
+ "home": "Beside big fish, or along the side edges",
+ "habit": "40% of big fish come with 2-3 Lionfish escorts (in game). Alone, it hovers and fans its fins.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Escorts leave with their big fish.",
+  "Never escort the Shark during a Manta meeting (too crowded)."
+ ],
+ "id": "lionfish",
+ "game_id": "lion",
+ "group_sizes": [
+  1,
+  3
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "escort",
+  "fanHover",
+  "edgeCruise"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

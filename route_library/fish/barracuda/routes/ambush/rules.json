@@ -1,0 +1,9 @@
+{
+ "route": "ambush",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "fast_crosser": 1,
+ "split_safe": false,
+ "seasons": {},
+ "why": "Creeps in, holds still, then darts out to a corner."
+}

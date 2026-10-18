@@ -1,0 +1,8 @@
+{
+ "route": "edgeSnap",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Runs the top row, snaps down through the middle, leaves along the bottom row."
+}

@@ -1,0 +1,50 @@
+{
+ "id": "edgeHops",
+ "name": "Edge hops",
+ "dur": [
+  17,
+  22
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.88
+  ],
+  [
+   0.15,
+   0.75
+  ],
+  [
+   0.3,
+   0.88
+  ],
+  [
+   0.45,
+   0.75
+  ],
+  [
+   0.6,
+   0.88
+  ],
+  [
+   0.75,
+   0.75
+  ],
+  [
+   0.9,
+   0.88
+  ],
+  [
+   1.1,
+   0.86
+  ]
+ ],
+ "pulse": true,
+ "edge": true,
+ "purpose": "Hops along the edge in bursts.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": false
+ }
+}

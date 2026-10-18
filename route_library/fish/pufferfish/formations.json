@@ -1,0 +1,14 @@
+{
+ "about": "Formations this fish may swim in. sizes = school size limits; lag and lat = spacing behind and beside, in body lengths and heights.",
+ "formations": {
+  "loose": {
+   "sizes": [
+    1,
+    3
+   ],
+   "lag": 0.9,
+   "lat": 0.8,
+   "what": "One behind the other with a little sideways wander."
+  }
+ }
+}

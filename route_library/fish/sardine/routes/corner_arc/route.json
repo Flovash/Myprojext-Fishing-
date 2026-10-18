@@ -1,0 +1,37 @@
+{
+ "id": "cornerArc",
+ "name": "Corner arc",
+ "dur": null,
+ "pts": [
+  [
+   -0.1,
+   0.9
+  ],
+  [
+   0.15,
+   0.6
+  ],
+  [
+   0.2,
+   0.25
+  ],
+  [
+   0.4,
+   0.1
+  ],
+  [
+   0.7,
+   0.15
+  ],
+  [
+   1.1,
+   0.1
+  ]
+ ],
+ "purpose": "Up from a bottom corner and across the top.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

@@ -1,0 +1,46 @@
+{
+ "id": "intoCrowd",
+ "name": "Into the crowd",
+ "dur": [
+  14,
+  18
+ ],
+ "pts": [
+  [
+   1.1,
+   0.85
+  ],
+  [
+   0.7,
+   0.82
+  ],
+  [
+   0.55,
+   0.6
+  ],
+  [
+   0.6,
+   0.8
+  ],
+  [
+   1.1,
+   0.85
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.5,
+   "hold": [
+    3,
+    3
+   ]
+  }
+ ],
+ "dynamic": "aims at the crowd",
+ "purpose": "Walks toward the busiest spot, waits there 3 s, and walks back.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

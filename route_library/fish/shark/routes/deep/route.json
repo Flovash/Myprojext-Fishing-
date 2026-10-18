@@ -1,0 +1,32 @@
+{
+ "id": "deep",
+ "name": "Deep sweep",
+ "dur": [
+  20,
+  24
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.68
+  ],
+  [
+   0.3,
+   0.82
+  ],
+  [
+   0.7,
+   0.82
+  ],
+  [
+   1.1,
+   0.68
+  ]
+ ],
+ "purpose": "Sweeps a seat row; pushes the Octopus to the other seat row. Allowed during meetings.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

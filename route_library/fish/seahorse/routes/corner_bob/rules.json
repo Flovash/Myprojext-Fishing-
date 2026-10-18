@@ -1,0 +1,8 @@
+{
+ "route": "cornerBob",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Comes out of a corner, bobs up and down, goes back."
+}

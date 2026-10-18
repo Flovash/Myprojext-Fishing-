@@ -1,0 +1,547 @@
+{
+ "n": 8,
+ "seconds": 72,
+ "title": "Manta first, then a curious Shark",
+ "story": "The Manta glides the top row with its followers while the Hammerhead patrols the bottom seats. The Shark waits until the Manta is gone, then drops in from the top, inspects a bottom seat and climbs back out.",
+ "seed": 816,
+ "big_fish": [
+  {
+   "fish": "manta",
+   "route": "openGlide",
+   "name": "Open glide",
+   "start": 4,
+   "end": 37,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.28
+    ],
+    [
+     0.4,
+     0.25
+    ],
+    [
+     0.7,
+     0.31
+    ],
+    [
+     1.1,
+     0.28
+    ]
+   ]
+  },
+  {
+   "fish": "hammerhead",
+   "route": "rail",
+   "name": "Rail patrol",
+   "start": 8,
+   "end": 30,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.85
+    ],
+    [
+     0.7,
+     0.82
+    ],
+    [
+     0.4,
+     0.87
+    ],
+    [
+     -0.1,
+     0.84
+    ]
+   ]
+  },
+  {
+   "fish": "marlin",
+   "route": "dash",
+   "name": "Dash",
+   "start": 20,
+   "end": 26,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.55
+    ],
+    [
+     -0.1,
+     0.55
+    ]
+   ]
+  },
+  {
+   "fish": "shark",
+   "route": "inspector",
+   "name": "Inspector",
+   "start": 41,
+   "end": 64,
+   "tag": "",
+   "points": [
+    [
+     0.2,
+     -0.1
+    ],
+    [
+     0.28,
+     0.4
+    ],
+    [
+     0.45,
+     0.72
+    ],
+    [
+     0.62,
+     0.72
+    ],
+    [
+     0.78,
+     0.4
+    ],
+    [
+     0.84,
+     -0.1
+    ]
+   ]
+  }
+ ],
+ "mediums": [
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 0.5,
+   "end": 19.3,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.55
+    ],
+    [
+     0.45,
+     0.5
+    ],
+    [
+     -0.1,
+     0.45
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 0.6,
+   "end": 22.5,
+   "direction": "local",
+   "points": [
+    [
+     0.6,
+     1.1
+    ],
+    [
+     0.65,
+     0.74
+    ],
+    [
+     0.75,
+     0.66
+    ],
+    [
+     0.85,
+     0.74
+    ],
+    [
+     0.9,
+     1.1
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "lazyS",
+   "name": "Lazy S",
+   "start": 1.0,
+   "end": 25.3,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.45
+    ],
+    [
+     0.7,
+     0.36
+    ],
+    [
+     0.4,
+     0.58
+    ],
+    [
+     -0.1,
+     0.44
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 2.5,
+   "end": 14.8,
+   "direction": "left",
+   "points": [
+    [
+     1.08,
+     -0.05
+    ],
+    [
+     0.65,
+     0.28
+    ],
+    [
+     0.35,
+     0.72
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "ricochet",
+   "name": "Ricochet",
+   "start": 5.3,
+   "end": 13.4,
+   "direction": "left",
+   "points": [
+    [
+     1.1,
+     0.25
+    ],
+    [
+     0.5,
+     0.88
+    ],
+    [
+     -0.1,
+     0.25
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 18.4,
+   "end": 31.2,
+   "direction": "local",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.22,
+     0.26
+    ],
+    [
+     0.32,
+     0.5
+    ],
+    [
+     0.22,
+     0.74
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "zigzag",
+   "name": "Zigzag stalk",
+   "start": 22.2,
+   "end": 38.7,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.55
+    ],
+    [
+     0.2,
+     0.38
+    ],
+    [
+     0.4,
+     0.65
+    ],
+    [
+     0.6,
+     0.38
+    ],
+    [
+     0.8,
+     0.65
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "edgeHops",
+   "name": "Edge hops",
+   "start": 25.5,
+   "end": 43.1,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.12
+    ],
+    [
+     0.15,
+     0.25
+    ],
+    [
+     0.3,
+     0.12
+    ],
+    [
+     0.45,
+     0.25
+    ],
+    [
+     0.6,
+     0.12
+    ],
+    [
+     0.75,
+     0.25
+    ],
+    [
+     0.9,
+     0.12
+    ],
+    [
+     1.1,
+     0.14
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "seatVisit",
+   "name": "Seat visit",
+   "start": 27.0,
+   "end": 50.1,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.25
+    ],
+    [
+     0.3,
+     0.3
+    ],
+    [
+     0.45,
+     0.8
+    ],
+    [
+     0.55,
+     0.8
+    ],
+    [
+     0.7,
+     0.3
+    ],
+    [
+     1.1,
+     0.25
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "spear",
+   "name": "Spear",
+   "start": 28.6,
+   "end": 38.4,
+   "direction": "local",
+   "points": [
+    [
+     0.38,
+     -0.1
+    ],
+    [
+     0.3,
+     1.1
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 46.6,
+   "end": 64.5,
+   "direction": "local",
+   "points": [
+    [
+     0.4,
+     -0.1
+    ],
+    [
+     0.35,
+     0.26
+    ],
+    [
+     0.25,
+     0.34
+    ],
+    [
+     0.15,
+     0.26
+    ],
+    [
+     0.1,
+     -0.1
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 48.0,
+   "end": 67.0,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.3
+    ],
+    [
+     0.45,
+     0.35
+    ],
+    [
+     -0.1,
+     0.4
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "slowCircle",
+   "name": "Slow circle",
+   "start": 51.8,
+   "end": 76.7,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.56
+    ],
+    [
+     0.3,
+     0.62
+    ],
+    [
+     0.52,
+     0.6
+    ],
+    [
+     0.64,
+     0.44
+    ],
+    [
+     0.5,
+     0.32
+    ],
+    [
+     0.34,
+     0.44
+    ],
+    [
+     0.42,
+     0.62
+    ],
+    [
+     0.68,
+     0.64
+    ],
+    [
+     1.1,
+     0.58
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 52.7,
+   "end": 65.0,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.35,
+     0.28
+    ],
+    [
+     0.65,
+     0.72
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "lowSlash",
+   "name": "Low slash",
+   "start": 55.9,
+   "end": 65.4,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.82
+    ],
+    [
+     1.1,
+     0.32
+    ]
+   ]
+  }
+ ],
+ "checks": {
+  "medium_visits": 15,
+  "crossings_against_shark": 0,
+  "crossings_with_shark": 0,
+  "peak_fast_crossers": 2
+ }
+}

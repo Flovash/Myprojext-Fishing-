@@ -1,0 +1,9 @@
+{
+ "route": "cornerHook",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "fast_crosser": 0,
+ "split_safe": true,
+ "seasons": {},
+ "why": "Stays on one side, corner to corner. The Tuna option while a Shark splits the screen."
+}

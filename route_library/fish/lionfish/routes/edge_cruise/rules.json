@@ -1,0 +1,10 @@
+{
+ "route": "edgeCruise",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Left and right edges take turns."
+ ],
+ "seasons": {},
+ "why": "Slides down a side edge, past the corner seats."
+}

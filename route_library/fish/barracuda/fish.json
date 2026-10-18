@@ -1,0 +1,23 @@
+{
+ "name": "Barracuda",
+ "group": "medium",
+ "pays": "10-25x",
+ "role": "Hunter. Its pauses are the moments to shoot it.",
+ "home": "Middle band",
+ "habit": "Only straight lines and sharp corners; pauses at every corner. Waits at its ambush spot until a Shark has passed.",
+ "status": "in game (v8)",
+ "id": "barracuda",
+ "game_id": "barracuda",
+ "group_sizes": [
+  1,
+  2
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "ambush",
+  "zigzag",
+  "strikeRetreat"
+ ]
+}

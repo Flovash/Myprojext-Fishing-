@@ -1,0 +1,7 @@
+{
+ "route": "slash",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Cuts through a school, which scatters and regroups."
+}

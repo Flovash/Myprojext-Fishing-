@@ -1,0 +1,9 @@
+{
+ "route": "center",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "King",
+ "meeting_ok": true,
+ "seasons": {},
+ "why": "Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings."
+}

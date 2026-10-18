@@ -1,0 +1,8 @@
+{
+ "route": "diveResurface",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Rises on the left, dives, and comes back up on the right."
+}

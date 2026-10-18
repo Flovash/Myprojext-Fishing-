@@ -1,0 +1,10 @@
+{
+ "route": "linger",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Not while a Shark is on screen."
+ ],
+ "seasons": {},
+ "why": "Stops in the middle for 4 s, an easy shared target."
+}

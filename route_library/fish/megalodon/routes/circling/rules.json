@@ -1,0 +1,8 @@
+{
+ "route": "circling",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Circles in, getting tighter, then breaks out."
+}

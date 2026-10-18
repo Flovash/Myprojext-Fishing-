@@ -1,0 +1,9 @@
+# data and reports stay in Google Drive
+route_library/data/
+route_library/readable/
+stats.csv
+reports/
+backups/
+*.gsheet
+*.gdoc
+.DS_Store

@@ -1,0 +1,37 @@
+{
+ "name": "Megalodon",
+ "group": "boss",
+ "pays": "400-800x",
+ "role": "The big show. Huge, fast for its size, always moving.",
+ "home": "Laps the whole arena",
+ "habit": "Never stops. Passes close to every seat row once per lap. Small fish scatter in front of it.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Bosses own the stage: no big fish, the big-fish clock waits.",
+  "Mediums only as escorts; small fish keep 0.15 away from the boss.",
+  "The boss spends equal time near top, bottom, left and right seats.",
+  "It never leaves before the scene ends (minus 4 s).",
+  "Charges come with a 1 s warning shadow."
+ ],
+ "phases": [
+  "Enter wide",
+  "Laps (2)",
+  "Charges (3 passes)",
+  "Exit"
+ ],
+ "id": "megalodon",
+ "game_id": "megalodon",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "laps",
+  "charges",
+  "circling"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

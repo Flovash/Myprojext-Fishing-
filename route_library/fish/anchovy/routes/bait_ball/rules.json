@@ -1,0 +1,11 @@
+{
+ "route": "baitBall",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Not while a Shark lane is within 0.2 of the ball spot.",
+  "Best right before a Marlin slash (gives it something to cut through)."
+ ],
+ "seasons": {},
+ "why": "Rolls into a tight ball for 3 s, then streams away. A small crowd target."
+}

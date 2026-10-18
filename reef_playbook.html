@@ -1,0 +1,742 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Reef Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: the game's own fish guide. Home = groups of fish cards drawn by the game's renderer; tap one for its own page (attitude -> route -> screen -> rules); a strategy board stacks routes. Single deep-water theme on purpose, same as the cabinet. */
+:root {
+  color-scheme: dark;
+  --bg: #062631; --card: #0f3240; --card-hi: #144050; --line: #1f4b5a; --ink: #eef6f8; --muted: #9dbac2; --faint: #6f909a;
+  --water: #0b3d4a; --water-edge: #2a6a78; --seat: #8fb3bb; --accent: #ffb547; --accent-ink: #2a1800; --warn: #ff7a70; --ok: #8fe08a;
+  --g-tiny: #c9d3d8; --g-small: #7ddc6a; --g-medium: #4fb3ff; --g-big: #ffc94a; --g-boss: #ff5a5a; --g-special: #ff8fc8;
+  --display: "Bungee", "Arial Black", Impact, sans-serif;
+  --body: "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --c-shark:#f0997b;--c-manta:#afa9ec;--c-hammerhead:#c4c2b9;--c-marlin:#7aa6ff;--c-tuna:#7fb2ff;--c-barracuda:#e8eef0;--c-octopus:#ff8f70;--c-swordfish:#85b7eb;--c-turtle:#97c459;--c-sardine:#dfe8ec;--c-angelfish:#8cc4ea;
+  --c-anchovy:#8fb8ea;--c-clownfish:#ff8a2a;--c-butterflyfish:#ffe14a;--c-minnow:#8fd19a;--c-pufferfish:#e0c27a;--c-lionfish:#f39a8a;--c-seahorse:#f29ac0;--c-bombcrab:#ff7a50;--c-eel:#fff176;--c-healer:#7fffd8;--c-megalodon:#b8c6d2;--c-giantsquid:#ff8fa3;--c-kraken:#c7a8ff;--c-koi:#ffd24a;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 18px 44px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.app { max-width: 1180px; margin: 0 auto; display: grid; gap: 18px; }
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
+.brand { display: grid; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 5vw, 42px); line-height: 1; margin: 2px 0 0; color: var(--accent); }
+.nav { display: flex; gap: 6px; }
+.nav a { text-decoration: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 14px 4px; font-weight: 700; }
+.nav a[aria-current="page"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.law0 { margin: 0; font-size: 14px; color: var(--muted); }
+/* home grid */
+.ghead { display: flex; align-items: baseline; gap: 8px; margin: 6px 0 8px; font-size: 22px; font-weight: 600; }
+.ghead small { font-size: 22px; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.fcard { display: grid; justify-items: center; gap: 0; padding: 10px 6px 10px; background: var(--card); border: 1px solid transparent; border-radius: 12px; text-decoration: none; text-align: center; transition: background .15s, border-color .15s, transform .15s; }
+.fcard:hover { background: var(--card-hi); border-color: var(--line); transform: translateY(-2px); }
+.fcard canvas { width: 100%; max-width: 230px; height: auto; aspect-ratio: 2 / 1; display: block; }
+.fcard .fname { font-weight: 800; font-size: 18px; line-height: 1.1; margin-top: -4px; }
+.fcard .fpay { font-size: 14px; color: var(--muted); font-weight: 600; }
+.fcard .fn { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+/* fish page */
+.back { text-decoration: none; font-weight: 700; color: var(--muted); }
+.hero { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 18px; align-items: center; background: var(--card); border-radius: 16px; padding: 14px 18px; }
+.hero canvas { width: 100%; height: auto; aspect-ratio: 2 / 1; display: block; }
+.hero h2 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.05; margin: 0; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin: 6px 0 10px; }
+.pill { font-family: var(--mono); font-size: 12px; border: 1px solid currentColor; border-radius: 6px; padding: 1px 7px; }
+.facts { display: grid; gap: 6px; margin: 0; }
+.facts dt { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.facts dd { margin: 0 0 4px; }
+.cols { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 18px; align-items: start; }
+.cols > * { min-width: 0; }
+.panel { background: var(--card); border-radius: 14px; padding: 14px; display: grid; gap: 12px; }
+.step { display: grid; gap: 8px; }
+.stephead { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.num { font-family: var(--display); font-size: 13px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); padding-top: 2px; flex: none; }
+h3 { font-size: 19px; margin: 0; font-weight: 700; }
+.hint { font-size: 13px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); font-size: 15px; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+.chip small { font-family: var(--mono); font-size: 11px; opacity: .75; }
+.routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.rcard { text-align: left; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 6px 6px 8px; display: grid; gap: 3px; }
+.rcard[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.rcard svg { width: 100%; height: auto; display: block; }
+.rname { font-weight: 700; font-size: 15px; line-height: 1.15; }
+.rmeta { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.screen { background: var(--card); border-radius: 14px; padding: 12px; display: grid; gap: 8px; }
+.screen svg { width: 100%; height: auto; display: block; }
+.stitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.stitle h3 { font-size: 21px; }
+.status { font-family: var(--mono); font-size: 11px; text-transform: uppercase; border: 1px solid currentColor; border-radius: 6px; padding: 1px 6px; color: var(--muted); }
+.status.live { color: var(--ok); }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 5px 11px 4px; font-size: 14px; font-weight: 600; }
+.btn[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.clock { font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; margin-left: auto; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.rules > section { background: var(--card); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.rules h4 { margin: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+.rules p { margin: 0; }
+.rules ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.rules .wide { grid-column: 1 / -1; }
+.ifrule { list-style: none; padding-left: 0 !important; }
+.ifrule li { padding-left: 26px; position: relative; }
+.ifrule li::before { content: "IF"; position: absolute; left: 0; top: 3px; font-family: var(--mono); font-size: 10px; border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; padding: 0 3px; }
+.lawtable { overflow-x: auto; }
+.lawtable table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 520px; }
+.lawtable td { border-top: 1px solid var(--line); padding: 6px 8px 6px 0; vertical-align: top; }
+.lawtable code, .val { font-family: var(--mono); font-size: 12px; }
+.share { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.share i { display: block; height: 100%; background: var(--accent); }
+.layer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; }
+.layer .lname { font-weight: 600; line-height: 1.2; }
+.layer .lsub { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.layer canvas { width: 64px; height: 32px; }
+.step2 { display: flex; align-items: center; gap: 4px; }
+.step2 button { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 7px; background: var(--card); font-weight: 700; }
+.step2 span { font-family: var(--mono); font-size: 12px; min-width: 38px; text-align: center; font-variant-numeric: tabular-nums; }
+.checks { display: grid; gap: 4px; font-size: 14px; }
+.checks .bad { color: var(--warn); font-weight: 600; }
+.checks .good { color: var(--ok); }
+.empty { color: var(--muted); font-size: 14px; }
+.picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; }
+.picker button { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 4px; display: grid; justify-items: center; font-size: 13px; font-weight: 700; }
+.picker canvas { width: 100%; height: auto; aspect-ratio: 2 / 1; }
+/* svg */
+.water { fill: var(--water); stroke: var(--water-edge); stroke-width: 2; }
+.seatmark { stroke: var(--seat); stroke-width: 8; stroke-linecap: round; }
+.seatlab { font-family: var(--mono); font-size: 22px; fill: var(--muted); }
+.route { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.route.ghost { opacity: .4; }
+.mini .route { stroke-width: 12; }
+.mini .seatmark { stroke-width: 12; }
+.pausedot { stroke: var(--water); stroke-width: 3; }
+.edgelab { font-family: var(--mono); font-size: 20px; fill: var(--faint); }
+.lanewarn { fill: none; stroke: var(--warn); stroke-width: 3; stroke-dasharray: 8 6; }
+@media (max-width: 980px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .cols, .hero { grid-template-columns: minmax(0, 1fr); } .rules { grid-template-columns: minmax(0, 1fr); } .hero canvas { max-width: 360px; margin: 0 auto; } }
+@media (max-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .fcard .fname { font-size: 15px; } .fcard .fpay { font-size: 12px; } .ghead, .ghead small { font-size: 19px; } }
+@media (max-width: 420px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tlwrap { overflow-x: auto; }
+.tlwrap svg { display: block; width: 100%; min-width: 760px; height: auto; touch-action: pan-y; user-select: none; }
+.tlruler { fill: var(--bg); cursor: pointer; }
+.tlgrid { stroke: var(--line); stroke-width: 1; }
+.tlgrid.minor { stroke-dasharray: 2 4; }
+.tltick { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.tllab { font-family: var(--body); font-size: 13px; fill: var(--muted); }
+.tllab.big { fill: var(--ink); font-weight: 700; }
+.tlbar { cursor: grab; }
+.tlbar rect { stroke: transparent; stroke-width: 3; }
+.tlbar:hover rect, .tlbar.sel rect { stroke: var(--ink); }
+.tltag { font-family: var(--mono); font-size: 10px; fill: var(--bg); pointer-events: none; }
+.tlshade { fill: var(--c-shark); opacity: .08; pointer-events: none; }
+.tlsep { stroke: var(--line); stroke-width: 1; }
+.tlhead { stroke: var(--accent); stroke-width: 2.5; pointer-events: none; }
+.bcols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: 14px; align-items: start; }
+.bcols > * { min-width: 0; }
+@media (max-width: 900px) { .bcols { grid-template-columns: minmax(0, 1fr); } }
+.tl2 { display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: start; }
+@media (max-width: 560px) { .tl2 { grid-template-columns: 84px minmax(0, 1fr); } .tllab { font-size: 11px; } }
+.lock { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+.tlbar { cursor: pointer; }
+.tl2 .tlwrap svg { min-width: 0; width: auto; max-width: none; }
+.tlwrap { overscroll-behavior-x: contain; border-radius: 8px; }
+.wseg { fill: var(--bg); opacity: .55; cursor: pointer; }
+.wseg.alt { fill: var(--card-hi); opacity: .5; }
+.wseg.mine { fill: var(--accent); opacity: .08; }
+.wtab { fill: var(--card-hi); stroke: var(--line); cursor: pointer; }
+.wtab:hover { stroke: var(--accent); }
+.wlab { font-family: var(--body); font-size: 13px; font-weight: 700; fill: var(--ink); pointer-events: none; }
+.wcheck { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 6px; padding: 3px 6px; }
+.wcheck.cur { background: var(--bg); outline: 1px solid var(--line); }
+.wcheck:hover { background: var(--bg); }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M1.5 1L8.5 5L1.5 9" fill="none" stroke="context-stroke" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs></svg>
+<div class="app">
+  <header class="top">
+    <div class="brand"><p class="eyebrow">Peacock Reef · fish routes</p><h1>Reef Playbook</h1></div>
+    <nav class="nav" aria-label="Pages"><a href="#" id="navFish">Fish</a><a href="#board" id="navBoard">Master strategy <span id="boardCount"></span></a></nav>
+  </header>
+  <section id="home">
+    <p class="law0">Tap a fish to open its page: its attitudes, routes, and the rules each route follows. Movement never changes catch chances or pays.</p>
+    <div id="groups"></div>
+  </section>
+  <section id="fishPage" hidden></section>
+  <section id="boardPage" hidden></section>
+</div>
+<script>
+const PI = Math.PI, TAU = PI * 2, S = 1; let ctx;
+const GROUPS = {
+  tiny:    {name: 'Tiny',   pb: 0.98, ring: '#c9d3d8', range: '2–6x'},
+  small:   {name: 'Small',  pb: 0.98, ring: '#7ddc6a', range: '2–15x'},
+  medium:  {name: 'Medium', pb: 0.97, ring: '#4fb3ff', range: '8–50x'},
+  big:     {name: 'Big',    pb: 0.95, ring: '#ffc94a', range: '80–500x'},
+  boss:    {name: 'Boss',   pb: 0.90, ring: '#ff5a5a', range: '300–1,200x'},
+  special: {name: 'Special', pb: 0.95, ring: '#ff8fc8', range: 'chain catches'},
+};
+const SPECIES = [
+  {id:'sardine', name:'Sardine', group:'tiny', lo:2, hi:3, len:40, h:16, speed:115, w:80, kind:'fish', body:['#eef4f7','#7c8f9c'], fin:'#9fb2bd', pattern:'flock', paths:'sardine', school:[6,9], lb:[0.2,0.4]},
+  {id:'anchovy', name:'Anchovy', group:'tiny', lo:2, hi:5, len:38, h:14, speed:125, w:50, kind:'fish', body:['#cdeaff','#3a6fa8'], fin:'#6c9bd0', band:'#e6f6ff', pattern:'flock', school:[5,8], lb:[0.1,0.3]},
+  {id:'clown', name:'Clownfish', group:'tiny', lo:3, hi:5, len:46, h:26, speed:70, w:45, kind:'fish', body:['#ffb04a','#ff6a10'], fin:'#ff8a2a', stripes:'#ffffff', pattern:'drift', school:[3,6], lb:[0.3,0.6]},
+  {id:'butterfly', name:'Butterflyfish', group:'tiny', lo:3, hi:6, len:50, h:40, speed:65, w:35, kind:'fish', body:['#fff27a','#ffc400'], fin:'#ffe14a', band:'#1a2a3a', pattern:'drift', school:[3,6], lb:[0.3,0.7]},
+  {id:'minnow', name:'Minnow', group:'small', lo:2, hi:10, len:36, h:14, speed:135, w:80, kind:'fish', body:['#d2f7bd','#4a9a5a'], fin:'#7cc47a', pattern:'zigzag', school:[3,6], lb:[0.1,0.2]},
+  {id:'angel', name:'Angelfish', group:'small', lo:3, hi:8, len:60, h:62, speed:60, w:40, kind:'angel', body:['#d6f4ff','#5aa6d6'], fin:'#2c6fa0', stripes:'#1a3c5a', pattern:'drift', paths:'angel', cross:[25,35], school:[1,1], lb:[0.5,1]},
+  {id:'puffer', name:'Pufferfish', group:'small', lo:4, hi:7, len:56, h:50, speed:50, w:30, kind:'puffer', body:['#f4e3a1','#c79b3b'], fin:'#e0b85a', pattern:'drift', school:[1,3], lb:[1,3]},
+  {id:'lion', name:'Lionfish', group:'small', lo:5, hi:10, len:60, h:42, speed:55, w:22, kind:'fish', body:['#ffe0d2','#d2452e'], fin:'#f7a08a', stripes:'#fff4ee', pattern:'drift', school:[1,3], lb:[1,3]},
+  {id:'seahorse', name:'Seahorse', group:'small', lo:6, hi:15, len:34, h:58, speed:32, w:18, kind:'seahorse', body:['#ffc3dc','#d6447e'], pattern:'drift', school:[1,2], lb:[0.1,0.2]},
+  {id:'tuna', name:'Tuna', group:'medium', lo:8, hi:15, len:100, h:42, speed:90, w:28, kind:'fish', body:['#a9cdee','#1d3f6b'], fin:'#ffd24a', pattern:'sine', school:[2,4], lb:[20,60]},
+  {id:'barracuda', name:'Barracuda', group:'medium', lo:10, hi:25, len:130, h:30, speed:118, w:20, kind:'shark', body:['#e3eef2','#6d8795'], fin:'#7f98a6', pattern:'chase', school:[1,2], lb:[25,50]},
+  {id:'octopus', name:'Octopus', group:'medium', lo:12, hi:30, len:80, h:80, speed:42, w:18, kind:'octo', body:['#ffb59a','#c4442a'], pattern:'sine', school:[1,1], lb:[10,30]},
+  {id:'sword', name:'Swordfish', group:'medium', lo:15, hi:35, len:150, h:42, speed:110, w:14, kind:'fish', bill:true, body:['#b3d0ee','#24476e'], fin:'#3a6aa0', pattern:'chase', school:[1,1], lb:[60,120]},
+  {id:'turtle', name:'Sea Turtle', group:'medium', lo:20, hi:50, len:92, h:72, speed:42, w:10, kind:'turtle', body:['#a6d873','#3f7a2c'], fin:'#6aa84a', pattern:'sine', school:[1,2], lb:[100,250]},
+  {id:'hammer', name:'Hammerhead', group:'big', lo:80, hi:150, len:210, h:66, speed:60, w:10, kind:'hammer', body:['#b6c4ce','#4d606f'], fin:'#5d7282', pattern:'grand', school:[1,1], lb:[250,350]},
+  {id:'shark', name:'Shark', group:'big', lo:100, hi:400, len:205, h:70, speed:62, w:9, kind:'shark', body:['#c3d0da','#5b6f80'], fin:'#6f8495', pattern:'grand', school:[1,1], lb:[350,450]},
+  {id:'marlin', name:'Marlin', group:'big', lo:150, hi:500, len:225, h:60, speed:96, w:6, kind:'fish', bill:true, body:['#8fbcff','#173a8a'], fin:'#2a5ad6', pattern:'grand', school:[1,1], lb:[400,600]},
+  {id:'manta', name:'Manta Ray', group:'big', lo:150, hi:300, len:135, h:150, speed:52, w:5, kind:'ray', body:['#5a7d9a','#1e3247'], pattern:'grand', school:[1,1], lb:[500,700]},
+  {id:'healer', name:'Healer Jellyfish', group:'boss', lo:300, hi:500, len:170, h:170, speed:34, w:35, kind:'jelly', body:['#d2fff3','#2fb89a'], glow:'#7fffd8', pattern:'boss', lb:[2000,2400]},
+  {id:'megalodon', name:'Megalodon', group:'boss', lo:400, hi:800, len:390, h:124, speed:46, w:30, kind:'shark', body:['#9aaebc','#2c3a46'], fin:'#3c4d5a', pattern:'boss', lb:[3000,4000]},
+  {id:'gsquid', name:'Giant Squid', group:'boss', lo:500, hi:1000, len:280, h:160, speed:40, w:22, kind:'squid', body:['#ffa3a3','#9a1f3a'], pattern:'boss', lb:[2000,3000]},
+  {id:'kraken', name:'Kraken', group:'boss', lo:800, hi:1200, len:300, h:240, speed:30, w:13, kind:'kraken', body:['#c49bff','#3c1a7a'], glow:'#b07cff', pattern:'boss', lb:[5000,7000]},
+  {id:'crab', name:'Bomb Crab', group:'special', own:10, len:52, h:40, speed:55, kind:'crab', body:['#ff9a6a','#c4321a'], pattern:'drift', radius:150, lb:[2,4]},
+  {id:'eel', name:'Lightning Eel', group:'special', own:12, len:120, h:20, speed:90, kind:'eel', body:['#fff7a0','#e8b400'], glow:'#fff176', pattern:'sine', chain:6, lb:[5,10]},
+  {id:'koi', name:'Golden Koi', group:'special', poleOnly:true, len:120, h:52, speed:70, kind:'fish', body:['#fff1a8','#e8a400'], fin:'#ffd24a', glow:'#ffd24a', pattern:'drift', lb:[8,12]},
+];
+const SP = Object.fromEntries(SPECIES.map(s => [s.id, s]));
+function rr(x, y, w, h, r) { ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); }
+function ell(x, y, rx, ry) { ctx.beginPath(); ctx.ellipse(x, y, Math.max(0.1, rx), Math.max(0.1, ry), 0, 0, TAU); }
+function eye(x, y, r) {
+  ctx.fillStyle = '#fff'; ell(x, y, r, r); ctx.fill();
+  ctx.fillStyle = '#0a0f14'; ell(x + r * 0.2, y, r * 0.55, r * 0.55); ctx.fill();
+  ctx.fillStyle = '#fff'; ell(x + r * 0.35, y - r * 0.3, r * 0.18, r * 0.18); ctx.fill();
+}
+function bodyGrad(T, Hh) { const g = ctx.createLinearGradient(0, -Hh / 2, 0, Hh / 2); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]); return g; }
+function drawGenericFish(L, Hh, T, t) {
+  const flap = Math.sin(t * 12) * 0.22;
+  ctx.fillStyle = T.fin || T.body[1];
+  ctx.beginPath(); ctx.moveTo(-L * 0.36, 0);
+  ctx.quadraticCurveTo(-L * 0.5, -Hh * 0.1, -L * 0.62, -Hh * 0.5 + flap * Hh);
+  ctx.lineTo(-L * 0.53, flap * Hh * 0.4);
+  ctx.lineTo(-L * 0.62, Hh * 0.5 + flap * Hh);
+  ctx.quadraticCurveTo(-L * 0.5, Hh * 0.1, -L * 0.36, 0); ctx.fill();
+  for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(L * 0.08, sg * Hh * 0.3); ctx.lineTo(-L * 0.14, sg * (Hh * 0.66 + flap * Hh * 0.15)); ctx.lineTo(-L * 0.22, sg * Hh * 0.3); ctx.fill(); }
+  if (T.bill) { ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(1.5, Hh * 0.06); ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(L * 0.38, -Hh * 0.04); ctx.lineTo(L * 0.78, -Hh * 0.02); ctx.stroke(); }
+  ctx.fillStyle = bodyGrad(T, Hh); ell(0, 0, L * 0.42, Hh * 0.5); ctx.fill();
+  if (T.stripes || T.band) {
+    ctx.save(); ell(0, 0, L * 0.42, Hh * 0.5); ctx.clip();
+    if (T.stripes) { ctx.fillStyle = T.stripes; ctx.fillRect(L * 0.12, -Hh, L * 0.08, Hh * 2); ctx.fillRect(-L * 0.12, -Hh, L * 0.09, Hh * 2); }
+    if (T.band) { ctx.fillStyle = T.band; ctx.fillRect(-L * 0.45, Hh * 0.02, L * 0.5, Hh * 0.28); }
+    ctx.restore();
+  }
+  ctx.fillStyle = 'rgba(255,255,255,.28)'; ell(L * 0.04, -Hh * 0.22, L * 0.24, Hh * 0.11); ctx.fill();
+  eye(L * 0.26, -Hh * 0.08, Math.max(2, Hh * 0.12));
+}
+function drawAngel(L, Hh, T, t) {
+  const flap = Math.sin(t * 8) * 0.15;
+  ctx.fillStyle = T.fin;
+  ctx.beginPath(); ctx.moveTo(0, -Hh * 0.4); ctx.lineTo(-L * 0.55, -Hh * (0.75 + flap)); ctx.lineTo(-L * 0.2, -Hh * 0.1); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(0, Hh * 0.4); ctx.lineTo(-L * 0.55, Hh * (0.75 - flap)); ctx.lineTo(-L * 0.2, Hh * 0.1); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-L * 0.28, 0); ctx.lineTo(-L * 0.48, -Hh * 0.2); ctx.lineTo(-L * 0.48, Hh * 0.2); ctx.fill();
+  const body = () => { ctx.beginPath(); ctx.moveTo(L * 0.45, 0); ctx.quadraticCurveTo(L * 0.2, -Hh * 0.5, -L * 0.05, -Hh * 0.45); ctx.quadraticCurveTo(-L * 0.3, -Hh * 0.2, -L * 0.3, 0); ctx.quadraticCurveTo(-L * 0.3, Hh * 0.2, -L * 0.05, Hh * 0.45); ctx.quadraticCurveTo(L * 0.2, Hh * 0.5, L * 0.45, 0); };
+  ctx.fillStyle = bodyGrad(T, Hh); body(); ctx.fill();
+  ctx.save(); body(); ctx.clip(); ctx.fillStyle = T.stripes; for (const x of [0.22, 0.02, -0.18]) ctx.fillRect(L * x, -Hh, L * 0.06, Hh * 2); ctx.restore();
+  eye(L * 0.28, -Hh * 0.04, Math.max(2, Hh * 0.07));
+}
+function drawPuffer(L, Hh, T, t) {
+  const r = Hh * 0.48 * (1 + Math.sin(t * 3) * 0.05);
+  ctx.fillStyle = T.fin; ctx.beginPath(); ctx.moveTo(-r * 0.8, 0); ctx.lineTo(-r * 1.35, -r * 0.4); ctx.lineTo(-r * 1.35, r * 0.4); ctx.fill();
+  ctx.fillStyle = T.body[1];
+  for (let k = 0; k < 14; k++) { const a = (k / 14) * TAU; ctx.beginPath(); ctx.moveTo(Math.cos(a - 0.12) * r, Math.sin(a - 0.12) * r); ctx.lineTo(Math.cos(a) * r * 1.22, Math.sin(a) * r * 1.22); ctx.lineTo(Math.cos(a + 0.12) * r, Math.sin(a + 0.12) * r); ctx.fill(); }
+  const g = ctx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g; ell(0, 0, r, r); ctx.fill();
+  ctx.fillStyle = 'rgba(90,60,10,.35)'; for (const [x, y] of [[-0.3, -0.4], [0, -0.55], [-0.5, 0.1], [-0.15, -0.1]]) { ell(x * r, y * r, r * 0.09, r * 0.09); ctx.fill(); }
+  eye(r * 0.45, -r * 0.25, Math.max(2, r * 0.2));
+}
+function drawJelly(L, Hh, T, t) {
+  const p = 1 + Math.sin(t * 4) * 0.1;
+  ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(1.5, 2.5 * S); ctx.globalAlpha *= 0.8;
+  for (let k = 0; k < 5; k++) { const y0 = (k - 2) * Hh * 0.13; ctx.beginPath(); ctx.moveTo(0, y0); for (let s = 1; s <= 8; s++) ctx.lineTo(-s * L * 0.08, y0 + Math.sin(t * 5 + s * 0.9 + k) * Hh * 0.08); ctx.stroke(); }
+  ctx.globalAlpha /= 0.8;
+  const g = ctx.createRadialGradient(L * 0.15, 0, 2, L * 0.05, 0, Hh * 0.5); g.addColorStop(0, '#fff'); g.addColorStop(0.4, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, L * 0.38 / p, Hh * 0.5 * p, 0, -PI / 2, PI / 2); ctx.closePath(); ctx.fill();
+}
+function drawOcto(L, Hh, T, t) {
+  ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(2, Hh * 0.08); ctx.lineCap = 'round';
+  for (let k = 0; k < 8; k++) { const y0 = (k - 3.5) * Hh * 0.09; ctx.beginPath(); ctx.moveTo(-L * 0.05, y0); for (let s = 1; s <= 6; s++) ctx.lineTo(-L * 0.05 - s * L * 0.08, y0 * (1 + s * 0.25) + Math.sin(t * 4 + s + k) * Hh * 0.06); ctx.stroke(); }
+  const g = ctx.createRadialGradient(L * 0.15, -Hh * 0.1, 2, L * 0.1, 0, Hh * 0.45); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g; ell(L * 0.12, 0, L * 0.3, Hh * 0.34); ctx.fill();
+  eye(L * 0.2, -Hh * 0.12, Math.max(2, Hh * 0.07)); eye(L * 0.2, Hh * 0.12, Math.max(2, Hh * 0.07));
+}
+function drawTurtle(L, Hh, T, t) {
+  const fl = Math.sin(t * 4) * 0.5;
+  ctx.fillStyle = T.fin;
+  for (const sg of [-1, 1]) {
+    ctx.save(); ctx.translate(L * 0.15, sg * Hh * 0.3); ctx.rotate(sg * (0.6 + fl)); ell(0, sg * Hh * 0.2, L * 0.1, Hh * 0.28); ctx.fill(); ctx.restore();
+    ctx.save(); ctx.translate(-L * 0.22, sg * Hh * 0.28); ctx.rotate(sg * (0.9 - fl * 0.6)); ell(0, sg * Hh * 0.1, L * 0.06, Hh * 0.15); ctx.fill(); ctx.restore();
+  }
+  ell(L * 0.42, 0, L * 0.1, Hh * 0.13); ctx.fill();
+  eye(L * 0.46, -Hh * 0.06, Math.max(1.5, Hh * 0.04));
+  ctx.fillStyle = bodyGrad(T, Hh); ell(0, 0, L * 0.36, Hh * 0.42); ctx.fill();
+  ctx.strokeStyle = 'rgba(20,50,15,.6)'; ctx.lineWidth = Math.max(1, 2 * S);
+  ell(0, 0, L * 0.14, Hh * 0.16); ctx.stroke();
+  for (let k = 0; k < 6; k++) { const a = k / 6 * TAU; ell(Math.cos(a) * L * 0.24, Math.sin(a) * Hh * 0.28, L * 0.08, Hh * 0.1); ctx.stroke(); }
+}
+function drawRay(L, Hh, T, t) {
+  const w = 0.75 + Math.sin(t * 3) * 0.25;
+  ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(1.5, 3 * S);
+  ctx.beginPath(); ctx.moveTo(-L * 0.2, 0); ctx.quadraticCurveTo(-L * 0.5, Math.sin(t * 3) * Hh * 0.08, -L * 0.75, 0); ctx.stroke();
+  const g = ctx.createLinearGradient(L * 0.3, 0, -L * 0.3, 0); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.moveTo(L * 0.35, 0);
+  ctx.quadraticCurveTo(L * 0.1, -Hh * 0.5 * w, -L * 0.18, -Hh * 0.48 * w); ctx.quadraticCurveTo(-L * 0.1, -Hh * 0.1, -L * 0.25, 0);
+  ctx.quadraticCurveTo(-L * 0.1, Hh * 0.1, -L * 0.18, Hh * 0.48 * w); ctx.quadraticCurveTo(L * 0.1, Hh * 0.5 * w, L * 0.35, 0); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.18)'; for (const sg of [-1, 1]) { ell(0, sg * Hh * 0.18 * w, L * 0.08, Hh * 0.05); ctx.fill(); }
+  ctx.fillStyle = T.body[1]; for (const sg of [-1, 1]) { ell(L * 0.38, sg * Hh * 0.07, L * 0.05, Hh * 0.025); ctx.fill(); }
+  eye(L * 0.28, -Hh * 0.08, Math.max(1.5, Hh * 0.03)); eye(L * 0.28, Hh * 0.08, Math.max(1.5, Hh * 0.03));
+}
+function drawShark(L, Hh, T, t) {
+  const sw = Math.sin(t * 6) * 0.15;
+  ctx.fillStyle = T.fin;
+  ctx.beginPath(); ctx.moveTo(-L * 0.38, 0); ctx.lineTo(-L * 0.6, -Hh * (0.55 + sw)); ctx.lineTo(-L * 0.5, 0); ctx.lineTo(-L * 0.58, Hh * (0.4 - sw)); ctx.fill();
+  for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(L * 0.12, sg * Hh * 0.3); ctx.lineTo(-L * 0.12, sg * Hh * 0.95); ctx.lineTo(-L * 0.02, sg * Hh * 0.28); ctx.fill(); }
+  const body = () => { ctx.beginPath(); ctx.moveTo(L * 0.5, 0); ctx.bezierCurveTo(L * 0.35, -Hh * 0.55, -L * 0.2, -Hh * 0.45, -L * 0.42, 0); ctx.bezierCurveTo(-L * 0.2, Hh * 0.45, L * 0.35, Hh * 0.55, L * 0.5, 0); };
+  ctx.fillStyle = bodyGrad(T, Hh); body(); ctx.fill();
+  ctx.fillStyle = 'rgba(40,55,70,.7)'; ctx.beginPath(); ctx.moveTo(L * 0.05, 0); ctx.lineTo(-L * 0.15, -Hh * 0.12); ctx.lineTo(-L * 0.12, Hh * 0.12); ctx.fill();
+  ctx.strokeStyle = 'rgba(40,55,70,.5)'; ctx.lineWidth = Math.max(1, 1.5 * S);
+  for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.moveTo(L * (0.22 - k * 0.04), -Hh * 0.3); ctx.lineTo(L * (0.2 - k * 0.04), -Hh * 0.12); ctx.stroke(); }
+  eye(L * 0.34, -Hh * 0.16, Math.max(2, Hh * 0.06));
+}
+function drawHammer(L, Hh, T, t) {
+  drawShark(L, Hh, T, t);
+  ctx.fillStyle = T.body[1]; rr(L * 0.4, -Hh * 0.45, L * 0.09, Hh * 0.9, L * 0.04); ctx.fill();
+  eye(L * 0.45, -Hh * 0.4, Math.max(2, Hh * 0.05)); eye(L * 0.45, Hh * 0.4, Math.max(2, Hh * 0.05));
+}
+function drawSeahorse(L, Hh, T, t) {
+  const sway = Math.sin(t * 2) * 0.08;
+  ctx.save(); ctx.rotate(-PI / 2 + sway);
+  ctx.strokeStyle = T.body[1]; ctx.lineCap = 'round'; ctx.lineWidth = Math.max(3, L * 0.32);
+  ctx.beginPath(); ctx.moveTo(Hh * 0.38, 0); ctx.quadraticCurveTo(0, L * 0.25, -Hh * 0.2, 0); ctx.quadraticCurveTo(-Hh * 0.38, -L * 0.25, -Hh * 0.3, -L * 0.15); ctx.stroke();
+  ctx.strokeStyle = T.body[0]; ctx.lineWidth = Math.max(2, L * 0.18);
+  ctx.beginPath(); ctx.moveTo(Hh * 0.36, 0); ctx.quadraticCurveTo(0, L * 0.22, -Hh * 0.2, 0); ctx.stroke();
+  ctx.fillStyle = T.body[1]; ell(Hh * 0.42, -L * 0.05, L * 0.22, L * 0.18); ctx.fill();
+  ctx.fillRect(Hh * 0.42, -L * 0.1, L * 0.38, L * 0.1);
+  eye(Hh * 0.44, -L * 0.1, Math.max(1.5, L * 0.07));
+  ctx.restore();
+}
+function drawSquid(L, Hh, T, t) {
+  ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(2, Hh * 0.05); ctx.lineCap = 'round';
+  for (let k = 0; k < 10; k++) { const y0 = (k - 4.5) * Hh * 0.05; const len = k === 2 || k === 7 ? 0.75 : 0.5; ctx.beginPath(); ctx.moveTo(-L * 0.1, y0); for (let s = 1; s <= 8; s++) ctx.lineTo(-L * 0.1 - s * L * len / 8, y0 * (1 + s * 0.3) + Math.sin(t * 3 + s * 0.7 + k) * Hh * 0.05); ctx.stroke(); }
+  const g = ctx.createLinearGradient(0, -Hh / 2, 0, Hh / 2); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(L * 0.5, 0); ctx.quadraticCurveTo(L * 0.25, -Hh * 0.32, -L * 0.1, -Hh * 0.22); ctx.lineTo(-L * 0.1, Hh * 0.22); ctx.quadraticCurveTo(L * 0.25, Hh * 0.32, L * 0.5, 0); ctx.fill();
+  eye(L * 0.0, -Hh * 0.14, Hh * 0.06); eye(L * 0.0, Hh * 0.14, Hh * 0.06);
+}
+function drawKraken(L, Hh, T, t) {
+  ctx.strokeStyle = T.body[1]; ctx.lineCap = 'round';
+  for (let k = 0; k < 8; k++) {
+    const a = PI + (k / 7 - 0.5) * 2.2, len = L * 0.62;
+    ctx.lineWidth = Math.max(3, Hh * 0.07); ctx.beginPath(); ctx.moveTo(-L * 0.1, 0);
+    for (let s = 1; s <= 10; s++) { const d = s / 10 * len, wv = Math.sin(t * 2.2 + s * 0.6 + k) * Hh * 0.06 * s / 5; ctx.lineTo(-L * 0.1 + Math.cos(a) * d - Math.sin(a) * wv, Math.sin(a) * d + Math.cos(a) * wv); }
+    ctx.stroke();
+  }
+  const g = ctx.createRadialGradient(L * 0.15, -Hh * 0.1, 4, L * 0.1, 0, Hh * 0.5); g.addColorStop(0, T.body[0]); g.addColorStop(1, T.body[1]);
+  ctx.fillStyle = g; ell(L * 0.12, 0, L * 0.3, Hh * 0.38); ctx.fill();
+  ctx.fillStyle = '#ffe14a'; ell(L * 0.22, -Hh * 0.13, Hh * 0.07, Hh * 0.05); ctx.fill(); ell(L * 0.22, Hh * 0.13, Hh * 0.07, Hh * 0.05); ctx.fill();
+  ctx.fillStyle = '#1a0a2a'; ell(L * 0.23, -Hh * 0.13, Hh * 0.02, Hh * 0.045); ctx.fill(); ell(L * 0.23, Hh * 0.13, Hh * 0.02, Hh * 0.045); ctx.fill();
+}
+function drawCrab(L, Hh, T, t) {
+  const w = Math.sin(t * 8) * 0.2;
+  ctx.strokeStyle = T.body[1]; ctx.lineWidth = Math.max(2, Hh * 0.08); ctx.lineCap = 'round';
+  for (const sg of [-1, 1]) for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.moveTo(-L * 0.1 + k * L * 0.12, sg * Hh * 0.25); ctx.lineTo(-L * 0.2 + k * L * 0.12, sg * Hh * (0.6 + (k % 2 ? w : -w))); ctx.stroke(); }
+  ctx.fillStyle = T.body[1]; for (const sg of [-1, 1]) { ell(L * 0.42, sg * Hh * 0.38, L * 0.12, Hh * 0.14); ctx.fill(); }
+  ctx.fillStyle = bodyGrad(T, Hh); ell(0, 0, L * 0.34, Hh * 0.4); ctx.fill();
+  ctx.fillStyle = '#2a1a10'; ctx.font = `800 ${Math.max(8, Hh * 0.38)}px "Baloo 2", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('✸', 0, 1);
+  eye(L * 0.2, -Hh * 0.14, Math.max(1.5, Hh * 0.08)); eye(L * 0.2, Hh * 0.14, Math.max(1.5, Hh * 0.08));
+}
+function drawEel(L, Hh, T, t) {
+  ctx.strokeStyle = T.body[1]; ctx.lineCap = 'round'; ctx.lineWidth = Hh * 0.9;
+  ctx.beginPath(); for (let s = 0; s <= 12; s++) { const x = L * 0.45 - s / 12 * L, y = Math.sin(t * 8 - s * 0.7) * Hh * 0.6 * (s / 12); s ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke();
+  ctx.strokeStyle = T.body[0]; ctx.lineWidth = Hh * 0.35; ctx.stroke();
+  eye(L * 0.38, -Hh * 0.12, Math.max(1.5, Hh * 0.18));
+}
+const DRAW = {fish: drawGenericFish, angel: drawAngel, puffer: drawPuffer, jelly: drawJelly, octo: drawOcto, turtle: drawTurtle, ray: drawRay, shark: drawShark, hammer: drawHammer, seahorse: drawSeahorse, squid: drawSquid, kraken: drawKraken, crab: drawCrab, eel: drawEel};
+
+const DATA = {"order":["sardine","anchovy","clownfish","butterflyfish","minnow","angelfish","pufferfish","lionfish","seahorse","tuna","barracuda","octopus","swordfish","turtle","hammerhead","shark","marlin","manta","healer","megalodon","giantsquid","kraken","bombcrab","eel","koi"],"fish":{"shark":{"name":"Shark","group":"big","pays":"100-400x","role":"Apex. Sets the plan every wave; everyone else reads its lane and reacts.","home":"Its own lane plus a buffer band; changes every wave","habit":"One per wave. Never enters from the same edge or travels the same direction two waves in a row. Picks an attitude, then a route from that attitude.","status":"in game (v6)","routes":[{"id":"cruise","name":"Cruise","attitude":"King","dur":[18,22],"lanes":[0.2,0.28,0.72,0.8],"pts":[[-0.1,0.3],[0.35,0.27],[0.65,0.33],[1.1,0.3]],"purpose":"The calm default: owns one horizontal lane at one of four heights. Allowed during Manta meetings.","rules":["Allowed while a Manta is gliding (meeting route), if its lane stays 200 px from the Manta.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"patrol","name":"Patrol loop","attitude":"King","dur":[20,26],"pts":[[-0.1,0.24],[0.3,0.23],[0.44,0.5],[0.3,0.77],[-0.1,0.76]],"purpose":"Loops one side and leaves the way it came, handing the other half to the mediums. Allowed during meetings.","rules":["Allowed while a Manta is gliding (meeting route), if its lane stays 200 px from the Manta.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"deep","name":"Deep sweep","attitude":"King","dur":[20,24],"pts":[[-0.1,0.68],[0.3,0.82],[0.7,0.82],[1.1,0.68]],"purpose":"Sweeps a seat row; pushes the Octopus to the other seat row. Allowed during meetings.","rules":["Allowed while a Manta is gliding (meeting route), if its lane stays 200 px from the Manta.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"center","name":"Center line","attitude":"King","dur":[22,26],"pts":[[-0.1,0.5],[0.5,0.5],[1.1,0.5]],"purpose":"Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings.","rules":["Allowed while a Manta is gliding (meeting route), if its lane stays 200 px from the Manta.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"split","name":"Split","attitude":"King","dur":[12,16],"pts":[[0.5,-0.1],[0.48,0.5],[0.5,1.1]],"purpose":"Top to bottom through the center. Nothing crosses the middle while it is there; each half keeps its own fish.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave.","While it splits the screen, no medium crosses the middle."]},{"id":"diagonal","name":"Diagonal","attitude":"King","dur":[18,22],"pts":[[-0.1,0.15],[0.5,0.5],[1.1,0.85]],"purpose":"Corner to corner; mediums take the two corners it leaves open.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"strike","name":"Strike","attitude":"Hungry","dur":[9,12],"pts":[[-0.1,0.4],[0.35,0.45],[0.55,0.56],[1.1,0.64]],"purpose":"A short fast lunge through the middle.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"feed","name":"Feeding circle","attitude":"Hungry","dur":[22,28],"pts":[[-0.1,0.653],[0.22,0.67],[0.38,0.534],[0.33,0.33],[0.18,0.432],[0.21,0.602],[0.32,0.636],[0.37,0.449],[0.28,0.313],[-0.1,0.33]],"purpose":"Circles one spot, then leaves the way it came. The only Hungry route allowed in meetings, on the far side.","rules":["Allowed while a Manta is gliding (meeting route), if its lane stays 200 px from the Manta.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"stalker","name":"Stalker","attitude":"Curious","dur":[24,30],"pts":[[-0.1,0.6],[0.25,0.54],[0.45,0.63],[0.65,0.55],[0.85,0.6],[1.1,0.57]],"purpose":"Slow wavy pass through the lower middle: a long, easy target.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"inspector","name":"Inspector","attitude":"Curious","dur":[20,26],"pts":[[0.2,-0.1],[0.28,0.4],[0.45,0.72],[0.62,0.72],[0.78,0.4],[0.84,-0.1]],"purpose":"Drops in to look at one seat and climbs back out; that seat feels watched.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"bubble","name":"Bubble check","attitude":"Curious","dur":[22,26],"pts":[[-0.1,0.3],[0.38,0.44],[0.5,0.38],[0.56,0.5],[0.45,0.56],[0.6,0.46],[1.1,0.34]],"purpose":"Lingers near the center with small turns.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"charge","name":"Charge","attitude":"Aggressive","dur":[6,8],"pts":[[-0.1,0.45],[0.5,0.5],[1.1,0.55]],"purpose":"Fast straight run across in 6-8 s: a jolt.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"thrash","name":"Thrash","attitude":"Aggressive","dur":[12,15],"pts":[[-0.1,0.5],[0.2,0.32],[0.35,0.68],[0.5,0.32],[0.65,0.68],[0.8,0.32],[1.1,0.5]],"purpose":"Fast zigzag; looks angry and is hard to track.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]},{"id":"rush","name":"Rush","attitude":"Aggressive","dur":[7,9],"pts":[[-0.1,0.85],[0.5,0.5],[1.1,0.15]],"purpose":"Fast corner-to-corner run.","rules":["Not allowed while a Manta is on screen; waits for the next wave.","Not reused until 4 other Shark routes have run.","Enters from a different edge than last wave."]}],"reactions":[{"id":"snapBack","name":"Snap back","trigger":"14 hits in 3 s, 50%","effect":"Reverses along its own lane at 1.6x speed and leaves where it came in."},{"id":"frenzy","name":"Frenzy","trigger":"14 hits in 3 s, 50%","effect":"3 s of 1.5x speed with a hard side-to-side shake."}],"attitudes":{"King":0.45,"Hungry":0.2,"Curious":0.2,"Aggressive":0.15},"co_paths":[{"id":"shadow","name":"Shadow","status":"in game (v6)","effect":"A smaller second Shark follows 2-3 s behind in the same lane."},{"id":"pincer","name":"Pincer","status":"in game (v6)","effect":"A smaller second Shark takes the mirrored lane at the same moment, never touching."},{"id":"huntingPair","name":"Hunting pair","status":"designed","effect":"Two Sharks swim the same route 1.5 s apart side by side, offset 0.12; only on Cruise or Patrol."},{"id":"sizeUp","name":"Size-up","status":"designed","effect":"Two Sharks enter from opposite edges, stop 0.3 apart for 2 s facing each other, then the smaller one turns away."},{"id":"foodFight","name":"Food fight","status":"designed","effect":"Two Sharks dive at the same Sardine school from opposite sides; both leave as soon as it scatters."},{"id":"standoff","name":"Standoff","status":"designed","effect":"One Shark holds a lane at the middle for 3 s while the other waits off screen; then they swap."},{"id":"waitingHolder","name":"Waiting holder","status":"designed","effect":"If the second Shark cannot get a lane, it circles just off screen (a fin shows at the edge) until the lane opens."},{"id":"frenzySpread","name":"Frenzy spreads","status":"designed","effect":"If one Shark goes into Frenzy, the second one speeds up 20% for 3 s (show only)."},{"id":"tracker","name":"Scent tracker","status":"designed","effect":"The second Shark enters from the other side later, picks up the first Shark's fading scent (about 20 s of trail) and follows it backwards until the scent fades, then veers off on its own."}],"id":"shark","attitude_info":{"King":{"share":0.45,"feel":"Calm and in charge. Slow, wide routes that cross the whole screen."},"Hungry":{"share":0.2,"feel":"Hunting. Drifts, then bursts at a school or circles a corner to feed."},"Curious":{"share":0.2,"feel":"Slow and nosy. Comes close to the seats and checks things out."},"Aggressive":{"share":0.15,"feel":"Fast and short. Charges straight through; mediums get out of the way."}}},"manta":{"name":"Manta Ray","group":"big","pays":"150-300x","role":"Second respect point, the attractor. Brings 8-12 small followers that tighten when a Shark is near.","home":"Half the screen; never the Shark lane","habit":"Every other wave. Meets the Shark about 1 visit in 3 (only through the Shark gate). Never flees, never speeds past 1.3x.","status":"in game (v6)","routes":[{"id":"grandArc","name":"Grand arc","dur":[30,35],"pts":[[-0.1,0.78],[0.22,0.32],[0.5,0.2],[0.78,0.32],[1.1,0.78]],"purpose":"Covers most of the screen. In a meeting no Shark lane fits, so the Shark waits off screen.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near.","On a Grand arc the Shark usually has to wait off screen; no Shadow allowed."]},{"id":"openGlide","name":"Open glide","dur":[30,35],"pts":[[-0.1,0.28],[0.4,0.25],[0.7,0.31],[1.1,0.28]],"purpose":"Straight glide in the top or bottom half; leaves the other half free.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near."]},{"id":"slowS","name":"Slow S","dur":[30,35],"pts":[[-0.1,0.5],[0.25,0.42],[0.5,0.62],[0.75,0.76],[1.1,0.68]],"purpose":"Middle-to-low S; only the far edge is left for a meeting Shark.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near."]},{"id":"feedLoop","name":"Feeding loop","dur":[30,35],"pts":[[-0.1,0.62],[0.14,0.58],[0.26,0.42],[0.36,0.56],[0.26,0.72],[0.14,0.6],[0.2,0.45],[-0.1,0.4]],"purpose":"Circles one side; followers bunch around it.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near."]},{"id":"seatRow","name":"Seat row glide","dur":[30,35],"pts":[[-0.1,0.8],[0.5,0.83],[1.1,0.8]],"purpose":"Glides along a seat row; that row gets the followers up close.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near."]},{"id":"wideDiag","name":"Wide diagonal","dur":[30,35],"pts":[[-0.1,0.18],[0.5,0.5],[1.1,0.82]],"purpose":"Corner to corner glide.","rules":["Comes every other wave.","About 1 visit in 3 becomes a Shark meeting (never before wave 3).","Brings 8-12 followers that tighten up when a Shark is near."]}],"id":"manta"},"hammerhead":{"name":"Hammerhead","group":"big","pays":"80-150x","role":"Edge guard. Gives way to the Shark and the Manta.","home":"Seat rows and sides","habit":"2 waves in 3; 1 in 6 of those is a pair patrol on both seat rows. Takes the edge opposite the Shark.","status":"in game (v6)","routes":[{"id":"rail","name":"Rail patrol","dur":[20,24],"pts":[[-0.1,0.85],[0.3,0.82],[0.6,0.87],[1.1,0.84]],"purpose":"Patrols one seat row with a light weave. Also used for the pair patrol, mirrored on both rows.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]},{"id":"corner","name":"Corner turn","dur":[18,22],"pts":[[-0.1,0.15],[0.6,0.13],[0.85,0.22],[0.88,0.6],[0.86,1.1]],"purpose":"Top row, then down a side.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]},{"id":"sweep","name":"Head sweep","dur":[20,24],"sway":true,"pts":[[-0.1,0.16],[0.5,0.16],[1.1,0.16]],"purpose":"Sways side to side along a row.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]},{"id":"wideU","name":"Wide U","dur":[22,26],"pts":[[1.1,0.18],[0.45,0.2],[0.3,0.5],[0.45,0.8],[1.1,0.82]],"purpose":"In and out on the same side.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]},{"id":"lowArc","name":"Low arc","dur":[18,22],"noShark":true,"pts":[[-0.1,0.6],[0.3,0.74],[0.7,0.74],[1.1,0.6]],"purpose":"Under the middle. Only when no Shark is on screen.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]},{"id":"swing","name":"Side swing","dur":[12,16],"pts":[[1.1,0.3],[0.76,0.34],[0.7,0.58],[0.8,0.74],[1.1,0.72]],"purpose":"A short visit to one side.","rules":["Shows up in 2 of 3 waves; 1 in 6 visits is a pair patrol.","Stays 150 px from the Shark lane and 140 px from the Manta."]}],"id":"hammerhead"},"marlin":{"name":"Marlin","group":"big","pays":"150-500x","role":"Speed trophy. Only dashes into clear water; crosses a Shark lane only 2+ s after it passes.","home":"Clear water, a few seconds at a time","habit":"Every wave, twice in about 1 wave in 4. Never during a Shark + Manta meeting. One at a time. Counts as a fast crosser.","status":"in game (v6)","routes":[{"id":"dash","name":"Dash","dur":[5,7],"lanes":[0.2,0.35,0.5,0.65,0.8],"pts":[[-0.1,0.5],[1.1,0.5]],"purpose":"Fast straight lane at one of five heights.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]},{"id":"diag","name":"Diagonal dash","dur":[6,8],"pts":[[-0.1,0.12],[1.1,0.88]],"purpose":"Corner to corner.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]},{"id":"hook","name":"Hook back","dur":[7,9],"pts":[[-0.1,0.64],[0.5,0.64],[0.62,0.6],[0.66,0.53],[0.62,0.46],[0.5,0.42],[-0.1,0.42]],"purpose":"Dashes in, snaps back out the same side.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]},{"id":"cut","name":"Sharp cut","dur":[6,8],"pts":[[-0.1,0.28],[0.5,0.72],[0.54,0.75],[0.58,0.72],[1.1,0.28]],"purpose":"One hard angle.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]},{"id":"burst","name":"Drift, then burst","dur":[9,12],"speed":[[0.4,0.35],[1,1.7]],"pts":[[-0.1,0.7],[0.3,0.66],[0.45,0.6],[1.1,0.3]],"purpose":"Slow entry, then a fast exit.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]},{"id":"slash","name":"School slash","dur":[6,8],"dynamic":"aims at a real Sardine or Anchovy school","pts":[[-0.1,0.8],[0.3,0.7],[0.5,0.6],[0.7,0.55],[1.1,0.45]],"purpose":"Cuts through a school, which scatters and regroups.","rules":["Every wave; a second Marlin 1 in 4 waves.","May cross a Shark lane only 2 s after the Shark passed."]}],"id":"marlin"},"tuna":{"name":"Tuna","group":"medium","pays":"8-15x","role":"Cheapest medium, most predictable. Easy team shooting.","home":"Corners","habit":"Schools of 2-4 that hold formation (side-by-side arc or diagonal echelon). Always enters and leaves at corners.","status":"designed, not in game yet (game v7 has the older medium set)","routes":[{"id":"cornerRun","name":"Corner run","dur":[12,15],"crosser":true,"pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"purpose":"Corner to opposite corner as a block.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"crisscross","name":"Crisscross","dur":[12,15],"crosser":2,"twin":true,"pts":[[-0.08,-0.05],[0.5,0.5],[1.08,1.05]],"purpose":"Two schools at once, mirrored, crossing in an X. Best used as the release right after a Shark leaves.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"cornerSwing","name":"Corner swing","dur":[12,15],"crosser":true,"pts":[[-0.08,1.05],[0.25,0.42],[0.5,0.32],[0.75,0.42],[1.08,1.05]],"purpose":"Corner to the neighbouring corner in an arch; flips to open up or down away from the Shark.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"cornerHook","name":"Corner hook","dur":[12,15],"pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"purpose":"Stays on one side, corner to corner. The Tuna option while a Shark splits the screen.","rules":[]}],"id":"tuna"},"barracuda":{"name":"Barracuda","group":"medium","pays":"10-25x","role":"Hunter. Its pauses are the moments to shoot it.","home":"Middle band","habit":"Only straight lines and sharp corners; pauses at every corner. Waits at its ambush spot until a Shark has passed.","status":"designed, not in game yet (game v7 has the older medium set)","routes":[{"id":"ambush","name":"Ambush","dur":[14,18],"crosser":true,"sharp":true,"pauses":[{"at":0.3,"hold":[1.2,2]}],"speed":[[0.3,0.45],[1,2]],"pts":[[-0.1,0.5],[0.35,0.5],[1.1,0.15]],"purpose":"Creeps in, holds still, then darts out to a corner.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"zigzag","name":"Zigzag stalk","dur":[16,20],"crosser":true,"sharp":true,"pauses":[{"at":0.18,"hold":[0.7,1.2]},{"at":0.38,"hold":[0.7,1.2]},{"at":0.58,"hold":[0.7,1.2]},{"at":0.78,"hold":[0.7,1.2]}],"pts":[[-0.1,0.5],[0.2,0.35],[0.4,0.62],[0.6,0.35],[0.8,0.62],[1.1,0.45]],"purpose":"Straight legs with a stop at every corner.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"strikeRetreat","name":"Strike and retreat","dur":[14,18],"sharp":true,"lanes":[-0.15,0,0.15],"pauses":[{"at":0.5,"hold":[1,1.6]}],"pts":[[-0.1,0.45],[0.45,0.5],[-0.1,0.55]],"purpose":"Darts in, stops, backs out the side it came from. Never crosses the middle.","rules":[]}],"id":"barracuda"},"octopus":{"name":"Octopus","group":"medium","pays":"12-30x","role":"Personal fish: hangs out at a seat.","home":"Seat edges only, never the middle","habit":"Moves to the opposite seat row when a Shark takes its row. 7 hits in 3 s: squirts ink and jets for the nearest edge (show only).","status":"designed, not in game yet (game v7 has the older medium set)","routes":[{"id":"seatCrawl","name":"Seat crawl","dur":[17,22],"edge":true,"pauses":[{"at":0.3,"hold":[1.5,2.5]},{"at":0.65,"hold":[1.5,2.5]}],"pts":[[-0.1,0.88],[0.5,0.89],[1.1,0.88]],"purpose":"Crawls along a seat row and rests twice.","rules":[]},{"id":"edgeHops","name":"Edge hops","dur":[17,22],"edge":true,"pulse":true,"pts":[[-0.1,0.88],[0.15,0.75],[0.3,0.88],[0.45,0.75],[0.6,0.88],[0.75,0.75],[0.9,0.88],[1.1,0.86]],"purpose":"Hops along the edge in bursts.","rules":[]},{"id":"riseSink","name":"Rise and sink","dur":[17,22],"edge":true,"shifts":[0,0.25,0.5],"pauses":[{"at":0.5,"hold":[2,3]}],"pts":[[0.1,1.1],[0.15,0.74],[0.25,0.66],[0.35,0.74],[0.4,1.1]],"purpose":"Comes up from under a seat, rests, sinks back.","rules":[]}],"id":"octopus"},"swordfish":{"name":"Swordfish","group":"medium","pays":"15-35x","role":"Bully: fast, risky, top medium pay.","home":"Anywhere, fast","habit":"Straight lines with at most one hard angle. The only medium that goes top to bottom.","status":"designed, not in game yet (game v7 has the older medium set)","routes":[{"id":"spear","name":"Spear","dur":[8,11],"crosser":true,"sharp":true,"shifts":[-0.2,0,0.2],"pts":[[0.42,-0.1],[0.5,1.1]],"purpose":"Drops straight down (or up) through the screen.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"ricochet","name":"Ricochet","dur":[8,11],"crosser":true,"sharp":true,"pts":[[-0.1,0.25],[0.5,0.88],[1.1,0.25]],"purpose":"Bounces off a seat row like a pool shot.","rules":["Counts as a fast crosser (max 2 at once)."]},{"id":"lowSlash","name":"Low slash","dur":[8,11],"crosser":true,"sharp":true,"pts":[[-0.1,0.82],[1.1,0.32]],"purpose":"One long fast line.","rules":["Counts as a fast crosser (max 2 at once)."]}],"id":"swordfish"},"turtle":{"name":"Sea Turtle","group":"medium","pays":"20-50x","role":"Calm: easy to catch but pays the most of the mediums. May drift near the Manta.","home":"Center","habit":"Slow curves only; the only fish that circles. Not counted as a fast crosser.","status":"designed, not in game yet (game v7 has the older medium set)","routes":[{"id":"lazyS","name":"Lazy S","dur":[22,27],"pts":[[-0.1,0.45],[0.3,0.36],[0.6,0.58],[1.1,0.44]],"purpose":"A slow S through the center.","rules":[]},{"id":"slowCircle","name":"Slow circle","dur":[22,27],"pts":[[-0.1,0.42],[0.32,0.36],[0.58,0.38],[0.66,0.56],[0.5,0.68],[0.36,0.56],[0.48,0.4],[0.7,0.38],[1.1,0.44]],"purpose":"One lazy loop in the middle.","rules":[]},{"id":"seatVisit","name":"Seat visit","dur":[22,27],"pauses":[{"at":0.5,"hold":[2,3]}],"pts":[[-0.1,0.25],[0.3,0.3],[0.45,0.8],[0.55,0.8],[0.7,0.3],[1.1,0.25]],"purpose":"Dips to a seat and rests there.","rules":[]},{"id":"sideLoop","name":"Side loop","dur":[22,27],"pts":[[-0.1,0.3],[0.2,0.28],[0.34,0.44],[0.26,0.62],[0.12,0.56],[0.16,0.4],[0.3,0.36],[0.36,0.6],[-0.1,0.7]],"purpose":"Loops on one side. The Turtle option while a Shark splits the screen.","rules":[]}],"id":"turtle"},"sardine":{"name":"Sardine","group":"tiny","pays":"2-3x","role":"The crowd. Fills the screen and hits every corner.","home":"Everywhere; a coverage map sends schools to the emptiest zones","habit":"Schools of 6-9; 35% of the time a mirror twin school takes the reflected route. 1 in 700 hits is a Golden Sardine (50x).","status":"in game (v5)","routes":[{"id":"perimeter","name":"Perimeter","dur":null,"pts":[[-0.1,0.5],[0.12,0.5],[0.12,0.15],[0.5,0.12],[0.88,0.15],[0.88,0.85],[0.5,0.88],[0.12,0.85],[0.1,0.6],[-0.1,0.58]],"purpose":"A lap around the whole table past every seat.","rules":[]},{"id":"cornerS","name":"Corner S","dur":null,"pts":[[-0.1,0.1],[0.25,0.15],[0.5,0.5],[0.75,0.85],[1.1,0.9]],"purpose":"Corner to corner in an S.","rules":[]},{"id":"wDip","name":"W dip","dur":null,"pts":[[-0.1,0.25],[0.2,0.8],[0.4,0.3],[0.6,0.8],[0.8,0.3],[1.1,0.7]],"purpose":"Dips to the bottom seats three times.","rules":[]},{"id":"figure8","name":"Figure 8","dur":null,"pts":[[-0.1,0.5],[0.25,0.2],[0.5,0.5],[0.75,0.8],[0.9,0.5],[0.75,0.2],[0.5,0.5],[0.25,0.8],[0.1,0.62],[-0.1,0.6]],"purpose":"A figure eight through the middle.","rules":[]},{"id":"seatSweep","name":"Seat sweep","dur":null,"pts":[[-0.1,0.82],[0.4,0.84],[0.8,0.8],[0.92,0.5],[0.8,0.2],[0.4,0.16],[-0.1,0.2]],"purpose":"Along one seat row, around, back along the other.","rules":[]},{"id":"cornerArc","name":"Corner arc","dur":null,"pts":[[-0.1,0.9],[0.15,0.6],[0.2,0.25],[0.4,0.1],[0.7,0.15],[1.1,0.1]],"purpose":"Up from a bottom corner and across the top.","rules":[]}],"id":"sardine"},"anchovy":{"name":"Anchovy","group":"tiny","pays":"2-5x","status":"designed, not in game yet","role":"The sparkle. Fast flashes of silver that make the water feel alive.","home":"Open water, and the wake behind big fish","habit":"Flocks of 5-8 that split around obstacles and rejoin. They scatter when a big fish comes within 200 px and re-form 2 s later.","rules":["Never more than 2 Anchovy flocks on screen.","Scatter (show only) when a Shark, Marlin or Megalodon is within 200 px."],"routes":[{"id":"ribbon","name":"Ribbon","dur":[7,9],"pts":[[-0.1,0.45],[0.25,0.35],[0.5,0.55],[0.75,0.4],[1.1,0.5]],"purpose":"A long silver wave through the middle band.","rules":["Use when the middle band is empty."]},{"id":"baitBall","name":"Bait ball","dur":[10,12],"pts":[[-0.1,0.3],[0.35,0.4],[0.45,0.55],[0.35,0.65],[0.27,0.5],[0.4,0.38],[1.1,0.3]],"purpose":"Rolls into a tight ball for 3 s, then streams away. A small crowd target.","rules":["Not while a Shark lane is within 0.2 of the ball spot.","Best right before a Marlin slash (gives it something to cut through)."],"pauses":[{"at":0.45,"s":3}]},{"id":"splitRejoin","name":"Split and rejoin","dur":[8,10],"pts":[[-0.1,0.5],[0.3,0.5],[0.5,0.25],[0.7,0.5],[1.1,0.5]],"purpose":"Splits into two halves that go around the middle and meet again.","rules":["Used when a Turtle or Puffer sits in the middle."],"twin":true},{"id":"wakeRider","name":"Wake rider","dur":null,"pts":[[-0.1,0.7],[0.3,0.55],[0.6,0.4],[1.1,0.25]],"purpose":"Follows 2 s behind a Marlin or Shark through its wake.","rules":["Only after a fast big fish; keeps 2 s behind it, never ahead."],"dynamic":"follows a big fish"}],"id":"anchovy"},"clownfish":{"name":"Clownfish","group":"tiny","pays":"3-5x","status":"designed, not in game yet","role":"The friendly one. Stays close to a seat so beginners get easy, steady catches.","home":"Right in front of the seats (one \"home spot\" per seat)","habit":"Small groups of 3-6 that dart out from a seat and back. Slow, short trips.","rules":["Visits are shared out by the seat fairness memory, so every seat gets its turn.","A seat with a dry spell over 30 s gets the next Clownfish visit (show only, odds unchanged)."],"routes":[{"id":"seatHome","name":"Seat home","dur":[8,11],"pts":[[-0.1,0.85],[0.2,0.82],[0.3,0.8],[0.25,0.72],[-0.1,0.78]],"purpose":"Swims to one seat, hangs there 3 s, and goes back the way it came.","rules":["Target seat = the seat with the least tiny-fish time lately."],"pauses":[{"at":0.45,"s":3}]},{"id":"hopAlong","name":"Hop along","dur":[12,15],"pts":[[-0.1,0.18],[0.15,0.2],[0.32,0.25],[0.5,0.2],[0.68,0.25],[0.85,0.2],[1.1,0.18]],"purpose":"Hops along one seat row, a short stop at each seat.","rules":["Alternate rows: top row, then bottom row next time."],"pauses":[{"at":0.25,"s":1},{"at":0.5,"s":1},{"at":0.75,"s":1}]},{"id":"peek","name":"Peek","dur":[6,8],"pts":[[0.4,1.1],[0.42,0.7],[0.5,0.62],[0.58,0.7],[0.6,1.1]],"purpose":"Pops up from a seat edge, looks around, and dives back.","rules":["Never under a Hammerhead rail patrol on the same row."]}],"id":"clownfish"},"butterflyfish":{"name":"Butterflyfish","group":"tiny","pays":"3-6x","status":"designed, not in game yet","role":"Color and calm. Gentle movers that fill the quiet parts of a wave.","home":"Upper middle of the screen","habit":"Travel in pairs inside a group of 3-6, fluttering up and down as they go.","rules":["Used most in calm scenes; fewer during hunts."],"routes":[{"id":"pairFlutter","name":"Pair flutter","dur":[12,15],"pts":[[-0.1,0.3],[0.25,0.32],[0.5,0.35],[0.75,0.32],[1.1,0.3]],"purpose":"A slow flutter across the upper middle.","rules":[],"sway":true},{"id":"loop","name":"Loop-de-loop","dur":[12,14],"pts":[[-0.1,0.6],[0.4,0.6],[0.55,0.45],[0.45,0.35],[0.38,0.48],[0.6,0.62],[1.1,0.55]],"purpose":"One loop in the middle, then on its way.","rules":["No loop while the Manta is within 0.25."]},{"id":"driftDown","name":"Drift down","dur":[12,15],"pts":[[0.2,-0.1],[0.35,0.4],[0.55,0.7],[0.7,1.1]],"purpose":"Floats down from the top seats to the bottom seats.","rules":["Pick a top seat with little traffic as the start."],"sway":true}],"id":"butterflyfish"},"angelfish":{"name":"Angelfish","group":"small","pays":"3-8x","role":"The messenger. Crosses alone; freezes near the Shark, drifts to the Manta.","home":"Anywhere, alone","habit":"Solo; crosses the screen in 25-35 s with a gentle wobble.","status":"in game (v5)","routes":[{"id":"diagDown","name":"Diagonal down","dur":[25,35],"pts":[[-0.1,0.2],[0.3,0.38],[0.65,0.62],[1.1,0.82]],"purpose":"Slow diagonal, top-left to bottom-right.","rules":[]},{"id":"diagUp","name":"Diagonal up","dur":[25,35],"pts":[[-0.1,0.8],[0.35,0.62],[0.7,0.4],[1.1,0.3]],"purpose":"Slow diagonal, bottom-left to top-right.","rules":[]},{"id":"steep","name":"Steep","dur":[25,35],"pts":[[0.15,-0.1],[0.4,0.35],[0.65,0.7],[0.85,1.1]],"purpose":"Steep drop from the top.","rules":[]},{"id":"vertical","name":"Vertical","dur":[25,35],"pts":[[0.22,-0.1],[0.21,0.4],[0.24,0.7],[0.2,1.1]],"purpose":"Straight down one side.","rules":[]},{"id":"hook","name":"Hook","dur":[25,35],"pts":[[0.55,-0.1],[0.53,0.22],[0.62,0.42],[0.8,0.46],[1.1,0.32]],"purpose":"Drops in and hooks out the side.","rules":[]},{"id":"arch","name":"Arch","dur":[25,35],"pts":[[0.35,1.1],[0.38,0.75],[0.55,0.62],[0.85,0.68],[0.95,1.1]],"purpose":"Rises from the bottom and sinks back.","rules":[]}],"id":"angelfish"},"minnow":{"name":"Minnow","group":"small","pays":"2-10x","status":"designed, not in game yet","role":"The Sardine's rival in the see-saw. Quick and twitchy, good for fast shooters.","home":"Wherever the Sardines are not (the see-saw decides)","habit":"Schools of 3-6 that zigzag with sharp turns and sudden stops.","rules":["See-saw: when Sardines are up, Minnows are down, and the other way round (already in game)."],"routes":[{"id":"zigzag","name":"Zigzag","dur":[7,9],"pts":[[-0.1,0.3],[0.2,0.6],[0.4,0.3],[0.6,0.6],[0.8,0.3],[1.1,0.55]],"purpose":"Sharp zigzag across the screen.","rules":[],"sharp":true},{"id":"dartStop","name":"Dart and stop","dur":[7,9],"pts":[[-0.1,0.7],[0.4,0.68],[0.55,0.45],[1.1,0.4]],"purpose":"Darts in, freezes for a second, then bolts.","rules":[],"sharp":true,"pauses":[{"at":0.45,"s":1}]},{"id":"switchback","name":"Switchback","dur":[8,10],"pts":[[-0.1,0.4],[0.7,0.45],[0.6,0.6],[-0.1,0.65]],"purpose":"Almost crosses, then turns back the way it came.","rules":["Never toward a Shark lane."],"sharp":true}],"id":"minnow"},"pufferfish":{"name":"Pufferfish","group":"small","pays":"4-7x","status":"designed, not in game yet","role":"The easy, funny target. Slow and round; puffs up when hit a lot.","home":"Low middle, close to the bottom seats","habit":"Alone or 2-3. Bobs slowly. After 6 hits in 3 s it puffs up for 2 s and slows down (show only).","reactions":[{"name":"Puff","trigger":"6 hits in 3 s","effect":"puffs up and slows for 2 s"}],"rules":["Puff never changes catch chance or pay."],"routes":[{"id":"bob","name":"Bob","dur":[16,20],"pts":[[-0.1,0.7],[0.5,0.65],[1.1,0.7]],"purpose":"A slow bobbing pass along the low middle.","rules":[],"sway":true},{"id":"rise","name":"Rise","dur":[12,15],"pts":[[0.3,1.1],[0.35,0.55],[0.5,0.45],[0.65,0.55],[0.7,1.1]],"purpose":"Comes up from the bottom seats, turns, and sinks back.","rules":["Mirror to the top half every other time so top seats get it too."]},{"id":"linger","name":"Linger","dur":[14,18],"pts":[[-0.1,0.6],[0.45,0.6],[0.55,0.6],[1.1,0.55]],"purpose":"Stops in the middle for 4 s, an easy shared target.","rules":["Not while a Shark is on screen."],"pauses":[{"at":0.5,"s":4}]}],"id":"pufferfish"},"lionfish":{"name":"Lionfish","group":"small","pays":"5-10x","status":"designed, not in game yet","role":"The escort. Rides with big fish so the big moments have small catches around them.","home":"Beside big fish, or along the side edges","habit":"40% of big fish come with 2-3 Lionfish escorts (in game). Alone, it hovers and fans its fins.","rules":["Escorts leave with their big fish.","Never escort the Shark during a Manta meeting (too crowded)."],"routes":[{"id":"escort","name":"Escort ring","dur":null,"pts":[[-0.1,0.5],[0.3,0.45],[0.6,0.5],[1.1,0.45]],"purpose":"Circles around a big fish while it travels (in game).","rules":[],"dynamic":"rides with a big fish","status":"in game (v5)"},{"id":"fanHover","name":"Fan hover","dur":[14,18],"pts":[[1.1,0.4],[0.7,0.42],[0.5,0.5],[0.3,0.45],[-0.1,0.42]],"purpose":"Drifts slowly with two stops to fan its fins.","rules":[],"pauses":[{"at":0.3,"s":2},{"at":0.65,"s":2}]},{"id":"edgeCruise","name":"Edge cruise","dur":[12,15],"pts":[[0.08,-0.1],[0.1,0.5],[0.08,1.1]],"purpose":"Slides down a side edge, past the corner seats.","rules":["Left and right edges take turns."]}],"id":"lionfish"},"seahorse":{"name":"Seahorse","group":"small","pays":"6-15x","status":"designed, not in game yet","role":"The little treat. Slow, rare and worth a bit more.","home":"Seat corners; moves up and down rather than across","habit":"Alone or a pair. Very slow, upright, bobbing.","rules":["At most 1 Seahorse visit per seat corner every 2 minutes."],"routes":[{"id":"climb","name":"Climb","dur":[18,22],"pts":[[0.35,1.1],[0.37,0.6],[0.33,0.3],[0.35,-0.1]],"purpose":"Climbs slowly from the bottom seats to the top seats.","rules":["Pick the seat column with the least small-fish time."],"sway":true},{"id":"cornerBob","name":"Corner bob","dur":[12,15],"pts":[[-0.1,0.85],[0.1,0.8],[0.12,0.6],[0.1,0.75],[-0.1,0.7]],"purpose":"Comes out of a corner, bobs up and down, goes back.","rules":[],"pauses":[{"at":0.5,"s":2}]},{"id":"pairDance","name":"Pair dance","dur":[14,18],"pts":[[0.45,-0.1],[0.47,0.3],[0.5,0.42],[0.53,0.3],[0.55,-0.1]],"purpose":"Two Seahorses, one from the top and one from the bottom, meet near the middle and go home.","rules":["Only when the middle is clear of big fish."],"twin":true}],"id":"seahorse"},"bombcrab":{"name":"Bomb Crab","group":"special","pays":"10x + blast","status":"designed, not in game yet","role":"The crowd clearer. Catching it blows up fish nearby (150 px) for a big shared moment.","home":"The seabed: the seat rows along the top and bottom edges","habit":"Walks sideways along a seat row. The director sends it when a crowd has gathered.","rules":["Only when at least 8 fish are within its blast radius somewhere on its path.","Max 1 on screen; at least 40 s between crabs.","Not during a boss scene.","Not within 10 s of a Lightning Eel."],"routes":[{"id":"seabed","name":"Seabed walk","dur":[14,18],"pts":[[-0.1,0.88],[0.5,0.86],[1.1,0.88]],"purpose":"Walks the full bottom row, past every bottom seat.","rules":["Rows take turns: bottom, then top."],"sharp":true},{"id":"intoCrowd","name":"Into the crowd","dur":[14,18],"pts":[[1.1,0.85],[0.7,0.82],[0.55,0.6],[0.6,0.8],[1.1,0.85]],"purpose":"Walks toward the busiest spot, waits there 3 s, and walks back.","rules":["Target = densest fish spot within 0.35 of a seat row."],"pauses":[{"at":0.5,"s":3}],"dynamic":"aims at the crowd"},{"id":"ceiling","name":"Ceiling walk","dur":[14,18],"pts":[[1.1,0.12],[0.5,0.14],[-0.1,0.12]],"purpose":"Walks the top row upside down.","rules":[],"sharp":true}],"id":"bombcrab"},"eel":{"name":"Lightning Eel","group":"special","pays":"12x + chain","status":"designed, not in game yet","role":"The spark. Catching it chains to 6 nearby fish, the big excitement spike.","home":"Long lanes through busy water","habit":"Swims in an S, fast, alone. Glows brighter the more fish are near it.","rules":["Max 1 on screen; at least 45 s between eels.","Route must pass at least 10 fish so the chain has targets.","Not during a boss scene."],"routes":[{"id":"longSine","name":"Long S","dur":[8,10],"pts":[[-0.1,0.5],[0.2,0.35],[0.4,0.65],[0.6,0.35],[0.8,0.65],[1.1,0.5]],"purpose":"An S-wave right through the middle.","rules":[]},{"id":"throughSchool","name":"Through the school","dur":null,"pts":[[-0.1,0.25],[0.3,0.35],[0.6,0.3],[1.1,0.4]],"purpose":"Follows the path of the biggest Sardine school so the chain hits.","rules":["Only when a school of 6+ is on screen."],"dynamic":"follows a school"},{"id":"edgeSnap","name":"Edge snap","dur":[7,9],"pts":[[-0.1,0.2],[0.4,0.2],[0.5,0.5],[0.6,0.8],[1.1,0.8]],"purpose":"Runs the top row, snaps down through the middle, leaves along the bottom row.","rules":[],"sharp":true}],"id":"eel"},"healer":{"name":"Healer Jellyfish","group":"boss","pays":"300-500x","status":"designed, not in game yet","role":"The gentle boss. Slow and glowing; a calm, team-up fight.","home":"Center; rises from the bottom, sinks back at the end","habit":"Pulses: rises, holds, rises again. Trails baby jellies (small, low pay).","rules":["Bosses own the stage: no big fish, the big-fish clock waits.","Mediums only as escorts; small fish keep 0.15 away from the boss.","The boss spends equal time near top, bottom, left and right seats.","It never leaves before the scene ends (minus 4 s)."],"phases":["Rise from the bottom","Bloom: figure-8 over the middle","Lantern drift past each seat column","Sink away"],"routes":[{"id":"bloom","name":"Bloom","dur":[40,50],"pts":[[0.5,1.15],[0.5,0.55],[0.3,0.45],[0.5,0.5],[0.7,0.45],[0.5,0.55],[0.5,1.15]],"purpose":"Rises, draws a slow figure-8 in the middle, and sinks.","rules":[],"pauses":[{"at":0.3,"s":3},{"at":0.7,"s":3}]},{"id":"lantern","name":"Lantern drift","dur":[40,50],"pts":[[-0.15,0.45],[0.15,0.4],[0.5,0.5],[0.85,0.4],[1.15,0.45]],"purpose":"Drifts side to side, stopping at each seat column.","rules":[],"pauses":[{"at":0.25,"s":3},{"at":0.5,"s":3},{"at":0.75,"s":3}]}],"id":"healer"},"megalodon":{"name":"Megalodon","group":"boss","pays":"400-800x","status":"designed, not in game yet","role":"The big show. Huge, fast for its size, always moving.","home":"Laps the whole arena","habit":"Never stops. Passes close to every seat row once per lap. Small fish scatter in front of it.","rules":["Bosses own the stage: no big fish, the big-fish clock waits.","Mediums only as escorts; small fish keep 0.15 away from the boss.","The boss spends equal time near top, bottom, left and right seats.","It never leaves before the scene ends (minus 4 s).","Charges come with a 1 s warning shadow."],"phases":["Enter wide","Laps (2)","Charges (3 passes)","Exit"],"routes":[{"id":"laps","name":"Laps","dur":[40,50],"pts":[[-0.15,0.5],[0.2,0.25],[0.5,0.2],[0.8,0.25],[0.9,0.5],[0.8,0.75],[0.5,0.8],[0.2,0.75],[0.1,0.5],[0.2,0.3],[0.5,0.25],[0.8,0.3],[1.15,0.45]],"purpose":"Two wide laps past every seat, then out.","rules":[]},{"id":"charges","name":"Charges","dur":[35,45],"pts":[[-0.2,0.3],[1.2,0.3],[1.2,0.5],[-0.2,0.5],[-0.2,0.7],[1.2,0.7]],"purpose":"Three straight passes: top, middle, bottom. Turns off screen.","rules":["Order of rows is random each time."],"sharp":true},{"id":"circling","name":"Circling","dur":[40,50],"pts":[[-0.15,0.5],[0.15,0.3],[0.5,0.15],[0.85,0.3],[0.85,0.7],[0.5,0.8],[0.25,0.65],[0.35,0.4],[0.5,0.35],[0.65,0.5],[0.5,0.6],[1.15,0.5]],"purpose":"Circles in, getting tighter, then breaks out.","rules":[]}],"id":"megalodon"},"giantsquid":{"name":"Giant Squid","group":"boss","pays":"500-1000x","status":"designed, not in game yet","role":"The reacher. Tentacles stretch toward the seats.","home":"Center, reaching out to both seat rows","habit":"Swims backwards in jets; holds still to reach. Squirts ink when hit hard (show only).","reactions":[{"name":"Ink","trigger":"20 hits in 3 s","effect":"ink cloud and a jet away"}],"rules":["Bosses own the stage: no big fish, the big-fish clock waits.","Mediums only as escorts; small fish keep 0.15 away from the boss.","The boss spends equal time near top, bottom, left and right seats.","It never leaves before the scene ends (minus 4 s)."],"phases":["Jet in","Reach each seat row","Jet across","Exit"],"routes":[{"id":"seatReach","name":"Seat reach","dur":[40,50],"pts":[[1.15,0.5],[0.6,0.5],[0.5,0.3],[0.5,0.5],[0.5,0.7],[0.3,0.5],[-0.15,0.5]],"purpose":"Holds in the middle, leans toward the top seats, then the bottom seats.","rules":[],"pauses":[{"at":0.35,"s":3},{"at":0.6,"s":3}]},{"id":"jet","name":"Jet","dur":[35,45],"pts":[[1.15,0.3],[0.75,0.35],[0.7,0.55],[0.4,0.6],[0.35,0.4],[-0.15,0.45]],"purpose":"Moves in short, fast jets with pauses between.","rules":[],"sharp":true,"pauses":[{"at":0.3,"s":2},{"at":0.6,"s":2}]}],"id":"giantsquid"},"kraken":{"name":"Kraken","group":"boss","pays":"800-1200x","status":"designed, not in game yet","role":"The finale. The rarest boss. Rises from the deep and holds the stage.","home":"Bottom center, anchored","habit":"Barely moves; its tentacles sweep the seat rows instead.","rules":["Bosses own the stage: no big fish, the big-fish clock waits.","Mediums only as escorts; small fish keep 0.15 away from the boss.","The boss spends equal time near top, bottom, left and right seats.","It never leaves before the scene ends (minus 4 s).","Rarest boss: at most once per night."],"phases":["Rise","Hold and sweep","Dive and resurface","Sink"],"routes":[{"id":"riseHold","name":"Rise and hold","dur":[45,55],"pts":[[0.5,1.3],[0.5,0.6],[0.5,1.3]],"purpose":"Rises up the middle and holds there a long time, then sinks.","rules":["Tentacles sweep top row, then bottom row, during the hold."],"pauses":[{"at":0.5,"s":20}]},{"id":"slowSweep","name":"Slow sweep","dur":[45,55],"pts":[[-0.2,0.7],[0.3,0.6],[0.7,0.6],[1.2,0.7]],"purpose":"Drifts across the lower half, very slowly.","rules":[],"sharp":false},{"id":"diveResurface","name":"Dive and resurface","dur":[45,55],"pts":[[0.25,1.3],[0.25,0.6],[0.3,1.3],[0.75,1.3],[0.75,0.6],[0.7,1.3]],"purpose":"Rises on the left, dives, and comes back up on the right.","rules":[],"sharp":true}],"id":"kraken"},"koi":{"id":"koi","name":"Golden Koi","group":"special","pays":"5,000 (fishing)","status":"in game (v5)","role":"The jackpot of the fishing pole. Only the player who cast a Golden lure can catch it.","home":"Comes from the nearest edge straight to the Golden lure","habit":"Shows up 2-6 s after a Golden lure is cast, swims to the bait, and circles it once before biting or leaving.","rules":["Only for a Golden lure cast (costs 500).","Only the player who cast can catch it; the gun cannot hit it.","Bite chance rises when the gold pot is big (5% under 5,000, about 9% normal, 11% over 15,000).","Never more than one at a time."],"routes":[{"id":"toLure","name":"To the lure","dur":null,"pts":[[-0.1,0.3],[0.25,0.45],[0.45,0.55]],"purpose":"Glides from the nearest edge straight to the Golden lure (in game).","rules":["Starts 2-6 s after the cast."],"dynamic":"aims at the lure","status":"in game (v5)"},{"id":"lureCircle","name":"Circle the lure","dur":[8,10],"pts":[[-0.1,0.35],[0.4,0.45],[0.55,0.4],[0.62,0.55],[0.5,0.65],[0.4,0.55],[0.5,0.48],[1.1,0.3]],"purpose":"Circles the bait once, a slow reveal before the bite or the escape.","rules":["If no bite after the circle, it leaves the way it faces."],"pauses":[{"at":0.55,"s":1.5}],"status":"designed"}]}},"laws":{"about":"The rules the director follows. Change a value here, run tools/sketch_waves.py, and compare the waves it produces. Laws marked \"in game\" match the current Peacock Reef code; the rest are designed and used by the sketch tool until they are built in.","law_zero":"Movement never changes catch chances or pays. Routes only decide where and when fish swim.","big_fish":[{"id":"big_wave_seconds","value":[60,75],"unit":"s","what":"Length of one big-fish wave. Runs on its own clock and pauses while a boss is on screen.","used_by":"game code","status":"in game (v6)","try_next":"Try 45-55 if the screen feels empty of big fish."},{"id":"sharks_per_wave","value":1,"unit":null,"what":"One Shark every wave.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"shark_new_entry_each_wave","value":true,"unit":null,"what":"The Shark never enters from the same edge or travels the same direction two waves in a row.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"shark_attitude_weights","value":{"King":0.45,"Hungry":0.2,"Curious":0.2,"Aggressive":0.15},"unit":null,"what":"How often each attitude is picked outside meetings.","used_by":"game code","status":"in game (v6)","try_next":"Raise Aggressive for a faster, harsher night."},{"id":"shark_no_repeat_last","value":4,"unit":null,"what":"A Shark route is not reused until 4 other routes have run.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"manta_every_n_waves","value":2,"unit":null,"what":"A Manta comes every other wave.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"meeting_roll","value":0.5,"unit":null,"what":"Chance a Manta visit becomes a Shark + Manta meeting. With the one-visit gap below this works out to about 1 visit in 3.","used_by":"game code","status":"in game (v6)","try_next":"Lower to .33 for rarer meetings (about 1 in 4)."},{"id":"meeting_min_visits_between","value":1,"unit":null,"what":"At least one plain Manta visit between meetings.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"meeting_not_before_wave","value":3,"unit":null,"what":"No meeting in the first 2 waves.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"shark_gate_routes","value":["cruise","patrol","deep","center","feed"],"unit":null,"what":"The only Shark routes allowed while a Manta glides.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"shark_gate_clearance","value":200,"unit":"px x S","what":"How far (scaled pixels) the Shark lane must stay from the Manta remaining path; if nothing fits, the Shark waits.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"shadow_in_meeting_chance","value":0.16666666666666666,"unit":null,"what":"Chance a meeting Shark brings a Shadow (never on a Grand arc).","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"second_shark_chance","value":0.16666666666666666,"unit":null,"what":"Chance a non-meeting wave brings a second, smaller Shark (Shadow or Pincer).","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"hammerhead_wave_chance","value":0.6666666666666666,"unit":null,"what":"Chance a wave has a Hammerhead.","used_by":"game code","status":"in game (v6)","try_next":"Lower to 1/2 if big fish take too much of the bullets."},{"id":"hammerhead_pair_chance","value":0.16666666666666666,"unit":null,"what":"Chance a Hammerhead visit is a pair patrol on both seat rows.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"marlin_second_chance","value":0.25,"unit":null,"what":"Chance a wave gets a second Marlin.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"max_big_on_screen","value":3,"unit":null,"what":"Never more than 3 big fish at once.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"clearances","value":{"hammerhead_shark":150,"hammerhead_manta":140,"marlin_shark":120,"marlin_manta":140,"shark_shark":150},"unit":"px x S","what":"Minimum gaps between big fish lanes.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"marlin_behind_shark_seconds","value":2,"unit":"s","what":"A Marlin may cross a Shark lane only this long after the Shark passed.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"event_drop_seconds","value":40,"unit":"s","what":"A Hammerhead or Marlin that cannot find clear water for this long is dropped.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"manta_followers","value":[8,12],"unit":null,"what":"Small followers that travel with the Manta; they pull in to half their spread when a Shark is within 520 px.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"shark_provoked","value":{"hits":14,"seconds":3},"unit":null,"what":"Hits within the window that provoke Snap back or Frenzy.","used_by":"game code","status":"in game (v6)","try_next":null},{"id":"seat_fairness_memory","value":900,"unit":"s","what":"How long big-fish time near each seat is remembered when routes are chosen.","used_by":"game code","status":"in game (v6)","try_next":null}],"medium_fish":[{"id":"fast_crossers_max","value":2,"unit":null,"what":"No more than 2 fast fish (Tuna, Barracuda, Swordfish, Marlin) crossing the screen at once. A Crisscross counts as 2.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":"Try 3 for busier waves."},{"id":"counterflow_share","value":0.5,"unit":null,"what":"While a Shark crosses, at most this share of crossing mediums may go its direction; the rest go against it, vertical or stay local.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"counterflow_weight","value":{"against":1.4,"with":-1.0},"unit":null,"what":"Score the sketch tool gives a crossing route that goes against or with the Shark.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"lane_reservation_seconds","value":{"shark_ahead":8,"shark_behind":2,"manta_ahead":10,"hammerhead_ahead":6},"unit":null,"what":"Water a big fish will use in the next few seconds is off limits to mediums.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"medium_clearance","value":{"shark":0.2,"manta":0.18,"marlin":0.12,"hammerhead":0.1},"unit":null,"what":"Minimum gap from that water, in screen fractions.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"split_rule","value":true,"unit":null,"what":"While a Shark splits the screen top to bottom, no medium crosses the center.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":null},{"id":"no_same_route_twice","value":true,"unit":null,"what":"A medium never runs the same route twice in a row.","used_by":"game code","status":"in game (v7)","try_next":null},{"id":"octopus_ink","value":{"hits":7,"seconds":3},"unit":null,"what":"Hits that make an Octopus squirt ink and jet off (show only).","used_by":"game code","status":"in game (v7)","try_next":null},{"id":"medium_gaps_seconds","value":{"tuna":[2,7],"barracuda":[2,6],"octopus":[1,4],"swordfish":[10,22],"turtle":[1,3]},"unit":null,"what":"Pause between one visit of a species and its next.","used_by":"sketch tool","status":"designed (not in the game yet)","try_next":"Shorter gaps make busier waves."},{"id":"screen_counts","value":{"tiny":12,"small":10,"medium":7},"unit":null,"what":"Target fish on screen before scene mix and density settings.","used_by":"game code","status":"in game (v5)","try_next":null},{"id":"medium_seat_fairness_memory","value":600,"unit":"s","what":"How long medium time near each seat is remembered.","used_by":"game code","status":"in game (v7)","try_next":null}],"small_fish":[{"id":"anchovy_flocks_max","value":2,"unit":null,"what":"Never more than 2 Anchovy flocks on screen.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"scatter_radius","value":200,"unit":"px x S","what":"Tiny fish scatter when a fast big fish comes this close (show only).","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"clownfish_dry_spell_seconds","value":30,"unit":"s","what":"A seat dry this long gets the next Clownfish visit. Show only, odds unchanged.","used_by":"designed","status":"designed (not in the game yet)","try_next":"Try 20 s for a beginner-heavy table."},{"id":"seahorse_corner_gap_seconds","value":120,"unit":"s","what":"Gap between Seahorse visits to the same seat corner.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"puffer_puff","value":{"hits":6,"seconds":3},"unit":null,"what":"Hits that make a Pufferfish puff up (show only).","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"lionfish_escort_chance","value":0.4,"unit":null,"what":"Chance a big fish brings 2-3 Lionfish escorts (in game v5).","used_by":"designed","status":"designed (not in the game yet)","try_next":null}],"specials":[{"id":"crab_min_fish_in_blast","value":8,"unit":null,"what":"A Bomb Crab is only sent when this many fish could be in its blast.","used_by":"designed","status":"designed (not in the game yet)","try_next":"Try 6 if crabs feel rare."},{"id":"crab_gap_seconds","value":40,"unit":"s","what":"Minimum time between Bomb Crabs.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"eel_gap_seconds","value":45,"unit":"s","what":"Minimum time between Lightning Eels.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"eel_min_fish_on_path","value":10,"unit":null,"what":"The Eel route must pass this many fish so the chain has targets.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"special_spacing_seconds","value":10,"unit":"s","what":"A Crab and an Eel never come within this many seconds of each other.","used_by":"designed","status":"designed (not in the game yet)","try_next":null}],"bosses":[{"id":"boss_owns_stage","value":true,"unit":null,"what":"No big fish during a boss; the big-fish clock waits.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"boss_small_fish_gap","value":0.15,"unit":null,"what":"Small fish keep this far from a boss (screen fraction).","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"boss_seat_balance","value":true,"unit":null,"what":"A boss spends equal time near top, bottom, left and right seats.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"kraken_per_night_max","value":1,"unit":null,"what":"The Kraken comes at most once per night.","used_by":"designed","status":"designed (not in the game yet)","try_next":null},{"id":"boss_charge_warning_seconds","value":1,"unit":"s","what":"Megalodon charges show a shadow this long before.","used_by":"designed","status":"designed (not in the game yet)","try_next":null}]},"sect":{"big":"big_fish","medium":"medium_fish","tiny":"small_fish","small":"small_fish","special":"specials","boss":"bosses"},"spid":{"clownfish":"clown","butterflyfish":"butterfly","angelfish":"angel","pufferfish":"puffer","lionfish":"lion","swordfish":"sword","hammerhead":"hammer","giantsquid":"gsquid","bombcrab":"crab"},"waves":[{"n":1,"old":8,"title":"Manta first, then a curious Shark","story":"The Manta glides the top row with its followers while the Hammerhead patrols the bottom seats. The Shark waits until the Manta is gone, then drops in from the top, inspects a bottom seat and climbs back out.","seconds":72,"layers":[{"fish":"manta","route":"openGlide","pts":[[-0.1,0.28],[0.4,0.25],[0.7,0.31],[1.1,0.28]],"start":4,"dur":33,"tag":""},{"fish":"hammerhead","route":"rail","pts":[[1.1,0.85],[0.7,0.82],[0.4,0.87],[-0.1,0.84]],"start":8,"dur":22,"tag":""},{"fish":"marlin","route":"dash","pts":[[1.1,0.55],[-0.1,0.55]],"start":20,"dur":6,"tag":""},{"fish":"shark","route":"inspector","pts":[[0.2,-0.1],[0.28,0.4],[0.45,0.72],[0.62,0.72],[0.78,0.4],[0.84,-0.1]],"start":41,"dur":23,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.55],[0.45,0.5],[-0.1,0.45]],"start":0.5,"dur":18.8,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,1.1],[0.65,0.74],[0.75,0.66],[0.85,0.74],[0.9,1.1]],"start":0.6,"dur":21.9,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[1.1,0.45],[0.7,0.36],[0.4,0.58],[-0.1,0.44]],"start":1.0,"dur":24.3,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,-0.05],[0.65,0.28],[0.35,0.72],[-0.08,1.05]],"start":2.5,"dur":12.3,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[1.1,0.25],[0.5,0.88],[-0.1,0.25]],"start":5.3,"dur":8.1,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":18.4,"dur":12.8,"tag":""},{"fish":"barracuda","route":"zigzag","pts":[[-0.1,0.55],[0.2,0.38],[0.4,0.65],[0.6,0.38],[0.8,0.65],[1.1,0.5]],"start":22.2,"dur":16.5,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[-0.1,0.12],[0.15,0.25],[0.3,0.12],[0.45,0.25],[0.6,0.12],[0.75,0.25],[0.9,0.12],[1.1,0.14]],"start":25.5,"dur":17.6,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[-0.1,0.25],[0.3,0.3],[0.45,0.8],[0.55,0.8],[0.7,0.3],[1.1,0.25]],"start":27.0,"dur":23.1,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.38,-0.1],[0.3,1.1]],"start":28.6,"dur":9.8,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.4,-0.1],[0.35,0.26],[0.25,0.34],[0.15,0.26],[0.1,-0.1]],"start":46.6,"dur":17.9,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.3],[0.45,0.35],[-0.1,0.4]],"start":48.0,"dur":19.0,"tag":""},{"fish":"turtle","route":"slowCircle","pts":[[-0.1,0.56],[0.3,0.62],[0.52,0.6],[0.64,0.44],[0.5,0.32],[0.34,0.44],[0.42,0.62],[0.68,0.64],[1.1,0.58]],"start":51.8,"dur":24.9,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":52.7,"dur":12.3,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[-0.1,0.82],[1.1,0.32]],"start":55.9,"dur":9.5,"tag":""}]},{"n":2,"old":9,"title":"The Shark cuts a diagonal","story":"A Marlin opens the wave with a fast dash. The Shark comes in from the bottom-left corner and climbs to the top-right, so the mediums split to the two corners it leaves open. After it passes, the Hammerhead turns down the right side and a second Marlin slashes through a Sardine school.","seconds":70,"layers":[{"fish":"marlin","route":"dash","pts":[[-0.1,0.3],[1.1,0.3]],"start":4,"dur":6,"tag":""},{"fish":"shark","route":"diagonal","pts":[[-0.1,0.85],[0.5,0.5],[1.1,0.15]],"start":12,"dur":20,"tag":""},{"fish":"hammerhead","route":"corner","pts":[[-0.1,0.15],[0.6,0.13],[0.85,0.22],[0.88,0.6],[0.86,1.1]],"start":38,"dur":20,"tag":""},{"fish":"marlin","route":"slash","pts":[[-0.1,0.8],[0.3,0.7],[0.5,0.6],[0.7,0.55],[1.1,0.45]],"start":50,"dur":7,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.5],[0.65,0.5],[-0.1,0.15]],"start":0.8,"dur":14.6,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[-0.1,0.88],[0.5,0.89],[1.1,0.88]],"start":1.0,"dur":18.9,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,-0.05],[0.78,0.26],[0.68,0.5],[0.78,0.74],[1.08,1.05]],"start":4.1,"dur":14.8,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[1.1,0.75],[0.5,0.12],[-0.1,0.75]],"start":13.0,"dur":8.5,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[-0.1,0.56],[0.4,0.42],[0.7,0.64],[1.1,0.55]],"start":17.3,"dur":22.0,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.3],[0.45,0.35],[-0.1,0.4]],"start":19.5,"dur":16.6,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,1.1],[0.65,0.74],[0.75,0.66],[0.85,0.74],[0.9,1.1]],"start":21.2,"dur":22.0,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,1.05],[0.65,0.72],[0.35,0.28],[-0.08,-0.05]],"start":23.3,"dur":13.7,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.78,-0.1],[0.7,1.1]],"start":34.0,"dur":10.7,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.85],[0.35,0.5],[-0.1,0.5]],"start":38.5,"dur":14.6,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,1.05],[0.78,0.74],[0.68,0.5],[0.78,0.26],[1.08,-0.05]],"start":41.1,"dur":12.4,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[1.1,0.75],[0.7,0.7],[0.55,0.2],[0.45,0.2],[0.3,0.7],[-0.1,0.75]],"start":41.3,"dur":22.4,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[-0.1,0.88],[0.15,0.75],[0.3,0.88],[0.45,0.75],[0.6,0.88],[0.75,0.75],[0.9,0.88],[1.1,0.86]],"start":46.0,"dur":21.7,"tag":""},{"fish":"barracuda","route":"zigzag","pts":[[-0.1,0.55],[0.2,0.38],[0.4,0.65],[0.6,0.38],[0.8,0.65],[1.1,0.5]],"start":58.3,"dur":19.3,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[-0.1,0.82],[1.1,0.32]],"start":58.5,"dur":9.4,"tag":""}]},{"n":3,"old":10,"title":"Meeting: Shark and Manta","story":"Meeting wave. The Manta glides the bottom seat row right to left. The Shark gate only allows a calm lane far from it, so the Shark cruises the top row, entering from the edge farthest from the Manta. Mediums stay in the middle band between the two. No Hammerhead or Marlin during the meeting.","seconds":74,"layers":[{"fish":"manta","route":"seatRow","pts":[[1.1,0.8],[0.5,0.83],[-0.1,0.8]],"start":6,"dur":33,"tag":""},{"fish":"shark","route":"cruise","pts":[[-0.1,0.22],[0.35,0.19],[0.65,0.25],[1.1,0.22]],"start":15,"dur":20,"tag":""},{"fish":"marlin","route":"diag","pts":[[-0.1,0.88],[1.1,0.12]],"start":44,"dur":6,"tag":""},{"fish":"barracuda","route":"zigzag","pts":[[1.1,0.5],[0.8,0.35],[0.6,0.62],[0.4,0.35],[0.2,0.62],[-0.1,0.45]],"start":0.1,"dur":19.6,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.22,1.1],[0.3,-0.1]],"start":1.1,"dur":9.6,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[1.1,0.3],[0.8,0.28],[0.66,0.44],[0.74,0.62],[0.88,0.56],[0.84,0.4],[0.7,0.36],[0.64,0.6],[1.1,0.7]],"start":1.3,"dur":24.9,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":3.4,"dur":13.5,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,-0.1],[0.65,0.26],[0.75,0.34],[0.85,0.26],[0.9,-0.1]],"start":4.6,"dur":19.9,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,1.05],[0.65,0.72],[0.35,0.28],[-0.08,-0.05]],"start":21.5,"dur":12.2,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.5],[0.65,0.5],[-0.1,0.15]],"start":22.4,"dur":18.5,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[-0.1,0.12],[0.15,0.25],[0.3,0.12],[0.45,0.25],[0.6,0.12],[0.75,0.25],[0.9,0.12],[1.1,0.14]],"start":25.7,"dur":19.2,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[-0.1,0.56],[0.4,0.42],[0.7,0.64],[1.1,0.55]],"start":28.3,"dur":24.3,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[1.1,0.82],[-0.1,0.32]],"start":34.5,"dur":10.0,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,-0.05],[0.78,0.26],[0.68,0.5],[0.78,0.74],[1.08,1.05]],"start":39.6,"dur":12.3,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.3],[0.45,0.35],[-0.1,0.4]],"start":43.4,"dur":16.2,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.4,1.1],[0.35,0.74],[0.25,0.66],[0.15,0.74],[0.1,1.1]],"start":48.9,"dur":19.3,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[-0.1,0.25],[0.3,0.3],[0.45,0.8],[0.55,0.8],[0.7,0.3],[1.1,0.25]],"start":53.7,"dur":23.4,"tag":""},{"fish":"tuna","route":"cornerSwing","pts":[[-0.08,1.05],[0.25,0.42],[0.5,0.32],[0.75,0.42],[1.08,1.05]],"start":56.7,"dur":14.6,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.5,-0.1],[0.58,1.1]],"start":58.7,"dur":10.2,"tag":""}]},{"n":4,"old":11,"title":"An aggressive Charge","story":"Short and sharp. A Marlin hooks in and out, then an aggressive Shark charges straight across the middle, right to left, in seven seconds. The Hammerhead follows by sweeping the top row.","seconds":66,"layers":[{"fish":"marlin","route":"hook","pts":[[-0.1,0.64],[0.5,0.64],[0.62,0.6],[0.66,0.53],[0.62,0.46],[0.5,0.42],[-0.1,0.42]],"start":8,"dur":8,"tag":""},{"fish":"shark","route":"charge","pts":[[1.1,0.45],[0.5,0.5],[-0.1,0.55]],"start":20,"dur":7,"tag":""},{"fish":"hammerhead","route":"sweep","pts":[[-0.1,0.16],[0.5,0.16],[1.1,0.16]],"start":30,"dur":22,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.1,-0.1],[0.15,0.26],[0.25,0.34],[0.35,0.26],[0.4,-0.1]],"start":1.0,"dur":19.0,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.3,1.1],[0.22,-0.1]],"start":5.2,"dur":9.1,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.6],[0.55,0.65],[1.1,0.7]],"start":5.6,"dur":16.5,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":5.7,"dur":14.1,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[1.1,0.25],[0.7,0.3],[0.55,0.8],[0.45,0.8],[0.3,0.3],[-0.1,0.25]],"start":21.0,"dur":26.9,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,1.05],[0.35,0.72],[0.65,0.28],[1.08,-0.05]],"start":23.3,"dur":12.1,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[1.1,0.88],[0.85,0.75],[0.7,0.88],[0.55,0.75],[0.4,0.88],[0.25,0.75],[0.1,0.88],[-0.1,0.86]],"start":23.5,"dur":21.0,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[-0.1,0.85],[0.65,0.5],[1.1,0.5]],"start":24.7,"dur":16.8,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[1.1,0.18],[-0.1,0.68]],"start":36.7,"dur":8.8,"tag":""},{"fish":"tuna","route":"cornerSwing","pts":[[-0.08,1.05],[0.25,0.42],[0.5,0.32],[0.75,0.42],[1.08,1.05]],"start":42.3,"dur":13.2,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.45],[0.55,0.5],[1.1,0.55]],"start":44.2,"dur":14.3,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,1.1],[0.65,0.74],[0.75,0.66],[0.85,0.74],[0.9,1.1]],"start":46.9,"dur":20.6,"tag":""},{"fish":"turtle","route":"slowCircle","pts":[[1.1,0.42],[0.68,0.36],[0.42,0.38],[0.34,0.56],[0.5,0.68],[0.64,0.56],[0.52,0.4],[0.3,0.38],[-0.1,0.44]],"start":49.0,"dur":26.7,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,1.05],[0.35,0.72],[0.65,0.28],[1.08,-0.05]],"start":58.1,"dur":12.0,"tag":""}]},{"n":5,"old":12,"title":"Feeding circle, then the Manta","story":"A hungry Shark comes in from the right and circles on the right side. The Hammerhead keeps to the left with a side swing. Once the Shark leaves, a Marlin dashes through and the Manta glides corner to corner with its followers.","seconds":75,"layers":[{"fish":"shark","route":"feed","pts":[[1.1,0.653],[0.78,0.67],[0.62,0.534],[0.67,0.33],[0.82,0.432],[0.79,0.602],[0.68,0.636],[0.63,0.449],[0.72,0.313],[1.1,0.33]],"start":8,"dur":25,"tag":""},{"fish":"hammerhead","route":"swing","pts":[[-0.1,0.3],[0.24,0.34],[0.3,0.58],[0.2,0.74],[-0.1,0.72]],"start":12,"dur":14,"tag":""},{"fish":"marlin","route":"dash","pts":[[-0.1,0.5],[1.1,0.5]],"start":34,"dur":6,"tag":""},{"fish":"manta","route":"wideDiag","pts":[[-0.1,0.18],[0.5,0.5],[1.1,0.82]],"start":38,"dur":33,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[1.1,0.75],[0.5,0.12],[-0.1,0.75]],"start":1.3,"dur":8.2,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":2.8,"dur":13.5,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[-0.1,0.3],[0.2,0.28],[0.34,0.44],[0.26,0.62],[0.12,0.56],[0.16,0.4],[0.3,0.36],[0.36,0.6],[-0.1,0.7]],"start":4.9,"dur":22.1,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[-0.1,0.12],[0.5,0.11],[1.1,0.12]],"start":5.6,"dur":18.7,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.3],[0.45,0.35],[-0.1,0.4]],"start":14.1,"dur":19.2,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":22.6,"dur":12.7,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[1.1,0.88],[0.85,0.75],[0.7,0.88],[0.55,0.75],[0.4,0.88],[0.25,0.75],[0.1,0.88],[-0.1,0.86]],"start":27.6,"dur":19.7,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.78,1.1],[0.7,-0.1]],"start":37.4,"dur":10.7,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[-0.1,0.55],[0.3,0.64],[0.6,0.42],[1.1,0.56]],"start":47.6,"dur":23.2,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,1.05],[0.22,0.74],[0.32,0.5],[0.22,0.26],[-0.08,-0.05]],"start":47.7,"dur":14.8,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[-0.1,0.12],[0.5,0.11],[1.1,0.12]],"start":49.8,"dur":17.6,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[-0.1,0.85],[0.65,0.5],[1.1,0.5]],"start":51.4,"dur":19.9,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[-0.1,0.68],[1.1,0.18]],"start":58.3,"dur":9.0,"tag":""},{"fish":"tuna","route":"cornerSwing","pts":[[-0.08,1.05],[0.25,0.42],[0.5,0.32],[0.75,0.42],[1.08,1.05]],"start":69.0,"dur":12.7,"tag":""}]},{"n":6,"old":13,"title":"Two Sharks","story":"Rare double. The Shark patrols the left side and a smaller Shark shadows it 2.5 seconds behind in the same lane. The right half belongs to the mediums. Once both Sharks leave, two Hammerheads patrol the top and bottom seat rows, mirrored.","seconds":74,"layers":[{"fish":"marlin","route":"dash","pts":[[1.1,0.5],[-0.1,0.5]],"start":3,"dur":5,"tag":""},{"fish":"shark","route":"patrol","pts":[[-0.1,0.24],[0.3,0.23],[0.44,0.5],[0.3,0.77],[-0.1,0.76]],"start":10,"dur":23,"tag":""},{"fish":"shark","route":"patrol","pts":[[-0.1,0.24],[0.3,0.23],[0.44,0.5],[0.3,0.77],[-0.1,0.76]],"start":12.5,"dur":23.0,"tag":"Shadow"},{"fish":"hammerhead","route":"rail","pts":[[-0.1,0.85],[0.3,0.82],[0.6,0.87],[1.1,0.84]],"start":40,"dur":22,"tag":""},{"fish":"hammerhead","route":"rail","pts":[[1.1,0.15],[0.7,0.18],[0.4,0.13],[-0.1,0.16]],"start":40,"dur":22,"tag":"pair"},{"fish":"marlin","route":"cut","pts":[[-0.1,0.28],[0.5,0.72],[0.54,0.75],[0.58,0.72],[1.1,0.28]],"start":64,"dur":6,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[1.1,0.3],[0.64,0.4],[0.7,0.64],[0.84,0.6],[0.88,0.44],[0.74,0.38],[0.66,0.56],[0.8,0.72],[1.1,0.7]],"start":0.1,"dur":22.9,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[-0.1,0.88],[0.15,0.75],[0.3,0.88],[0.45,0.75],[0.6,0.88],[0.75,0.75],[0.9,0.88],[1.1,0.86]],"start":0.4,"dur":19.8,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,1.05],[0.78,0.74],[0.68,0.5],[0.78,0.26],[1.08,-0.05]],"start":2.1,"dur":12.3,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.7,1.1],[0.78,-0.1]],"start":3.5,"dur":8.8,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.7],[0.55,0.65],[1.1,0.6]],"start":4.3,"dur":16.0,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.65,1.1],[0.6,0.74],[0.5,0.66],[0.4,0.74],[0.35,1.1]],"start":21.8,"dur":20.3,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":21.9,"dur":13.4,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[-0.1,0.15],[0.65,0.5],[1.1,0.5]],"start":23.6,"dur":17.7,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[-0.1,0.44],[0.4,0.58],[0.7,0.36],[1.1,0.45]],"start":24.6,"dur":23.3,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[-0.1,0.25],[0.5,0.88],[1.1,0.25]],"start":37.3,"dur":8.8,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,1.05],[0.78,0.74],[0.68,0.5],[0.78,0.26],[1.08,-0.05]],"start":38.2,"dur":13.3,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.7],[0.55,0.65],[1.1,0.6]],"start":43.4,"dur":14.7,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[1.1,0.12],[0.85,0.25],[0.7,0.12],[0.55,0.25],[0.4,0.12],[0.25,0.25],[0.1,0.12],[-0.1,0.14]],"start":45.2,"dur":17.2,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[-0.1,0.3],[0.36,0.4],[0.3,0.64],[0.16,0.6],[0.12,0.44],[0.26,0.38],[0.34,0.56],[0.2,0.72],[-0.1,0.7]],"start":49.2,"dur":24.3,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,-0.05],[0.65,0.28],[0.35,0.72],[-0.08,1.05]],"start":56.1,"dur":12.3,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.9,-0.1],[0.85,0.26],[0.75,0.34],[0.65,0.26],[0.6,-0.1]],"start":66.1,"dur":21.4,"tag":""}]},{"n":7,"old":14,"title":"Manta loop, then a Stalker","story":"The Manta circles on the left side while the Hammerhead runs the top seats the other way. When the Manta leaves, a Marlin dashes through, then a curious Shark stalks slowly from right to left through the lower middle.","seconds":73,"layers":[{"fish":"manta","route":"feedLoop","pts":[[-0.1,0.62],[0.14,0.58],[0.26,0.42],[0.36,0.56],[0.26,0.72],[0.14,0.6],[0.2,0.45],[-0.1,0.4]],"start":5,"dur":33,"tag":""},{"fish":"hammerhead","route":"rail","pts":[[1.1,0.15],[0.7,0.18],[0.4,0.13],[-0.1,0.16]],"start":10,"dur":22,"tag":""},{"fish":"marlin","route":"dash","pts":[[1.1,0.5],[-0.1,0.5]],"start":38,"dur":6,"tag":""},{"fish":"shark","route":"stalker","pts":[[1.1,0.6],[0.75,0.54],[0.55,0.63],[0.35,0.55],[0.15,0.6],[-0.1,0.57]],"start":44,"dur":24,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,-0.05],[0.78,0.26],[0.68,0.5],[0.78,0.74],[1.08,1.05]],"start":1.9,"dur":12.5,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.58,1.1],[0.5,-0.1]],"start":3.8,"dur":9.5,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[-0.1,0.88],[0.5,0.89],[1.1,0.88]],"start":4.5,"dur":18.8,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[1.1,0.3],[0.8,0.28],[0.66,0.44],[0.74,0.62],[0.88,0.56],[0.84,0.4],[0.7,0.36],[0.64,0.6],[1.1,0.7]],"start":4.5,"dur":24.9,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.3],[0.55,0.35],[1.1,0.4]],"start":4.9,"dur":16.5,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,-0.05],[0.65,0.28],[0.35,0.72],[-0.08,1.05]],"start":17.4,"dur":13.2,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.15],[0.35,0.5],[-0.1,0.5]],"start":24.0,"dur":15.0,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.65,1.1],[0.6,0.74],[0.5,0.66],[0.4,0.74],[0.35,1.1]],"start":26.6,"dur":22.0,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[1.1,0.25],[0.7,0.3],[0.55,0.8],[0.45,0.8],[0.3,0.3],[-0.1,0.25]],"start":31.4,"dur":22.8,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":37.0,"dur":13.4,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[-0.1,0.68],[1.1,0.18]],"start":41.2,"dur":9.9,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.4],[0.45,0.35],[-0.1,0.3]],"start":42.0,"dur":19.0,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[-0.1,0.12],[0.15,0.25],[0.3,0.12],[0.45,0.25],[0.6,0.12],[0.75,0.25],[0.9,0.12],[1.1,0.14]],"start":50.8,"dur":18.2,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":55.0,"dur":12.4,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[1.1,0.45],[0.7,0.36],[0.4,0.58],[-0.1,0.44]],"start":57.0,"dur":25.3,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[-0.1,0.15],[0.65,0.5],[1.1,0.5]],"start":64.6,"dur":19.3,"tag":""}]},{"n":8,"old":15,"title":"The Shark splits the screen","story":"The Shark drops straight down the middle. Nothing crosses the center while it is there: each half gets its own fish that come in and leave on the same side. A Marlin crosses 4 seconds after the Shark is gone.","seconds":62,"layers":[{"fish":"shark","route":"split","pts":[[0.5,-0.1],[0.48,0.5],[0.5,1.1]],"start":14,"dur":15,"tag":""},{"fish":"marlin","route":"dash","pts":[[-0.1,0.35],[1.1,0.35]],"start":33,"dur":6,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[-0.1,0.82],[1.1,0.32]],"start":0.5,"dur":8.8,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,-0.05],[0.78,0.26],[0.68,0.5],[0.78,0.74],[1.08,1.05]],"start":0.7,"dur":13.7,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.6],[0.55,0.65],[1.1,0.7]],"start":1.2,"dur":17.0,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[1.1,0.7],[0.64,0.6],[0.7,0.36],[0.84,0.4],[0.88,0.56],[0.74,0.62],[0.66,0.44],[0.8,0.28],[1.1,0.3]],"start":2.5,"dur":22.4,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,1.1],[0.65,0.74],[0.75,0.66],[0.85,0.74],[0.9,1.1]],"start":4.7,"dur":21.5,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.62,-0.1],[0.7,1.1]],"start":26.8,"dur":10.1,"tag":""},{"fish":"turtle","route":"seatVisit","pts":[[1.1,0.25],[0.7,0.3],[0.55,0.8],[0.45,0.8],[0.3,0.3],[-0.1,0.25]],"start":29.1,"dur":24.3,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[1.1,0.88],[0.5,0.89],[-0.1,0.88]],"start":30.2,"dur":17.6,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":38.6,"dur":13.2,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.85],[0.35,0.5],[-0.1,0.5]],"start":40.9,"dur":19.6,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.65,1.1],[0.6,0.74],[0.5,0.66],[0.4,0.74],[0.35,1.1]],"start":50.3,"dur":21.9,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[1.1,0.75],[0.5,0.12],[-0.1,0.75]],"start":53.9,"dur":10.0,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[1.1,0.45],[0.7,0.36],[0.4,0.58],[-0.1,0.44]],"start":55.2,"dur":23.7,"tag":""}]},{"n":9,"old":16,"title":"Meeting: the Shark has to wait","story":"Meeting wave on a Grand arc. The Manta covers most of the screen, so no Shark lane fits and the Shark waits off screen. It enters at 31 s along the top row once the Manta has passed. This happens about once every 36 waves.","seconds":75,"layers":[{"fish":"manta","route":"grandArc","pts":[[-0.1,0.78],[0.22,0.32],[0.5,0.2],[0.78,0.32],[1.1,0.78]],"start":4,"dur":33,"tag":""},{"fish":"shark","route":"cruise","pts":[[-0.1,0.2],[0.35,0.17],[0.65,0.23],[1.1,0.2]],"start":31,"dur":20,"tag":""},{"fish":"marlin","route":"diag","pts":[[-0.1,0.12],[1.1,0.88]],"start":56,"dur":6,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.1,1.1],[0.15,0.74],[0.25,0.66],[0.35,0.74],[0.4,1.1]],"start":2.7,"dur":20.2,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,1.05],[0.78,0.74],[0.68,0.5],[0.78,0.26],[1.08,-0.05]],"start":3.8,"dur":12.4,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.78,1.1],[0.7,-0.1]],"start":4.0,"dur":8.3,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[1.1,0.85],[0.35,0.5],[-0.1,0.5]],"start":4.0,"dur":19.7,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[1.1,0.55],[0.7,0.64],[0.4,0.42],[-0.1,0.56]],"start":5.3,"dur":26.3,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,1.05],[0.35,0.72],[0.65,0.28],[1.08,-0.05]],"start":20.7,"dur":12.5,"tag":""},{"fish":"octopus","route":"seatCrawl","pts":[[-0.1,0.88],[0.5,0.89],[1.1,0.88]],"start":25.1,"dur":21.9,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.55],[0.45,0.5],[-0.1,0.45]],"start":28.7,"dur":16.6,"tag":""},{"fish":"swordfish","route":"lowSlash","pts":[[1.1,0.82],[-0.1,0.32]],"start":33.3,"dur":9.9,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[-0.1,0.7],[0.36,0.6],[0.3,0.36],[0.16,0.4],[0.12,0.56],[0.26,0.62],[0.34,0.44],[0.2,0.28],[-0.1,0.3]],"start":33.8,"dur":22.6,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[-0.08,-0.05],[0.22,0.26],[0.32,0.5],[0.22,0.74],[-0.08,1.05]],"start":38.5,"dur":13.4,"tag":""},{"fish":"barracuda","route":"zigzag","pts":[[1.1,0.55],[0.8,0.38],[0.6,0.65],[0.4,0.38],[0.2,0.65],[-0.1,0.5]],"start":48.2,"dur":17.7,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.6,-0.1],[0.65,0.26],[0.75,0.34],[0.85,0.26],[0.9,-0.1]],"start":49.2,"dur":21.7,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[-0.1,0.56],[0.4,0.42],[0.7,0.64],[1.1,0.55]],"start":57.6,"dur":25.3,"tag":""},{"fish":"tuna","route":"cornerSwing","pts":[[-0.08,1.05],[0.25,0.42],[0.5,0.32],[0.75,0.42],[1.08,1.05]],"start":63.1,"dur":13.4,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[1.1,0.75],[0.5,0.12],[-0.1,0.75]],"start":66.7,"dur":10.4,"tag":""}]},{"n":10,"old":17,"title":"A hungry Strike from the right","story":"No Manta this wave. A Hammerhead swings down the left side. Then a hungry Shark drifts in from the right and bursts toward the bottom-left. Mediums flow left to right against it. After it leaves, a Marlin dashes through the low lane and a Hammerhead closes with a wide U along the top.","seconds":68,"layers":[{"fish":"hammerhead","route":"swing","pts":[[1.1,0.3],[0.76,0.34],[0.7,0.58],[0.8,0.74],[1.1,0.72]],"start":4,"dur":16,"tag":""},{"fish":"shark","route":"strike","pts":[[1.1,0.4],[0.65,0.45],[0.45,0.56],[-0.1,0.64]],"start":24,"dur":11,"tag":""},{"fish":"marlin","route":"dash","pts":[[-0.1,0.7],[1.1,0.7]],"start":40,"dur":6,"tag":""},{"fish":"hammerhead","route":"wideU","pts":[[1.1,0.82],[0.45,0.8],[0.3,0.5],[0.45,0.2],[1.1,0.18]],"start":46,"dur":20,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[-0.1,0.55],[0.45,0.5],[-0.1,0.45]],"start":0.5,"dur":18.8,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.4,1.1],[0.35,0.74],[0.25,0.66],[0.15,0.74],[0.1,1.1]],"start":0.6,"dur":21.9,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[-0.1,0.7],[0.2,0.72],[0.34,0.56],[0.26,0.38],[0.12,0.44],[0.16,0.6],[0.3,0.64],[0.36,0.4],[-0.1,0.3]],"start":1.0,"dur":24.3,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[1.08,1.05],[0.65,0.72],[0.35,0.28],[-0.08,-0.05]],"start":2.5,"dur":12.3,"tag":""},{"fish":"swordfish","route":"spear","pts":[[0.22,-0.1],[0.3,1.1]],"start":15.3,"dur":10.6,"tag":""},{"fish":"octopus","route":"edgeHops","pts":[[1.1,0.88],[0.85,0.75],[0.7,0.88],[0.55,0.75],[0.4,0.88],[0.25,0.75],[0.1,0.88],[-0.1,0.86]],"start":25.5,"dur":19.2,"tag":""},{"fish":"barracuda","route":"ambush","pts":[[-0.1,0.15],[0.65,0.5],[1.1,0.5]],"start":26.2,"dur":15.0,"tag":""},{"fish":"tuna","route":"cornerHook","pts":[[1.08,1.05],[0.78,0.74],[0.68,0.5],[0.78,0.26],[1.08,-0.05]],"start":26.4,"dur":12.8,"tag":""},{"fish":"turtle","route":"lazyS","pts":[[1.1,0.44],[0.6,0.58],[0.3,0.36],[-0.1,0.45]],"start":27.0,"dur":24.4,"tag":""},{"fish":"tuna","route":"cornerRun","pts":[[-0.08,-0.05],[0.35,0.28],[0.65,0.72],[1.08,1.05]],"start":42.3,"dur":13.9,"tag":""},{"fish":"barracuda","route":"strikeRetreat","pts":[[1.1,0.45],[0.55,0.5],[1.1,0.55]],"start":46.3,"dur":14.8,"tag":""},{"fish":"octopus","route":"riseSink","pts":[[0.65,-0.1],[0.6,0.26],[0.5,0.34],[0.4,0.26],[0.35,-0.1]],"start":47.4,"dur":20.7,"tag":""},{"fish":"swordfish","route":"ricochet","pts":[[-0.1,0.75],[0.5,0.12],[1.1,0.75]],"start":47.7,"dur":9.7,"tag":""},{"fish":"turtle","route":"sideLoop","pts":[[1.1,0.7],[0.8,0.72],[0.66,0.56],[0.74,0.38],[0.88,0.44],[0.84,0.6],[0.7,0.64],[0.64,0.4],[1.1,0.3]],"start":53.7,"dur":22.4,"tag":""}]}]};
+const F = DATA.fish, ORDER = DATA.order, SPID = DATA.spid;
+const GROUP_ORDER = ['tiny', 'small', 'medium', 'big', 'boss', 'special'];
+const GLABEL = {tiny: 'Tiny', small: 'Small', medium: 'Medium', big: 'Big', boss: 'Boss', special: 'Special'};
+const W = 1000, H = 560, SEATS = [.1, .3, .5, .7, .9];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const col = k => `var(--c-${k})`;
+const sp = k => SP[SPID[k] || k];
+const payOf = k => { const s = sp(k); if (k === 'bombcrab') return 'Blast catch'; if (k === 'eel') return 'Chain catch'; if (k === 'koi') return 'Fishing · 5,000'; return s && s.lo ? `${s.lo.toLocaleString()}–${s.hi.toLocaleString()}×` : F[k].pays; };
+const store = {get(k, d) { try { const v = localStorage.getItem('reefpb2_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('reefpb2_' + k, JSON.stringify(v)); } catch (e) {} }};
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- fish icons, drawn by the game's own renderer ----------
+const icons = [];   // {cv, k, scaleBox}
+function iconCanvas(k, w, h, box = .78) {
+  const cv = document.createElement('canvas'), dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = w * dpr; cv.height = h * dpr; cv.dataset.k = k; cv.setAttribute('aria-hidden', 'true');
+  icons.push({cv, k, w, h, dpr, box, phase: Math.random() * 6});
+  return cv;
+}
+function paintIcon(ic, t) {
+  const T = sp(ic.k), c = ic.cv.getContext('2d'); if (!T) return;
+  ctx = c; c.setTransform(ic.dpr, 0, 0, ic.dpr, 0, 0); c.clearRect(0, 0, ic.w, ic.h);
+  const ring0 = Math.max(T.len * .5, T.h * .55) + 4;
+  const sc = Math.min(1.9, (ic.h * ic.box / 2) / ring0, (ic.w * .9 / 2) / (T.len * .62));
+  c.save(); c.translate(ic.w / 2, ic.h / 2); c.scale(sc, sc);
+  c.strokeStyle = GROUPS[T.group].ring; c.globalAlpha = .45; c.lineWidth = 2 / sc; c.setLineDash([4 / sc * 1.4, 5 / sc * 1.4]);
+  ell(0, 0, ring0, ring0); c.stroke(); c.setLineDash([]); c.globalAlpha = 1;
+  if (T.glow) { c.shadowColor = T.glow; c.shadowBlur = 18; }
+  DRAW[T.kind](T.len, T.h, T, t + ic.phase);
+  c.shadowBlur = 0; c.restore();
+}
+let iconT = 0, lastIcon = 0;
+function iconLoop(now) {
+  if (now - lastIcon > 40) { iconT += reduce ? 0 : (now - lastIcon) / 1000 * .5; lastIcon = now;
+    for (const ic of icons) if (ic.cv.isConnected) paintIcon(ic, iconT); }
+  requestAnimationFrame(iconLoop);
+}
+function gcIcons() { for (let i = icons.length - 1; i >= 0; i--) if (!icons[i].cv.isConnected) icons.splice(i, 1); }
+
+// ---------- home ----------
+function renderHome() {
+  const g = $('groups'); g.innerHTML = '';
+  for (const grp of GROUP_ORDER) {
+    const ks = ORDER.filter(k => F[k].group === grp); if (!ks.length) continue;
+    const head = document.createElement('div'); head.className = 'ghead';
+    head.innerHTML = `<span style="color:var(--g-${grp})">${GLABEL[grp]}</span><small style="color:var(--g-${grp})">· ${esc(GROUPS[grp].range)}</small>`;
+    const grid = document.createElement('div'); grid.className = 'grid';
+    for (const k of ks) {
+      const a = document.createElement('a'); a.className = 'fcard'; a.href = '#' + k;
+      a.appendChild(iconCanvas(k, 230, 115));
+      a.insertAdjacentHTML('beforeend', `<span class="fname">${esc(F[k].name)}</span><span class="fpay">${esc(payOf(k))}</span><span class="fn">${F[k].routes.length} route${F[k].routes.length > 1 ? 's' : ''}</span>`);
+      grid.appendChild(a);
+    }
+    g.append(head, grid);
+  }
+}
+
+// ---------- geometry ----------
+function cr(pts, n = 12) {
+  const g = i => pts[Math.max(0, Math.min(pts.length - 1, i))], o = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = g(i - 1), p1 = g(i), p2 = g(i + 1), p3 = g(i + 2);
+    for (let k = 0; k < n; k++) { const t = k / n, t2 = t * t, t3 = t2 * t;
+      o.push([0, 1].map(j => .5 * (2 * p1[j] + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); }
+  }
+  o.push(pts[pts.length - 1].slice()); return o;
+}
+function densify(p) { const o = []; for (let i = 0; i < p.length - 1; i++) for (let k = 0; k < 12; k++) { const t = k / 12; o.push([p[i][0] + (p[i + 1][0] - p[i][0]) * t, p[i][1] + (p[i + 1][1] - p[i][1]) * t]); } o.push(p[p.length - 1].slice()); return o; }
+function shape(r, o = {}) {
+  let s = r.sharp ? densify(r.pts) : cr(r.pts);
+  if (r.sway) s = s.map(([x, y], i) => [x, y + .03 * Math.sin(i * .9)]);
+  if (o.fx) s = s.map(([x, y]) => [1 - x, y]);
+  if (o.fy) s = s.map(([x, y]) => [x, 1 - y]);
+  if (o.rev) s = s.slice().reverse();
+  return s;
+}
+const twinOf = s => s.map(([x, y]) => [x, 1 - y]);
+function lens(s) { const L = [0]; for (let i = 1; i < s.length; i++) L.push(L[i - 1] + Math.hypot((s[i][0] - s[i - 1][0]) * 1.78, s[i][1] - s[i - 1][1])); return L; }
+const pz_s = p => p.s != null ? p.s : p.hold ? (p.hold[0] + p.hold[1]) / 2 : 1;
+const durOf = r => r.dur ? (r.dur[0] + r.dur[1]) / 2 : 10;
+function timeline(r, o) {
+  const s = shape(o.pts ? Object.assign({}, r, {pts: o.pts}) : r, o), L = lens(s), total = L[L.length - 1], dur = o.dur || durOf(r);
+  const pz = (r.pauses || []).map(p => ({at: o.rev ? 1 - p.at : p.at, s: pz_s(p)})).sort((a, b) => a.at - b.at);
+  const hold = pz.reduce((a, p) => a + p.s, 0), move = Math.max(dur - hold, dur * .5);
+  const posAt = frac => { const d = frac * total; let i = 1; while (i < L.length - 1 && L[i] < d) i++; const k = (d - L[i - 1]) / Math.max(1e-9, L[i] - L[i - 1]); return [s[i - 1][0] + (s[i][0] - s[i - 1][0]) * k, s[i - 1][1] + (s[i][1] - s[i - 1][1]) * k, Math.atan2((s[i][1] - s[i - 1][1]) * H, (s[i][0] - s[i - 1][0]) * W)]; };
+  return {s, dur: move + hold, twin: r.twin,
+    at(t) {
+      if (t < 0 || t > this.dur) return null;
+      let acc = 0, f0 = 0, frac;
+      for (const p of pz) { const seg = (p.at - f0) * move; if (t < acc + seg) break; acc += seg; if (t < acc + p.s) { frac = p.at; break; } acc += p.s; f0 = p.at; }
+      if (frac === undefined) frac = Math.min(1, f0 + (t - acc) / move);
+      return posAt(frac);
+    },
+    pauseSpots() { return pz.map(p => posAt(p.at)); }};
+}
+const P = ([x, y]) => (x * W).toFixed(1) + ',' + (y * H).toFixed(1);
+const poly = (s, cls, k) => `<polyline class="route ${cls}" points="${s.map(P).join(' ')}" stroke="${col(k)}" marker-end="url(#arr)"/>`;
+function tank(mini) {
+  const seats = SEATS.map(f => `<line class="seatmark" x1="${f * W - 32}" y1="0" x2="${f * W + 32}" y2="0"/><line class="seatmark" x1="${f * W - 32}" y1="${H}" x2="${f * W + 32}" y2="${H}"/>`).join('');
+  const labs = mini ? '' : SEATS.map((f, i) => `<text class="seatlab" x="${f * W}" y="-22" text-anchor="middle">${i + 1}</text><text class="seatlab" x="${f * W}" y="${H + 42}" text-anchor="middle">${i + 6}</text>`).join('')
+    + `<text class="edgelab" x="-150" y="${H / 2 + 7}">left</text><text class="edgelab" x="${W + 150}" y="${H / 2 + 7}" text-anchor="end">right</text>`;
+  return `<rect class="water" x="0" y="0" width="${W}" height="${H}" rx="${mini ? 14 : 18}"/>${seats}${labs}`;
+}
+function miniSvg(k, r) {
+  const t = timeline(r, {});
+  return `<svg class="mini" viewBox="-150 -40 1300 640" aria-hidden="true">${tank(true)}${poly(t.s, '', k)}${t.twin ? poly(twinOf(t.s), '', k) : ''}${t.pauseSpots().map(p => `<circle class="pausedot" cx="${p[0] * W}" cy="${p[1] * H}" r="16" fill="${col(k)}"/>`).join('')}</svg>`;
+}
+
+// ---------- shared stage: an svg tank + a canvas overlay for the real fish ----------
+let T = 0, playing = false, speed = 2, last = 0, stageLayers = () => [];
+function stageHTML(extraControls) {
+  return `<div class="stage" style="position:relative"><svg id="stageSvg" viewBox="-170 -80 1340 730" role="img" aria-label="Route on the table screen"></svg><canvas id="stageCv" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas></div>
+  <div class="controls"><button class="btn" id="play" aria-pressed="false">${playing ? 'Pause' : 'Play'}</button><button class="btn" id="speed">Speed ${speed}x</button>${extraControls}<span class="clock" id="clock"></span></div>
+  <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Time">`;
+}
+function span() { if (location.hash === '#board') return sessionEnd(); return Math.max(1, ...stageLayers().map(l => l.start + timeline(l.r, l.o).dur)); }
+function drawRoutes(ghost) {
+  const ls = stageLayers(); let svg = tank(false);
+  ls.forEach(l => { const t = timeline(l.r, l.o); svg += poly(t.s, ghost ? 'ghost' : '', l.k); if (t.twin) svg += poly(twinOf(t.s), ghost ? 'ghost' : '', l.k); if (!ghost) svg += t.pauseSpots().map(p => `<circle class="pausedot" cx="${p[0] * W}" cy="${p[1] * H}" r="11" fill="${col(l.k)}"/>`).join(''); });
+  if ($('stageSvg')) $('stageSvg').innerHTML = svg;
+}
+function drawFrame() {
+  const cv = $('stageCv'); if (!cv) return;
+  const rect = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+  if (cv.width !== Math.round(rect.width * dpr)) { cv.width = Math.round(rect.width * dpr); cv.height = Math.round(rect.height * dpr); }
+  const c = cv.getContext('2d'); ctx = c; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, cv.width, cv.height);
+  const k = cv.width / 1340, toPx = (x, y) => [(x * W + 170) * k, (y * H + 80) * k];
+  const board = location.hash === '#board';
+  for (const l of stageLayers()) {
+    const t = timeline(l.r, l.o), p = t.at(T - l.start); if (!p) continue;
+    const Tt = sp(l.k), size = Math.min(1, 150 / Tt.len) * k * 1.6 * (['big', 'boss'].includes(Tt.group) ? 1.25 : 1.1);
+    const spots = [p]; if (t.twin) spots.push([p[0], 1 - p[1], -p[2]]);
+    for (const q of spots) {
+      const [x, y] = toPx(q[0], q[1]);
+      if (board && ['shark', 'megalodon'].includes(l.k)) { c.save(); c.strokeStyle = getComputedStyle(document.body).getPropertyValue('--warn'); c.setLineDash([8 * k, 6 * k]); c.lineWidth = 3 * k; c.beginPath(); c.arc(x, y, .2 * W * k, 0, TAU); c.stroke(); c.restore(); }
+      c.save(); c.translate(x, y); c.rotate(q[2]); c.scale(size, size);
+      if (Math.abs(q[2]) > PI / 2) c.scale(1, -1);
+      if (Tt.glow) { c.shadowColor = Tt.glow; c.shadowBlur = 18; }
+      DRAW[Tt.kind](Tt.len, Tt.h, Tt, T * 1.2); c.restore();
+    }
+  }
+  const S_ = span(); if ($('clock')) $('clock').textContent = T.toFixed(1) + ' / ' + S_.toFixed(0) + ' s';
+  if ($('scrub')) $('scrub').value = Math.round(1000 * T / S_);
+  boardFrame();
+}
+function wireStage() {
+  $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'Pause' : 'Play'; $('play').setAttribute('aria-pressed', playing); if (playing) { if (T >= span()) T = 0; last = performance.now(); requestAnimationFrame(tick); } };
+  $('speed').onclick = () => { speed = speed === 1 ? 2 : speed === 2 ? 4 : 1; $('speed').textContent = 'Speed ' + speed + 'x'; };
+  $('scrub').oninput = e => { T = span() * e.target.value / 1000; drawFrame(); };
+}
+function tick(now) { if (!playing) return; T += (now - last) / 1000 * speed; last = now; if (T > span() + .8) T = 0; drawFrame(); requestAnimationFrame(tick); }
+addEventListener('resize', () => drawFrame());
+
+// ---------- fish page ----------
+let page = {k: 'shark', att: 'All', route: null, fx: false, fy: false, rev: false};
+
+const routesShown = () => F[page.k].routes.filter(r => page.att === 'All' || !r.attitude || r.attitude === page.att);
+const curRoute = () => F[page.k].routes.find(r => r.id === page.route);
+function ul(items, cls = '') { return items.length ? `<ul class="${cls}">${items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p class="empty">None yet.</p>'; }
+const fmtV = v => typeof v === 'boolean' ? (v ? 'yes' : 'no') : Array.isArray(v) ? (v.length === 2 && v.every(x => typeof x === 'number') ? v.join('–') : v.join(', ')) : (v && typeof v === 'object') ? Object.entries(v).map(([a, b]) => a.replace(/_/g, ' ') + ' ' + fmtV(b)).join(', ') : (typeof v === 'number' && v < 1 && v > 0 && Math.abs(1 / v - Math.round(1 / v)) < .05 ? '1 in ' + Math.round(1 / v) : String(v));
+function lawsFor(f) {
+  const all = DATA.laws[DATA.sect[f.group]] || [], nm = f.name.split(' ')[0].toLowerCase();
+  const mine = all.filter(l => (l.id + ' ' + l.what).toLowerCase().includes(nm) || l.id.includes(f.id));
+  return mine.concat(all.filter(l => !mine.includes(l)));
+}
+function renderFishPage(k) {
+  if (page.k !== k) page = {k, att: 'All', route: F[k].routes[0].id, fx: false, fy: false, rev: false};
+  if (!page.route) page.route = F[k].routes[0].id;
+  const f = F[k], el = $('fishPage'), g = f.group;
+  el.innerHTML = `<div style="display:grid;gap:16px">
+    <a class="back" href="#">← All fish</a>
+    <div class="hero"><div id="heroIcon"></div><div><h2>${esc(f.name)}</h2>
+      <div class="meta"><span class="pill" style="color:var(--g-${g})">${GLABEL[g]}</span><span style="font-weight:700">${esc(payOf(k))}</span><span class="status ${f.status.startsWith('in game') ? 'live' : ''}">${esc(f.status)}</span></div>
+      <dl class="facts"><dt>Role</dt><dd>${esc(f.role)}</dd><dt>Home</dt><dd>${esc(f.home)}</dd><dt>Habit</dt><dd>${esc(f.habit)}</dd></dl></div></div>
+    <div class="cols">
+      <aside class="panel">
+        <div class="step" id="attStep"></div>
+        <div class="step"><div class="stephead"><span class="num" id="routeNum">2</span><h3>Route</h3><span class="hint" id="routeCount"></span></div><div class="routes" id="routePick"></div></div>
+      </aside>
+      <div style="display:grid;gap:12px;min-width:0">
+        <div class="screen"><div class="stitle" id="stitle"></div>${stageHTML(`<button class="btn" id="flipX">Flip left/right</button><button class="btn" id="flipY">Flip top/bottom</button><button class="btn" id="rev">Backwards</button>`)}</div>
+        <div class="rules" id="rulesBox"></div>
+      </div>
+    </div></div>`;
+  $('heroIcon').appendChild(iconCanvas(k, 340, 170, .86));
+  wireStage();
+  $('flipX').onclick = () => { page.fx = !page.fx; fishUpdate(); };
+  $('flipY').onclick = () => { page.fy = !page.fy; fishUpdate(); };
+  $('rev').onclick = () => { page.rev = !page.rev; fishUpdate(); };
+  stageLayers = () => { const r = curRoute(); return r ? [{k, r, o: page, start: 0}] : []; };
+  fishUpdate(true);
+}
+function fishUpdate(fresh) {
+  const k = page.k, f = F[k];
+  // attitude / phases
+  const st = $('attStep');
+  if (f.attitude_info) {
+    st.innerHTML = `<div class="stephead"><span class="num">1</span><h3>Attitude</h3></div><div class="chips" role="group" aria-label="Attitude">${['All', ...Object.keys(f.attitude_info)].map(a => `<button class="chip" data-att="${a}" aria-pressed="${a === page.att}">${a}${a !== 'All' ? ` <small>${Math.round(f.attitude_info[a].share * 100)}%</small>` : ''}</button>`).join('')}</div><div class="hint">${page.att === 'All' ? 'Percent = how often the Shark picks that attitude outside meetings.' : esc(f.attitude_info[page.att].feel)}</div>`;
+    $('routeNum').textContent = '2';
+  } else if (f.phases) {
+    st.innerHTML = `<div class="stephead"><span class="num">1</span><h3>Fight stages</h3></div><div class="chips">${f.phases.map((p, i) => `<span class="chip">${i + 1}. ${esc(p)}</span>`).join('')}</div>`; $('routeNum').textContent = '2';
+  } else { st.innerHTML = ''; st.hidden = true; $('routeNum').textContent = '1'; }
+  const rs = routesShown(); if (!rs.find(r => r.id === page.route)) page.route = rs[0].id;
+  $('routeCount').textContent = rs.length + ' of ' + f.routes.length;
+  $('routePick').innerHTML = rs.map(r => `<button class="rcard" data-route="${r.id}" aria-pressed="${r.id === page.route}">${miniSvg(k, r)}<span class="rname">${esc(r.name)}</span><span class="rmeta">${r.dur ? r.dur[0] + '–' + r.dur[1] + ' s' : 'follows others'}${r.attitude ? ' · ' + r.attitude : ''}</span></button>`).join('');
+  ['fx', 'fy', 'rev'].forEach((x, i) => $(['flipX', 'flipY', 'rev'][i]).setAttribute('aria-pressed', !!page[x]));
+  const r = curRoute();
+  $('stitle').innerHTML = `<h3>${esc(r.name)}</h3><span class="status ${(r.status || f.status).startsWith('in game') ? 'live' : ''}">${esc(r.status || f.status)}</span>`;
+  const tags = [];
+  if (r.attitude) tags.push(r.attitude + ' attitude');
+  if (r.crosser) tags.push(r.crosser === 2 ? 'counts as 2 crossers' : 'fast crosser');
+  if (r.pauses) tags.push(r.pauses.length + ' pause' + (r.pauses.length > 1 ? 's' : '') + ' (' + r.pauses.map(p => p.s != null ? p.s + ' s' : p.hold[0] + '–' + p.hold[1] + ' s').join(', ') + ')');
+  if (r.twin) tags.push('two at once, mirrored');
+  if (r.dynamic) tags.push(r.dynamic);
+  let h = `<section><h4>What this route is for</h4><p>${esc(r.purpose)}</p><p class="hint">${r.dur ? r.dur[0] + '–' + r.dur[1] + ' s on screen' : 'Timing follows another fish or the bait'}${tags.length ? ' · ' + esc(tags.join(' · ')) : ''}</p></section>`;
+  h += `<section><h4>Rules this route follows</h4>${r.rules && r.rules.length ? ul(r.rules, 'ifrule') : '<p class="empty">No extra rules. It follows the fish rules below.</p>'}</section>`;
+  if (f.attitude_info && r.attitude) { const a = f.attitude_info[r.attitude]; h += `<section><h4>${esc(r.attitude)} attitude</h4><p>${esc(a.feel)}</p><div class="share"><i style="width:${a.share * 100}%"></i></div><span class="hint">Picked ${Math.round(a.share * 100)}% of the time outside meetings</span></section>`; }
+  if (f.rules) h += `<section><h4>${esc(f.name)} always</h4>${ul(f.rules, 'ifrule')}</section>`;
+  if (f.reactions) h += `<section><h4>When players hit it hard</h4>${ul(f.reactions.map(x => `${x.name}: ${x.effect} (${x.trigger})`))}</section>`;
+  if (f.co_paths) h += `<section class="wide"><h4>Second Shark moves</h4>${ul(f.co_paths.map(x => `${x.name} (${x.status.startsWith('in game') ? 'in game' : 'designed'}): ${x.effect || ''}`))}</section>`;
+  const ls = lawsFor(f);
+  if (ls.length) h += `<section class="wide"><h4>Director's laws for ${GLABEL[f.group].toLowerCase()} fish</h4><div class="lawtable"><table><tbody>${ls.map(l => `<tr><td><code>${esc(l.id)}</code></td><td class="val">${esc(fmtV(l.value))}${l.unit ? ' ' + esc(l.unit) : ''}</td><td>${esc(l.what)}</td></tr>`).join('')}</tbody></table></div></section>`;
+  $('rulesBox').innerHTML = h;
+  if (fresh) T = Math.min(timeline(r, page).dur * .35, 8); else if (T > span()) T = 0;
+  drawRoutes(false); drawFrame();
+}
+
+// ---------- strategy board: one session timeline, waves 1-10 left to right ----------
+function closest(a, b) {
+  const ta = timeline(a.r, a.o), tb = timeline(b.r, b.o); let best = null;
+  const on = z => z[0] > -.02 && z[0] < 1.02 && z[1] > -.02 && z[1] < 1.02;
+  for (let t = Math.max(a.start, b.start); t <= Math.min(a.start + ta.dur, b.start + tb.dur); t += .25) {
+    const p = ta.at(t - a.start), q = tb.at(t - b.start); if (!p || !q || !on(p) || !on(q)) continue;
+    const d = Math.hypot(p[0] - q[0], (p[1] - q[1]) * .56); if (!best || d < best.d) best = {d, t}; }
+  return best;
+}
+const isBig = k => ['big', 'boss'].includes(F[k].group);
+function baseSession() {
+  let t0 = 0; const waves = [], layers = [];
+  for (const w of DATA.waves) { waves.push({n: w.n, title: w.title, story: w.story, t0, t1: t0 + w.seconds}); for (const l of w.layers) layers.push(Object.assign({}, l, {start: +(t0 + l.start).toFixed(1), wave: w.n})); t0 += w.seconds; }
+  return {waves, layers};
+}
+const session = baseSession();  // the master strategy: view only
+let selLayer = -1;
+function boardLayers() { return session.layers.map((b, i) => ({i, k: b.fish, r: F[b.fish] && F[b.fish].routes.find(x => x.id === b.route), o: b, start: b.start})).filter(l => l.r); }
+const sessionEnd = () => Math.max(session.waves[session.waves.length - 1].t1, ...boardLayers().map(l => l.start + timeline(l.r, l.o).dur));
+const waveAt = t => session.waves.find(w => t >= w.t0 && t < w.t1) || session.waves[session.waves.length - 1];
+function renderBoard() {
+  $('boardPage').innerHTML = `<div style="display:grid;gap:14px">
+    <div class="panel"><div class="stephead"><h3>Master strategy</h3><span class="lock">View only</span><button class="btn" id="zoomBtn" style="margin-left:auto"></button></div><div class="hint">Waves 1–${session.waves.length}, left to right. Tap a wave to jump there. Tap a bar to see that fish.</div>
+      <div class="tl2"><svg id="tlLab" aria-hidden="true"></svg><div class="tlwrap" id="tlScroll"><svg id="tl" role="img" aria-label="Session timeline"></svg></div></div>
+      <div class="controls" id="selCtl"></div></div>
+    <div class="bcols"><div class="screen"><div class="stitle"><h3 id="screenTitle"></h3><span class="hint" id="screenStory"></span></div>${stageHTML('')}</div><div class="panel" id="boardChecks"></div></div></div>`;
+  wireStage(); stageLayers = boardLayers; selLayer = -1; lastActive = ''; T = Math.min(T, sessionEnd()); refreshBoard(); scrollToT(true);
+}
+function refreshBoard() { renderTimeline(); renderSel(); renderChecks(); lastActive = ''; drawFrame(); }
+let PX = 9, fit = store.get('fit', true); const TOP = 34;
+const ROWS = ['shark', 'manta', 'hammerhead', 'marlin', 'tuna', 'barracuda', 'octopus', 'swordfish', 'turtle'];
+function layout() {
+  const ls = boardLayers(), rows = ROWS.slice();
+  for (const l of ls) if (!rows.includes(l.k)) rows.push(l.k);
+  const lanes = {}; for (const k of rows) lanes[k] = [];
+  for (const l of ls.slice().sort((a, b) => a.start - b.start)) {
+    const end = l.start + timeline(l.r, l.o).dur, ln = lanes[l.k]; let j = ln.findIndex(e => e <= l.start - .5); if (j < 0) { j = ln.length; ln.push(0); } ln[j] = end; l.lane = j;
+  }
+  let y = TOP; const rowY = {};
+  for (const k of rows) { const n = Math.max(1, lanes[k].length); rowY[k] = {y, n, h: n * 14 + 8}; y += n * 14 + 8; }
+  return {ls, rows, rowY, h: y + 6};
+}
+function renderTimeline() {
+  const {ls, rows, rowY, h} = layout(), sc = $('tlScroll');
+  const end = fit ? sessionEnd() : Math.ceil(sessionEnd() / 10) * 10 + 10;
+  PX = fit ? Math.max(.3, (sc.clientWidth - 2) / end) : 9;
+  const w = Math.floor(end * PX);
+  $('zoomBtn').textContent = fit ? 'Zoom in' : 'See all ' + session.waves.length + ' waves';
+  let s = '';
+  session.waves.forEach((wv, i) => {
+    s += `<rect class="wseg${i % 2 ? ' alt' : ''}${wv.mine ? ' mine' : ''}" data-wave="${i}" x="${wv.t0 * PX}" y="0" width="${(wv.t1 - wv.t0) * PX}" height="${h}"/>`;
+    s += `<rect class="wtab" data-wave="${i}" x="${wv.t0 * PX + 2}" y="2" width="${(wv.t1 - wv.t0) * PX - 4}" height="24" rx="6"/><text class="wlab" x="${(wv.t0 + (fit ? (wv.t1 - wv.t0) / 2 : 0)) * PX + (fit ? 0 : 10)}" y="19" text-anchor="${fit ? 'middle' : 'start'}">${(wv.t1 - wv.t0) * PX < 64 ? wv.n : (wv.t1 - wv.t0) * PX < 160 ? 'Wave ' + wv.n : 'Wave ' + wv.n + ' · ' + esc(wv.title).slice(0, Math.floor((wv.t1 - wv.t0) * PX / 7.2) - 9)}</text>`;
+  });
+  for (let t = 0; t <= end; t += fit ? 30 : 10) s += `<line class="tlgrid" x1="${t * PX}" x2="${t * PX}" y1="${TOP - 4}" y2="${h}"/>`;
+  rows.forEach(k => s += `<line class="tlsep" x1="0" x2="${w}" y1="${rowY[k].y + rowY[k].h - 1}" y2="${rowY[k].y + rowY[k].h - 1}"/>`);
+  for (const l of ls) {
+    const d = timeline(l.r, l.o).dur, x = l.start * PX, bw = Math.max(6, d * PX), y = rowY[l.k].y + 4 + l.lane * 14;
+    s += `<g class="tlbar${l.i === selLayer ? ' sel' : ''}" data-li="${l.i}"><rect x="${x}" y="${y}" width="${bw}" height="11" rx="4" fill="${col(l.k)}"/>${bw > 70 ? `<text class="tltag" x="${x + 5}" y="${y + 9}">${esc((l.o.tag && /shadow|pair/i.test(l.o.tag) ? l.o.tag + ' · ' : '') + l.r.name).slice(0, Math.floor(bw / 6))}</text>` : ''}</g>`;
+  }
+  s += `<line id="tlHead" class="tlhead" x1="${T * PX}" x2="${T * PX}" y1="0" y2="${h}"/>`;
+  const svg = $('tl'); svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.innerHTML = s;
+  const LW = matchMedia('(max-width: 560px)').matches ? 84 : 112, lab = $('tlLab'); lab.setAttribute('width', LW); lab.setAttribute('height', h); lab.setAttribute('viewBox', `${112 - LW} 0 ${LW} ${h}`);
+  lab.innerHTML = `<text class="tltick" x="104" y="19" text-anchor="end">wave</text>` + rows.map(k => `<text class="tllab${isBig(k) ? ' big' : ''}" x="104" y="${rowY[k].y + 15}" text-anchor="end">${esc(F[k].name)}</text>`).join('');
+}
+function tlPlayhead() { const hd = $('tlHead'); if (hd) { hd.setAttribute('x1', T * PX); hd.setAttribute('x2', T * PX); } }
+function scrollToT(center) {
+  const sc = $('tlScroll'); if (!sc) return; const x = T * PX, vw = sc.clientWidth;
+  if (center || x < sc.scrollLeft + 30 || x > sc.scrollLeft + vw - 60) sc.scrollLeft = Math.max(0, x - vw * .3);
+}
+function renderSel() {
+  const l = session.layers[selLayer];
+  $('selCtl').innerHTML = l ? `<span style="font-weight:700">${esc(F[l.fish].name)} · ${esc((F[l.fish].routes.find(r => r.id === l.route) || {}).name || l.route)}</span><span class="hint">wave ${l.wave}, comes in at ${(l.start - session.waves[l.wave - 1].t0).toFixed(1)} s, stays ${l.dur ? l.dur.toFixed(0) : '?'} s</span><a class="btn" href="#${l.fish}" style="text-decoration:none">Open ${esc(F[l.fish].name)}</a>`
+    : `<span class="hint">${session.layers.length} fish across ${session.waves.length} waves, about ${Math.round(sessionEnd() / 60)} minutes.</span>`;
+}
+function waveIssues(wv) {
+  const ls = boardLayers().filter(l => l.start < wv.t1 && l.start + timeline(l.r, l.o).dur > wv.t0), out = [];
+  for (let a = 0; a < ls.length; a++) for (let b = a + 1; b < ls.length; b++) {
+    const A = ls[a], B = ls[b]; if (!isBig(A.k) || !isBig(B.k)) continue; if (A.k === 'shark' && B.k === 'shark' && /shadow|pincer/i.test((A.o.tag || '') + (B.o.tag || ''))) continue; const c = closest(A, B); if (!c) continue;
+    const lim = [A.k, B.k].includes('shark') ? .2 : .14; if (c.d < lim) out.push(`${F[A.k].name} and ${F[B.k].name} within ${(c.d * 1000).toFixed(0)} px`);
+  }
+  let worst = 0; const bigs = ls.filter(l => isBig(l.k));
+  for (let t = wv.t0; t < wv.t1; t += .5) worst = Math.max(worst, bigs.filter(l => { const p = timeline(l.r, l.o).at(t - l.start); return p && p[0] > -.02 && p[0] < 1.02; }).length);
+  if (worst > 3) out.push(`${worst} big fish on screen at once`);
+  let inRing = 0; for (const sh of ls.filter(l => l.k === 'shark')) for (const m of ls.filter(l => !isBig(l.k))) { const c = closest(sh, m); if (c && c.d < .2) inRing++; }
+  if (inRing) out.push(`${inRing} medium${inRing > 1 ? 's' : ''} inside the Shark's 200 px ring`);
+  return out;
+}
+function renderChecks() {
+  const cur = waveAt(T);
+  $('boardChecks').innerHTML = `<div class="stephead"><h3>Checks against the laws</h3></div><div class="checks">${session.waves.map((wv, i) => { const iss = waveIssues(wv);
+    return `<button class="wcheck${wv === cur ? ' cur' : ''}" data-wave="${i}"><span class="${iss.length ? 'bad' : 'good'}">${wv.mine ? 'My plan' : 'Wave ' + wv.n}: ${iss.length ? esc(iss.join('; ')) : 'all clear'}</span></button>`; }).join('')}</div>`;
+}
+let lastActive = '', lastWave = null;
+function boardFrame() {
+  if (location.hash !== '#board') return;
+  tlPlayhead();
+  const act = boardLayers().filter(l => T >= l.start - .5 && T <= l.start + timeline(l.r, l.o).dur + .5);
+  const key = act.map(l => l.i).join(',');
+  if (key !== lastActive) { lastActive = key; let svg = tank(false); act.forEach(l => { const t = timeline(l.r, l.o); svg += poly(t.s, 'ghost', l.k); }); $('stageSvg').innerHTML = svg; }
+  const wv = waveAt(T);
+  if (wv !== lastWave) { lastWave = wv; $('screenTitle').textContent = (wv.mine ? 'My plan' : 'Wave ' + wv.n) + ' · ' + wv.title; $('screenStory').textContent = ''; document.querySelectorAll('.wcheck').forEach((b, i) => b.classList.toggle('cur', session.waves[i] === wv)); }
+  if (playing) scrollToT(false);
+}
+(function wireTimeline() {
+  document.addEventListener('click', e => {
+    const svg = e.target.closest('#tl'); if (!svg) return;
+    const bar = e.target.closest('[data-li]');
+    if (bar) { const i = +bar.dataset.li; selLayer = selLayer === i ? -1 : i; if (selLayer >= 0) { T = session.layers[i].start + .5; } renderTimeline(); renderSel(); lastActive = ''; drawFrame(); return; }
+    const tab = e.target.closest('[data-wave]');
+    if (tab) { const wv = session.waves[+tab.dataset.wave]; T = e.target.classList.contains('wtab') ? wv.t0 : Math.max(0, (e.clientX - svg.getBoundingClientRect().left) / PX); lastActive = ''; drawFrame(); }
+  });
+  document.addEventListener('click', e => { if (e.target.id === 'zoomBtn') { fit = !fit; store.set('fit', fit); renderTimeline(); scrollToT(true); } });
+  addEventListener('resize', () => { if (location.hash === '#board' && fit) renderTimeline(); });
+})();
+function navCount() {}
+
+
+// ---------- routing ----------
+function route() {
+  playing = false; gcIcons();
+  const h = location.hash.slice(1);
+  const isFish = h && F[h], isBoard = h === 'board';
+  $('home').hidden = isFish || isBoard; $('fishPage').hidden = !isFish; $('boardPage').hidden = !isBoard;
+  $('navFish').setAttribute('aria-current', !isBoard ? 'page' : 'false'); $('navBoard').setAttribute('aria-current', isBoard ? 'page' : 'false');
+  $('fishPage').innerHTML = isFish ? $('fishPage').innerHTML : ''; $('boardPage').innerHTML = isBoard ? $('boardPage').innerHTML : '';
+  if (isFish) { renderFishPage(h); scrollTo(0, 0); }
+  else if (isBoard) { T = 0; renderBoard(); scrollTo(0, 0); }
+  gcIcons(); navCount();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.att) { page.att = b.dataset.att; T = 0; fishUpdate(); }
+  else if (b.dataset.route) { page.route = b.dataset.route; page.fx = page.fy = page.rev = false; T = 0; fishUpdate(true); if (matchMedia('(max-width: 900px)').matches) $('stitle').scrollIntoView({block: 'start', behavior: reduce ? 'auto' : 'smooth'}); }
+  else if (b.dataset.wave != null && b.classList.contains('wcheck')) { T = session.waves[+b.dataset.wave].t0; lastActive = ''; drawFrame(); scrollToT(true); renderChecks(); }
+});
+addEventListener('hashchange', route);
+renderHome(); route(); requestAnimationFrame(iconLoop);
+</script>
+
+</body></html>

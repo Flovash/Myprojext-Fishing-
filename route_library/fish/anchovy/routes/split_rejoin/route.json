@@ -1,0 +1,37 @@
+{
+ "id": "splitRejoin",
+ "name": "Split and rejoin",
+ "dur": [
+  8,
+  10
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.3,
+   0.5
+  ],
+  [
+   0.5,
+   0.25
+  ],
+  [
+   0.7,
+   0.5
+  ],
+  [
+   1.1,
+   0.5
+  ]
+ ],
+ "twin": true,
+ "purpose": "Splits into two halves that go around the middle and meet again.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "route": "patrol",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "King",
+ "meeting_ok": true,
+ "seasons": {},
+ "why": "Loops one side and leaves the way it came, handing the other half to the mediums. Allowed during meetings."
+}

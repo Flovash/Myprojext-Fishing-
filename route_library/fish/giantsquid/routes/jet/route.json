@@ -1,0 +1,57 @@
+{
+ "id": "jet",
+ "name": "Jet",
+ "dur": [
+  35,
+  45
+ ],
+ "pts": [
+  [
+   1.15,
+   0.3
+  ],
+  [
+   0.75,
+   0.35
+  ],
+  [
+   0.7,
+   0.55
+  ],
+  [
+   0.4,
+   0.6
+  ],
+  [
+   0.35,
+   0.4
+  ],
+  [
+   -0.15,
+   0.45
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.3,
+   "hold": [
+    2,
+    2
+   ]
+  },
+  {
+   "at": 0.6,
+   "hold": [
+    2,
+    2
+   ]
+  }
+ ],
+ "sharp": true,
+ "purpose": "Moves in short, fast jets with pauses between.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

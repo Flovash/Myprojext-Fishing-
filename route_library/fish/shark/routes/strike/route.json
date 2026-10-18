@@ -1,0 +1,32 @@
+{
+ "id": "strike",
+ "name": "Strike",
+ "dur": [
+  9,
+  12
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.4
+  ],
+  [
+   0.35,
+   0.45
+  ],
+  [
+   0.55,
+   0.56
+  ],
+  [
+   1.1,
+   0.64
+  ]
+ ],
+ "purpose": "A short fast lunge through the middle.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

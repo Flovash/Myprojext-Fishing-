@@ -1,0 +1,32 @@
+{
+ "id": "lowArc",
+ "name": "Low arc",
+ "dur": [
+  18,
+  22
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.6
+  ],
+  [
+   0.3,
+   0.74
+  ],
+  [
+   0.7,
+   0.74
+  ],
+  [
+   1.1,
+   0.6
+  ]
+ ],
+ "purpose": "Under the middle. Only when no Shark is on screen.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

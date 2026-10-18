@@ -1,0 +1,37 @@
+{
+ "name": "Kraken",
+ "group": "boss",
+ "pays": "800-1200x",
+ "role": "The finale. The rarest boss. Rises from the deep and holds the stage.",
+ "home": "Bottom center, anchored",
+ "habit": "Barely moves; its tentacles sweep the seat rows instead.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Bosses own the stage: no big fish, the big-fish clock waits.",
+  "Mediums only as escorts; small fish keep 0.15 away from the boss.",
+  "The boss spends equal time near top, bottom, left and right seats.",
+  "It never leaves before the scene ends (minus 4 s).",
+  "Rarest boss: at most once per night."
+ ],
+ "phases": [
+  "Rise",
+  "Hold and sweep",
+  "Dive and resurface",
+  "Sink"
+ ],
+ "id": "kraken",
+ "game_id": "kraken",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "riseHold",
+  "slowSweep",
+  "diveResurface"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

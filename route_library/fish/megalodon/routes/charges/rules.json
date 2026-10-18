@@ -1,0 +1,10 @@
+{
+ "route": "charges",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Order of rows is random each time."
+ ],
+ "seasons": {},
+ "why": "Three straight passes: top, middle, bottom. Turns off screen."
+}

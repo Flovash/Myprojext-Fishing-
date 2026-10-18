@@ -1,0 +1,28 @@
+{
+ "id": "seatRow",
+ "name": "Seat row glide",
+ "dur": [
+  30,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.8
+  ],
+  [
+   0.5,
+   0.83
+  ],
+  [
+   1.1,
+   0.8
+  ]
+ ],
+ "purpose": "Glides along a seat row; that row gets the followers up close.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

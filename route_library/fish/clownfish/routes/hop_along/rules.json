@@ -1,0 +1,10 @@
+{
+ "route": "hopAlong",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Alternate rows: top row, then bottom row next time."
+ ],
+ "seasons": {},
+ "why": "Hops along one seat row, a short stop at each seat."
+}

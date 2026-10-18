@@ -1,0 +1,8 @@
+{
+ "route": "bloom",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Rises, draws a slow figure-8 in the middle, and sinks."
+}

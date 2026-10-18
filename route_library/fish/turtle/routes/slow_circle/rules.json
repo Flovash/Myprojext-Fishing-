@@ -1,0 +1,9 @@
+{
+ "route": "slowCircle",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "fast_crosser": 0,
+ "split_safe": false,
+ "seasons": {},
+ "why": "One lazy loop in the middle."
+}

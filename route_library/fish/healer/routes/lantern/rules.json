@@ -1,0 +1,8 @@
+{
+ "route": "lantern",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [],
+ "seasons": {},
+ "why": "Drifts side to side, stopping at each seat column."
+}

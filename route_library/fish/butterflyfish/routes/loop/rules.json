@@ -1,0 +1,10 @@
+{
+ "route": "loop",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "No loop while the Manta is within 0.25."
+ ],
+ "seasons": {},
+ "why": "One loop in the middle, then on its way."
+}

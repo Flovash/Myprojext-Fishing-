@@ -1,0 +1,26 @@
+{
+ "id": "lowSlash",
+ "name": "Low slash",
+ "dur": [
+  8,
+  11
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.82
+  ],
+  [
+   1.1,
+   0.32
+  ]
+ ],
+ "sharp": true,
+ "crosser": true,
+ "purpose": "One long fast line.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

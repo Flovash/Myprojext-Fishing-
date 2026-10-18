@@ -1,0 +1,9 @@
+{
+ "route": "thrash",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "Aggressive",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Fast zigzag; looks angry and is hard to track."
+}

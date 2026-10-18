@@ -1,0 +1,26 @@
+{
+ "name": "Manta Ray",
+ "group": "big",
+ "pays": "150-300x",
+ "role": "Second respect point, the attractor. Brings 8-12 small followers that tighten when a Shark is near.",
+ "home": "Half the screen; never the Shark lane",
+ "habit": "Every other wave. Meets the Shark about 1 visit in 3 (only through the Shark gate). Never flees, never speeds past 1.3x.",
+ "status": "in game (v6)",
+ "id": "manta",
+ "game_id": "manta",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "grandArc",
+  "openGlide",
+  "slowS",
+  "feedLoop",
+  "seatRow",
+  "wideDiag"
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "id": "lazyS",
+ "name": "Lazy S",
+ "dur": [
+  22,
+  27
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.45
+  ],
+  [
+   0.3,
+   0.36
+  ],
+  [
+   0.6,
+   0.58
+  ],
+  [
+   1.1,
+   0.44
+  ]
+ ],
+ "purpose": "A slow S through the center.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

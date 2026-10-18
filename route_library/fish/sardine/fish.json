@@ -1,0 +1,26 @@
+{
+ "name": "Sardine",
+ "group": "tiny",
+ "pays": "2-3x",
+ "role": "The crowd. Fills the screen and hits every corner.",
+ "home": "Everywhere; a coverage map sends schools to the emptiest zones",
+ "habit": "Schools of 6-9; 35% of the time a mirror twin school takes the reflected route. 1 in 700 hits is a Golden Sardine (50x).",
+ "status": "in game (v5)",
+ "id": "sardine",
+ "game_id": "sardine",
+ "group_sizes": [
+  6,
+  9
+ ],
+ "formations_allowed": [
+  "school"
+ ],
+ "route_order": [
+  "perimeter",
+  "cornerS",
+  "wDip",
+  "figure8",
+  "seatSweep",
+  "cornerArc"
+ ]
+}

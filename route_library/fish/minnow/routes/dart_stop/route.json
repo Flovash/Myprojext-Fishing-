@@ -1,0 +1,42 @@
+{
+ "id": "dartStop",
+ "name": "Dart and stop",
+ "dur": [
+  7,
+  9
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.7
+  ],
+  [
+   0.4,
+   0.68
+  ],
+  [
+   0.55,
+   0.45
+  ],
+  [
+   1.1,
+   0.4
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.45,
+   "hold": [
+    1,
+    1
+   ]
+  }
+ ],
+ "sharp": true,
+ "purpose": "Darts in, freezes for a second, then bolts.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

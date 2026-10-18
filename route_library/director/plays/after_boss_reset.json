@@ -1,0 +1,27 @@
+{
+ "id": "after_boss_reset",
+ "enabled": true,
+ "if": {
+  "seconds_since_boss_ended": "<10"
+ },
+ "then": [
+  {
+   "send": "tuna",
+   "route": "cornerSwing",
+   "formation": "arc",
+   "size": [
+    4,
+    4
+   ]
+  },
+  {
+   "send": "turtle",
+   "route": "lazyS"
+  }
+ ],
+ "limits": {
+  "cooldown_s": 60,
+  "max_per_wave": 1
+ },
+ "why": "The boss is over: two easy schools so everyone gets back to catching."
+}

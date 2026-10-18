@@ -1,0 +1,9 @@
+{
+ "route": "split",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "King",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Top to bottom through the center. Nothing crosses the middle while it is there; each half keeps its own fish."
+}

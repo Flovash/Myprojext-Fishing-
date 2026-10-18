@@ -1,0 +1,42 @@
+{
+ "id": "burst",
+ "name": "Drift, then burst",
+ "dur": [
+  9,
+  12
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.7
+  ],
+  [
+   0.3,
+   0.66
+  ],
+  [
+   0.45,
+   0.6
+  ],
+  [
+   1.1,
+   0.3
+  ]
+ ],
+ "speed": [
+  [
+   0.4,
+   0.35
+  ],
+  [
+   1,
+   1.7
+  ]
+ ],
+ "purpose": "Slow entry, then a fast exit.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

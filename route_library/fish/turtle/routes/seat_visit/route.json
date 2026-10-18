@@ -1,0 +1,49 @@
+{
+ "id": "seatVisit",
+ "name": "Seat visit",
+ "dur": [
+  22,
+  27
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.25
+  ],
+  [
+   0.3,
+   0.3
+  ],
+  [
+   0.45,
+   0.8
+  ],
+  [
+   0.55,
+   0.8
+  ],
+  [
+   0.7,
+   0.3
+  ],
+  [
+   1.1,
+   0.25
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.5,
+   "hold": [
+    2,
+    3
+   ]
+  }
+ ],
+ "purpose": "Dips to a seat and rests there.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

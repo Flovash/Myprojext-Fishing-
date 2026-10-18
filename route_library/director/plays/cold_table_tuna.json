@@ -1,0 +1,8 @@
+{
+ "id": "cold_table_tuna",
+ "enabled": true,
+ "if": {"seconds_since_medium_catch": ">45", "shark_on_screen": false, "boss_on": false, "active_seats": ">0", "season": "any"},
+ "then": {"send": "tuna", "route": "cornerSwing", "formation": "arc", "size": [4, 6], "aim_at": "coldest_seats"},
+ "limits": {"cooldown_s": 90, "max_per_wave": 1},
+ "why": "Give a cold table an easy, readable school to work on."
+}

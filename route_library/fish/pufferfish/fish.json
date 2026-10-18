@@ -1,0 +1,34 @@
+{
+ "name": "Pufferfish",
+ "group": "small",
+ "pays": "4-7x",
+ "role": "The easy, funny target. Slow and round; puffs up when hit a lot.",
+ "home": "Low middle, close to the bottom seats",
+ "habit": "Alone or 2-3. Bobs slowly. After 6 hits in 3 s it puffs up for 2 s and slows down (show only).",
+ "status": "designed, not in game yet",
+ "rules": [
+  "Puff never changes catch chance or pay."
+ ],
+ "reactions": [
+  {
+   "name": "Puff",
+   "trigger": "6 hits in 3 s",
+   "effect": "puffs up and slows for 2 s"
+  }
+ ],
+ "id": "pufferfish",
+ "game_id": "puffer",
+ "group_sizes": [
+  1,
+  3
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "bob",
+  "rise",
+  "linger"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

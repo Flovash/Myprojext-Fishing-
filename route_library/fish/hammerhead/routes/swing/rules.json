@@ -1,0 +1,7 @@
+{
+ "route": "swing",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "A short visit to one side."
+}

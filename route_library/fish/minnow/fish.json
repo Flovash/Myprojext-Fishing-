@@ -1,0 +1,27 @@
+{
+ "name": "Minnow",
+ "group": "small",
+ "pays": "2-10x",
+ "role": "The Sardine's rival in the see-saw. Quick and twitchy, good for fast shooters.",
+ "home": "Wherever the Sardines are not (the see-saw decides)",
+ "habit": "Schools of 3-6 that zigzag with sharp turns and sudden stops.",
+ "status": "designed, not in game yet",
+ "rules": [
+  "See-saw: when Sardines are up, Minnows are down, and the other way round (already in game)."
+ ],
+ "id": "minnow",
+ "game_id": "minnow",
+ "group_sizes": [
+  3,
+  6
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "zigzag",
+  "dartStop",
+  "switchback"
+ ],
+ "designed_by": "chat Claude (patterns part 2)"
+}

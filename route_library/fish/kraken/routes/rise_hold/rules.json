@@ -1,0 +1,10 @@
+{
+ "route": "riseHold",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "if": [
+  "Tentacles sweep top row, then bottom row, during the hold."
+ ],
+ "seasons": {},
+ "why": "Rises up the middle and holds there a long time, then sinks."
+}
