@@ -1,0 +1,36 @@
+{
+ "id": "swing",
+ "name": "Side swing",
+ "dur": [
+  12,
+  16
+ ],
+ "pts": [
+  [
+   1.1,
+   0.3
+  ],
+  [
+   0.76,
+   0.34
+  ],
+  [
+   0.7,
+   0.58
+  ],
+  [
+   0.8,
+   0.74
+  ],
+  [
+   1.1,
+   0.72
+  ]
+ ],
+ "purpose": "A short visit to one side.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

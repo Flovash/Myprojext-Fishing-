@@ -1,0 +1,24 @@
+{
+ "name": "Sea Turtle",
+ "group": "medium",
+ "pays": "20-50x",
+ "role": "Calm: easy to catch but pays the most of the mediums. May drift near the Manta.",
+ "home": "Center",
+ "habit": "Slow curves only; the only fish that circles. Not counted as a fast crosser.",
+ "status": "in game (v8)",
+ "id": "turtle",
+ "game_id": "turtle",
+ "group_sizes": [
+  1,
+  2
+ ],
+ "formations_allowed": [
+  "loose"
+ ],
+ "route_order": [
+  "lazyS",
+  "slowCircle",
+  "seatVisit",
+  "sideLoop"
+ ]
+}

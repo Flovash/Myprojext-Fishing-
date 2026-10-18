@@ -1,0 +1,23 @@
+{
+ "name": "Octopus",
+ "group": "medium",
+ "pays": "12-30x",
+ "role": "Personal fish: hangs out at a seat.",
+ "home": "Seat edges only, never the middle",
+ "habit": "Moves to the opposite seat row when a Shark takes its row. 7 hits in 3 s: squirts ink and jets for the nearest edge (show only).",
+ "status": "in game (v8)",
+ "id": "octopus",
+ "game_id": "octopus",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "seatCrawl",
+  "edgeHops",
+  "riseSink"
+ ]
+}

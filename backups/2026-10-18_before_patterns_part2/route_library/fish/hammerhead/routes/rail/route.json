@@ -1,0 +1,32 @@
+{
+ "id": "rail",
+ "name": "Rail patrol",
+ "dur": [
+  20,
+  24
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.85
+  ],
+  [
+   0.3,
+   0.82
+  ],
+  [
+   0.6,
+   0.87
+  ],
+  [
+   1.1,
+   0.84
+  ]
+ ],
+ "purpose": "Patrols one seat row with a light weave. Also used for the pair patrol, mirrored on both rows.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

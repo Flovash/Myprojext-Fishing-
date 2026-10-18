@@ -1,0 +1,7 @@
+{
+ "route": "diag",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Corner to corner."
+}

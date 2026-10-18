@@ -1,0 +1,44 @@
+{
+ "id": "thrash",
+ "name": "Thrash",
+ "dur": [
+  12,
+  15
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.2,
+   0.32
+  ],
+  [
+   0.35,
+   0.68
+  ],
+  [
+   0.5,
+   0.32
+  ],
+  [
+   0.65,
+   0.68
+  ],
+  [
+   0.8,
+   0.32
+  ],
+  [
+   1.1,
+   0.5
+  ]
+ ],
+ "purpose": "Fast zigzag; looks angry and is hard to track.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

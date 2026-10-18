@@ -1,0 +1,9 @@
+{
+ "route": "feed",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "Hungry",
+ "meeting_ok": true,
+ "seasons": {},
+ "why": "Circles one spot, then leaves the way it came. The only Hungry route allowed in meetings, on the far side."
+}

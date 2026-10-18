@@ -1,0 +1,7 @@
+{
+ "route": "slowS",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Middle-to-low S; only the far edge is left for a meeting Shark."
+}

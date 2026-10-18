@@ -1,0 +1,13 @@
+# Changes
+
+Newest first. One dated line per change, and say who made it (Claude Code, chat Claude, or you).
+
+- 2026-10-18 (Claude Code): Made the project readable for phones and chat Claude: Google Doc "Fish Game Table - Start Here" (guide, director status, lab results, laws, seasons, plays) and Google Sheet "Fish & Routes" (every fish and route with lab stats). Added `new_fish_inbox/` (template + instructions) and `route_library/tools/import_fish.js` to bring new fish designs into the library; `route_library/tools/export_readable.js` regenerates the readable copies. Lab comparison of all director runs: `reports/compare_director-build.md`.
+- 2026-10-18 (Claude Code): Built the director's tracking layer (PLAN_director_tracking.md, steps 1-5). Game is now v8. Backup of everything before the change: `backups/2026-10-18_before_director/`.
+  - Step 1: route_library split into folders (`fish/<fish>/routes/<route>/route.json, rules.json, stats.csv, sketch.svg`, `director/laws.json`, `director/seasons.json`, `director/plays/`, `data/`). `tools/build_library.js` rebuilds ROUTES.md, the sketches and the game's copy of the library. Wave sketches come out byte-identical.
+  - Step 2: the game's medium fish now swim the designed library routes (Corner run/swing/hook, Crisscross, Ambush, Zigzag, Strike and retreat, Seat crawl, Edge hops, Rise and sink, Spear, Ricochet, Low slash, Lazy S, Slow circle, Seat visit, Side loop) under the laws fast_crossers_max, counterflow, lane reservation, medium clearance and the split rule (all now "in game (v8)"). Every school sent is logged; the lab writes dispatches.csv per run, appends route_library/data/dispatch_log.csv, rebuilds route_scoreboard.csv and adds rows to each route's stats.csv.
+  - Step 3: Tuna schools 2-6 in four formations (arc, echelon, line, ball).
+  - Step 4: seasons (Winter, Monsoon, Summer reef) on a season_length_waves clock; each favors routes and formations and tints the water. Never the odds.
+  - Step 5: plays engine with the 5 starter plays in director/plays/ (each can be switched off). after_shark_release and after_boss_reset wait up to 10 s for clear water.
+  - Lab: `--law id=value`, `--fish tuna.group_sizes=[2,6]`, `--plays off|only:a|except:a`, `--out folder` (trial run), a Director section in every report, new LOG.csv columns, and `lab/compare.js` for side-by-side comparisons.
+- 2026-10-18 (Claude Code): Built the player lab (`lab/playerlab.js`): 8 player types, 10 seats, a dated report with summary.md after every run. Ran the first report (seed 1) and three check seeds (2-4), 4 simulated hours each. Moved the main copy to Google Drive as "Fish Game Table".

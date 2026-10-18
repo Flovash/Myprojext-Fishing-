@@ -1,0 +1,44 @@
+{
+ "about": "Formations this fish may swim in. sizes = school size limits; lag and lat = spacing behind and beside, in body lengths and heights.",
+ "formations": {
+  "arc": {
+   "sizes": [
+    2,
+    6
+   ],
+   "lag": 0.35,
+   "lat": 1.3,
+   "what": "Side by side in a shallow arc; the middle fish leads.",
+   "status": "in game (v7)"
+  },
+  "echelon": {
+   "sizes": [
+    2,
+    6
+   ],
+   "lag": 0.6,
+   "lat": 1.1,
+   "what": "A diagonal step line, each fish behind and beside the one ahead.",
+   "status": "in game (v7)"
+  },
+  "line": {
+   "sizes": [
+    2,
+    5
+   ],
+   "lag": 1.0,
+   "what": "Single file, nose to tail along the route.",
+   "status": "in game (v8)"
+  },
+  "ball": {
+   "sizes": [
+    3,
+    6
+   ],
+   "lag": 1.2,
+   "lat": 0.75,
+   "what": "A tight round cluster that moves as one.",
+   "status": "in game (v8)"
+  }
+ }
+}

@@ -1,0 +1,573 @@
+{
+ "n": 14,
+ "seconds": 73,
+ "title": "Manta loop, then a Stalker",
+ "story": "The Manta circles on the left side while the Hammerhead runs the top seats the other way. When the Manta leaves, a Marlin dashes through, then a curious Shark stalks slowly from right to left through the lower middle.",
+ "seed": 816,
+ "big_fish": [
+  {
+   "fish": "manta",
+   "route": "feedLoop",
+   "name": "Feeding loop",
+   "start": 5,
+   "end": 38,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.62
+    ],
+    [
+     0.14,
+     0.58
+    ],
+    [
+     0.26,
+     0.42
+    ],
+    [
+     0.36,
+     0.56
+    ],
+    [
+     0.26,
+     0.72
+    ],
+    [
+     0.14,
+     0.6
+    ],
+    [
+     0.2,
+     0.45
+    ],
+    [
+     -0.1,
+     0.4
+    ]
+   ]
+  },
+  {
+   "fish": "hammerhead",
+   "route": "rail",
+   "name": "Rail patrol",
+   "start": 10,
+   "end": 32,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.15
+    ],
+    [
+     0.7,
+     0.18
+    ],
+    [
+     0.4,
+     0.13
+    ],
+    [
+     -0.1,
+     0.16
+    ]
+   ]
+  },
+  {
+   "fish": "marlin",
+   "route": "dash",
+   "name": "Dash",
+   "start": 38,
+   "end": 44,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.5
+    ],
+    [
+     -0.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "shark",
+   "route": "stalker",
+   "name": "Stalker",
+   "start": 44,
+   "end": 68,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.6
+    ],
+    [
+     0.75,
+     0.54
+    ],
+    [
+     0.55,
+     0.63
+    ],
+    [
+     0.35,
+     0.55
+    ],
+    [
+     0.15,
+     0.6
+    ],
+    [
+     -0.1,
+     0.57
+    ]
+   ]
+  }
+ ],
+ "mediums": [
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 1.9,
+   "end": 14.4,
+   "direction": "local",
+   "points": [
+    [
+     1.08,
+     -0.05
+    ],
+    [
+     0.78,
+     0.26
+    ],
+    [
+     0.68,
+     0.5
+    ],
+    [
+     0.78,
+     0.74
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "spear",
+   "name": "Spear",
+   "start": 3.8,
+   "end": 13.3,
+   "direction": "local",
+   "points": [
+    [
+     0.58,
+     1.1
+    ],
+    [
+     0.5,
+     -0.1
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "seatCrawl",
+   "name": "Seat crawl",
+   "start": 4.5,
+   "end": 23.3,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.88
+    ],
+    [
+     0.5,
+     0.89
+    ],
+    [
+     1.1,
+     0.88
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "sideLoop",
+   "name": "Side loop",
+   "start": 4.5,
+   "end": 29.4,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.3
+    ],
+    [
+     0.8,
+     0.28
+    ],
+    [
+     0.66,
+     0.44
+    ],
+    [
+     0.74,
+     0.62
+    ],
+    [
+     0.88,
+     0.56
+    ],
+    [
+     0.84,
+     0.4
+    ],
+    [
+     0.7,
+     0.36
+    ],
+    [
+     0.64,
+     0.6
+    ],
+    [
+     1.1,
+     0.7
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 4.9,
+   "end": 21.4,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.3
+    ],
+    [
+     0.55,
+     0.35
+    ],
+    [
+     1.1,
+     0.4
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 17.4,
+   "end": 30.6,
+   "direction": "left",
+   "points": [
+    [
+     1.08,
+     -0.05
+    ],
+    [
+     0.65,
+     0.28
+    ],
+    [
+     0.35,
+     0.72
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "ambush",
+   "name": "Ambush",
+   "start": 24.0,
+   "end": 39.0,
+   "direction": "left",
+   "points": [
+    [
+     1.1,
+     0.15
+    ],
+    [
+     0.35,
+     0.5
+    ],
+    [
+     -0.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 26.6,
+   "end": 48.6,
+   "direction": "local",
+   "points": [
+    [
+     0.65,
+     1.1
+    ],
+    [
+     0.6,
+     0.74
+    ],
+    [
+     0.5,
+     0.66
+    ],
+    [
+     0.4,
+     0.74
+    ],
+    [
+     0.35,
+     1.1
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "seatVisit",
+   "name": "Seat visit",
+   "start": 31.4,
+   "end": 54.2,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.25
+    ],
+    [
+     0.7,
+     0.3
+    ],
+    [
+     0.55,
+     0.8
+    ],
+    [
+     0.45,
+     0.8
+    ],
+    [
+     0.3,
+     0.3
+    ],
+    [
+     -0.1,
+     0.25
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 37.0,
+   "end": 50.4,
+   "direction": "local",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.22,
+     0.26
+    ],
+    [
+     0.32,
+     0.5
+    ],
+    [
+     0.22,
+     0.74
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "lowSlash",
+   "name": "Low slash",
+   "start": 41.2,
+   "end": 51.1,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.68
+    ],
+    [
+     1.1,
+     0.18
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 42.0,
+   "end": 61.0,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.4
+    ],
+    [
+     0.45,
+     0.35
+    ],
+    [
+     -0.1,
+     0.3
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "edgeHops",
+   "name": "Edge hops",
+   "start": 50.8,
+   "end": 69.0,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.12
+    ],
+    [
+     0.15,
+     0.25
+    ],
+    [
+     0.3,
+     0.12
+    ],
+    [
+     0.45,
+     0.25
+    ],
+    [
+     0.6,
+     0.12
+    ],
+    [
+     0.75,
+     0.25
+    ],
+    [
+     0.9,
+     0.12
+    ],
+    [
+     1.1,
+     0.14
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 55.0,
+   "end": 67.4,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.35,
+     0.28
+    ],
+    [
+     0.65,
+     0.72
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "lazyS",
+   "name": "Lazy S",
+   "start": 57.0,
+   "end": 82.3,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.45
+    ],
+    [
+     0.7,
+     0.36
+    ],
+    [
+     0.4,
+     0.58
+    ],
+    [
+     -0.1,
+     0.44
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "ambush",
+   "name": "Ambush",
+   "start": 64.6,
+   "end": 83.9,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.15
+    ],
+    [
+     0.65,
+     0.5
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ]
+  }
+ ],
+ "checks": {
+  "medium_visits": 16,
+  "crossings_against_shark": 3,
+  "crossings_with_shark": 0,
+  "peak_fast_crossers": 2
+ }
+}

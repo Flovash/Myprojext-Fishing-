@@ -1,0 +1,495 @@
+{
+ "n": 11,
+ "seconds": 66,
+ "title": "An aggressive Charge",
+ "story": "Short and sharp. A Marlin hooks in and out, then an aggressive Shark charges straight across the middle, right to left, in seven seconds. The Hammerhead follows by sweeping the top row.",
+ "seed": 816,
+ "big_fish": [
+  {
+   "fish": "marlin",
+   "route": "hook",
+   "name": "Hook back",
+   "start": 8,
+   "end": 16,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.64
+    ],
+    [
+     0.5,
+     0.64
+    ],
+    [
+     0.62,
+     0.6
+    ],
+    [
+     0.66,
+     0.53
+    ],
+    [
+     0.62,
+     0.46
+    ],
+    [
+     0.5,
+     0.42
+    ],
+    [
+     -0.1,
+     0.42
+    ]
+   ]
+  },
+  {
+   "fish": "shark",
+   "route": "charge",
+   "name": "Charge",
+   "start": 20,
+   "end": 27,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.45
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     -0.1,
+     0.55
+    ]
+   ]
+  },
+  {
+   "fish": "hammerhead",
+   "route": "sweep",
+   "name": "Head sweep",
+   "start": 30,
+   "end": 52,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.16
+    ],
+    [
+     0.5,
+     0.16
+    ],
+    [
+     1.1,
+     0.16
+    ]
+   ]
+  }
+ ],
+ "mediums": [
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 1.0,
+   "end": 20.0,
+   "direction": "local",
+   "points": [
+    [
+     0.1,
+     -0.1
+    ],
+    [
+     0.15,
+     0.26
+    ],
+    [
+     0.25,
+     0.34
+    ],
+    [
+     0.35,
+     0.26
+    ],
+    [
+     0.4,
+     -0.1
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "spear",
+   "name": "Spear",
+   "start": 5.2,
+   "end": 14.3,
+   "direction": "local",
+   "points": [
+    [
+     0.3,
+     1.1
+    ],
+    [
+     0.22,
+     -0.1
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 5.6,
+   "end": 22.1,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.6
+    ],
+    [
+     0.55,
+     0.65
+    ],
+    [
+     1.1,
+     0.7
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 5.7,
+   "end": 19.8,
+   "direction": "local",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.22,
+     0.26
+    ],
+    [
+     0.32,
+     0.5
+    ],
+    [
+     0.22,
+     0.74
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "seatVisit",
+   "name": "Seat visit",
+   "start": 21.0,
+   "end": 47.9,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.25
+    ],
+    [
+     0.7,
+     0.3
+    ],
+    [
+     0.55,
+     0.8
+    ],
+    [
+     0.45,
+     0.8
+    ],
+    [
+     0.3,
+     0.3
+    ],
+    [
+     -0.1,
+     0.25
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 23.3,
+   "end": 35.4,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     1.05
+    ],
+    [
+     0.35,
+     0.72
+    ],
+    [
+     0.65,
+     0.28
+    ],
+    [
+     1.08,
+     -0.05
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "edgeHops",
+   "name": "Edge hops",
+   "start": 23.5,
+   "end": 44.5,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.88
+    ],
+    [
+     0.85,
+     0.75
+    ],
+    [
+     0.7,
+     0.88
+    ],
+    [
+     0.55,
+     0.75
+    ],
+    [
+     0.4,
+     0.88
+    ],
+    [
+     0.25,
+     0.75
+    ],
+    [
+     0.1,
+     0.88
+    ],
+    [
+     -0.1,
+     0.86
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "ambush",
+   "name": "Ambush",
+   "start": 24.7,
+   "end": 41.5,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.85
+    ],
+    [
+     0.65,
+     0.5
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "lowSlash",
+   "name": "Low slash",
+   "start": 36.7,
+   "end": 45.5,
+   "direction": "left",
+   "points": [
+    [
+     1.1,
+     0.18
+    ],
+    [
+     -0.1,
+     0.68
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerSwing",
+   "name": "Corner swing",
+   "start": 42.3,
+   "end": 55.5,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     1.05
+    ],
+    [
+     0.25,
+     0.42
+    ],
+    [
+     0.5,
+     0.32
+    ],
+    [
+     0.75,
+     0.42
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 44.2,
+   "end": 58.5,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.45
+    ],
+    [
+     0.55,
+     0.5
+    ],
+    [
+     1.1,
+     0.55
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 46.9,
+   "end": 67.5,
+   "direction": "local",
+   "points": [
+    [
+     0.6,
+     1.1
+    ],
+    [
+     0.65,
+     0.74
+    ],
+    [
+     0.75,
+     0.66
+    ],
+    [
+     0.85,
+     0.74
+    ],
+    [
+     0.9,
+     1.1
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "slowCircle",
+   "name": "Slow circle",
+   "start": 49.0,
+   "end": 75.7,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.42
+    ],
+    [
+     0.68,
+     0.36
+    ],
+    [
+     0.42,
+     0.38
+    ],
+    [
+     0.34,
+     0.56
+    ],
+    [
+     0.5,
+     0.68
+    ],
+    [
+     0.64,
+     0.56
+    ],
+    [
+     0.52,
+     0.4
+    ],
+    [
+     0.3,
+     0.38
+    ],
+    [
+     -0.1,
+     0.44
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 58.1,
+   "end": 70.1,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     1.05
+    ],
+    [
+     0.35,
+     0.72
+    ],
+    [
+     0.65,
+     0.28
+    ],
+    [
+     1.08,
+     -0.05
+    ]
+   ]
+  }
+ ],
+ "checks": {
+  "medium_visits": 14,
+  "crossings_against_shark": 2,
+  "crossings_with_shark": 0,
+  "peak_fast_crossers": 2
+ }
+}

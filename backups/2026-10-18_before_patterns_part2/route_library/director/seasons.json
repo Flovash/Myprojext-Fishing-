@@ -1,0 +1,29 @@
+{
+ "about": "Seasons change the look and the habits, never the odds. A season lasts season_length_waves big-fish waves (laws.json), then the next one in this list starts. routes and formations are weight multipliers keyed fish.route or fish.formation (library ids); anything not listed keeps weight 1. tint is a light color wash over the water.",
+ "seasons": [
+  {
+   "name": "Winter",
+   "label": "Winter · Hokkaido",
+   "story": "Calm, cold water. Heavy rod season; Tuna in demand. Fish keep to tidy lines and corners.",
+   "tint": "rgba(190,215,255,0.10)",
+   "routes": {"tuna.cornerRun": 1.6, "tuna.cornerHook": 1.4, "turtle.lazyS": 1.4, "turtle.slowCircle": 1.3, "octopus.seatCrawl": 1.3, "swordfish.spear": 0.6, "barracuda.zigzag": 0.7},
+   "formations": {"tuna.line": 1.6, "tuna.echelon": 1.3}
+  },
+  {
+   "name": "Monsoon",
+   "label": "Monsoon · Bay of Bengal",
+   "story": "Rough, dark water. Hunters come out: Barracuda ambush, Swordfish ricochet, Octopus hops along the edges.",
+   "tint": "rgba(30,60,80,0.16)",
+   "routes": {"barracuda.ambush": 1.6, "barracuda.strikeRetreat": 1.4, "swordfish.ricochet": 1.4, "octopus.edgeHops": 1.4, "tuna.crisscross": 1.2, "turtle.slowCircle": 0.7},
+   "formations": {"tuna.ball": 1.6, "tuna.arc": 1.2}
+  },
+  {
+   "name": "Summer reef",
+   "label": "Summer reef · Australia",
+   "story": "Bright and lively. Fish come close to the seats: Turtle seat visits, Octopus rising under seats, Tuna swinging between corners.",
+   "tint": "rgba(255,214,130,0.09)",
+   "routes": {"turtle.seatVisit": 1.6, "octopus.riseSink": 1.5, "tuna.cornerSwing": 1.4, "tuna.crisscross": 1.3, "swordfish.lowSlash": 1.2},
+   "formations": {"tuna.arc": 1.6}
+  }
+ ]
+}

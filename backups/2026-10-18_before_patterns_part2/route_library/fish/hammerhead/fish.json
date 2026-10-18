@@ -1,0 +1,26 @@
+{
+ "name": "Hammerhead",
+ "group": "big",
+ "pays": "80-150x",
+ "role": "Edge guard. Gives way to the Shark and the Manta.",
+ "home": "Seat rows and sides",
+ "habit": "2 waves in 3; 1 in 6 of those is a pair patrol on both seat rows. Takes the edge opposite the Shark.",
+ "status": "in game (v6)",
+ "id": "hammerhead",
+ "game_id": "hammer",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "rail",
+  "corner",
+  "sweep",
+  "wideU",
+  "lowArc",
+  "swing"
+ ]
+}

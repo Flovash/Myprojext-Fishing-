@@ -1,0 +1,32 @@
+{
+ "id": "diagUp",
+ "name": "Diagonal up",
+ "dur": [
+  25,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.8
+  ],
+  [
+   0.35,
+   0.62
+  ],
+  [
+   0.7,
+   0.4
+  ],
+  [
+   1.1,
+   0.3
+  ]
+ ],
+ "purpose": "Slow diagonal, bottom-left to top-right.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

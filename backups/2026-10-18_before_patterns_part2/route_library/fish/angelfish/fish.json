@@ -1,0 +1,26 @@
+{
+ "name": "Angelfish",
+ "group": "small",
+ "pays": "3-8x",
+ "role": "The messenger. Crosses alone; freezes near the Shark, drifts to the Manta.",
+ "home": "Anywhere, alone",
+ "habit": "Solo; crosses the screen in 25-35 s with a gentle wobble.",
+ "status": "in game (v5)",
+ "id": "angelfish",
+ "game_id": "angel",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "diagDown",
+  "diagUp",
+  "steep",
+  "vertical",
+  "hook",
+  "arch"
+ ]
+}

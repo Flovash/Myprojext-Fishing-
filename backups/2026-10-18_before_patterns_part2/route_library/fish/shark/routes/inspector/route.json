@@ -1,0 +1,40 @@
+{
+ "id": "inspector",
+ "name": "Inspector",
+ "dur": [
+  20,
+  26
+ ],
+ "pts": [
+  [
+   0.2,
+   -0.1
+  ],
+  [
+   0.28,
+   0.4
+  ],
+  [
+   0.45,
+   0.72
+  ],
+  [
+   0.62,
+   0.72
+  ],
+  [
+   0.78,
+   0.4
+  ],
+  [
+   0.84,
+   -0.1
+  ]
+ ],
+ "purpose": "Drops in to look at one seat and climbs back out; that seat feels watched.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

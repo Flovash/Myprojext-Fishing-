@@ -1,0 +1,28 @@
+{
+ "id": "lanternfish",
+ "name": "Lanternfish",
+ "group": "small",
+ "pays": "4-9x",
+ "role": "What job this fish does at the table, in one sentence.",
+ "home": "Where on the screen it likes to be.",
+ "habit": "How it behaves: school size, rhythm, anything special.",
+ "group_sizes": [2, 4],
+ "designed_by": "chat Claude",
+ "routes": [
+  {
+   "id": "glowArc",
+   "name": "Glow arc",
+   "dur": [14, 18],
+   "pts": [[-0.1, 0.7], [0.3, 0.35], [0.7, 0.35], [1.1, 0.7]],
+   "pauses": [{"at": 0.5, "hold": [1, 2]}],
+   "purpose": "What this route is for, in one sentence."
+  },
+  {
+   "id": "seatDip",
+   "name": "Seat dip",
+   "dur": [16, 20],
+   "pts": [[-0.1, 0.3], [0.35, 0.3], [0.5, 0.85], [0.65, 0.3], [1.1, 0.3]],
+   "purpose": "Dips down to the bottom-middle seat and back up."
+  }
+ ]
+}

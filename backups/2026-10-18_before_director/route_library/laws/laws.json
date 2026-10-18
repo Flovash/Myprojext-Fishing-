@@ -1,0 +1,381 @@
+{
+ "about": "The rules the director follows. Change a value here, run tools/sketch_waves.py, and compare the waves it produces. Laws marked \"in game\" match the current Peacock Reef code; the rest are designed and used by the sketch tool until they are built in.",
+ "law_zero": "Movement never changes catch chances or pays. Routes only decide where and when fish swim.",
+ "big_fish": [
+  {
+   "id": "big_wave_seconds",
+   "value": [
+    60,
+    75
+   ],
+   "unit": "s",
+   "what": "Length of one big-fish wave. Runs on its own clock and pauses while a boss is on screen.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": "Try 45-55 if the screen feels empty of big fish."
+  },
+  {
+   "id": "sharks_per_wave",
+   "value": 1,
+   "unit": null,
+   "what": "One Shark every wave.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "shark_new_entry_each_wave",
+   "value": true,
+   "unit": null,
+   "what": "The Shark never enters from the same edge or travels the same direction two waves in a row.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "shark_attitude_weights",
+   "value": {
+    "King": 0.45,
+    "Hungry": 0.2,
+    "Curious": 0.2,
+    "Aggressive": 0.15
+   },
+   "unit": null,
+   "what": "How often each attitude is picked outside meetings.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": "Raise Aggressive for a faster, harsher night."
+  },
+  {
+   "id": "shark_no_repeat_last",
+   "value": 4,
+   "unit": null,
+   "what": "A Shark route is not reused until 4 other routes have run.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "manta_every_n_waves",
+   "value": 2,
+   "unit": null,
+   "what": "A Manta comes every other wave.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "meeting_roll",
+   "value": 0.5,
+   "unit": null,
+   "what": "Chance a Manta visit becomes a Shark + Manta meeting. With the one-visit gap below this works out to about 1 visit in 3.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": "Lower to .33 for rarer meetings (about 1 in 4)."
+  },
+  {
+   "id": "meeting_min_visits_between",
+   "value": 1,
+   "unit": null,
+   "what": "At least one plain Manta visit between meetings.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "meeting_not_before_wave",
+   "value": 3,
+   "unit": null,
+   "what": "No meeting in the first 2 waves.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "shark_gate_routes",
+   "value": [
+    "cruise",
+    "patrol",
+    "deep",
+    "center",
+    "feed"
+   ],
+   "unit": null,
+   "what": "The only Shark routes allowed while a Manta glides.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "shark_gate_clearance",
+   "value": 200,
+   "unit": "px x S",
+   "what": "How far (scaled pixels) the Shark lane must stay from the Manta remaining path; if nothing fits, the Shark waits.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "shadow_in_meeting_chance",
+   "value": 0.16666666666666666,
+   "unit": null,
+   "what": "Chance a meeting Shark brings a Shadow (never on a Grand arc).",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "second_shark_chance",
+   "value": 0.16666666666666666,
+   "unit": null,
+   "what": "Chance a non-meeting wave brings a second, smaller Shark (Shadow or Pincer).",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "hammerhead_wave_chance",
+   "value": 0.6666666666666666,
+   "unit": null,
+   "what": "Chance a wave has a Hammerhead.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": "Lower to 1/2 if big fish take too much of the bullets."
+  },
+  {
+   "id": "hammerhead_pair_chance",
+   "value": 0.16666666666666666,
+   "unit": null,
+   "what": "Chance a Hammerhead visit is a pair patrol on both seat rows.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "marlin_second_chance",
+   "value": 0.25,
+   "unit": null,
+   "what": "Chance a wave gets a second Marlin.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "max_big_on_screen",
+   "value": 3,
+   "unit": null,
+   "what": "Never more than 3 big fish at once.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "clearances",
+   "value": {
+    "hammerhead_shark": 150,
+    "hammerhead_manta": 140,
+    "marlin_shark": 120,
+    "marlin_manta": 140,
+    "shark_shark": 150
+   },
+   "unit": "px x S",
+   "what": "Minimum gaps between big fish lanes.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "marlin_behind_shark_seconds",
+   "value": 2,
+   "unit": "s",
+   "what": "A Marlin may cross a Shark lane only this long after the Shark passed.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "event_drop_seconds",
+   "value": 40,
+   "unit": "s",
+   "what": "A Hammerhead or Marlin that cannot find clear water for this long is dropped.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "manta_followers",
+   "value": [
+    8,
+    12
+   ],
+   "unit": null,
+   "what": "Small followers that travel with the Manta; they pull in to half their spread when a Shark is within 520 px.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "shark_provoked",
+   "value": {
+    "hits": 14,
+    "seconds": 3
+   },
+   "unit": null,
+   "what": "Hits within the window that provoke Snap back or Frenzy.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  },
+  {
+   "id": "seat_fairness_memory",
+   "value": 900,
+   "unit": "s",
+   "what": "How long big-fish time near each seat is remembered when routes are chosen.",
+   "used_by": "game code",
+   "status": "in game (v6)",
+   "try_next": null
+  }
+ ],
+ "medium_fish": [
+  {
+   "id": "fast_crossers_max",
+   "value": 2,
+   "unit": null,
+   "what": "No more than 2 fast fish (Tuna, Barracuda, Swordfish, Marlin) crossing the screen at once. A Crisscross counts as 2.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": "Try 3 for busier waves."
+  },
+  {
+   "id": "counterflow_share",
+   "value": 0.5,
+   "unit": null,
+   "what": "While a Shark crosses, at most this share of crossing mediums may go its direction; the rest go against it, vertical or stay local.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "counterflow_weight",
+   "value": {
+    "against": 1.4,
+    "with": -1.0
+   },
+   "unit": null,
+   "what": "Score the sketch tool gives a crossing route that goes against or with the Shark.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "lane_reservation_seconds",
+   "value": {
+    "shark_ahead": 8,
+    "shark_behind": 2,
+    "manta_ahead": 10,
+    "hammerhead_ahead": 6
+   },
+   "unit": null,
+   "what": "Water a big fish will use in the next few seconds is off limits to mediums.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "medium_clearance",
+   "value": {
+    "shark": 0.2,
+    "manta": 0.18,
+    "marlin": 0.12,
+    "hammerhead": 0.1
+   },
+   "unit": null,
+   "what": "Minimum gap from that water, in screen fractions.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "split_rule",
+   "value": true,
+   "unit": null,
+   "what": "While a Shark splits the screen top to bottom, no medium crosses the center.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": null
+  },
+  {
+   "id": "no_same_route_twice",
+   "value": true,
+   "unit": null,
+   "what": "A medium never runs the same route twice in a row.",
+   "used_by": "game code",
+   "status": "in game (v7)",
+   "try_next": null
+  },
+  {
+   "id": "octopus_ink",
+   "value": {
+    "hits": 7,
+    "seconds": 3
+   },
+   "unit": null,
+   "what": "Hits that make an Octopus squirt ink and jet off (show only).",
+   "used_by": "game code",
+   "status": "in game (v7)",
+   "try_next": null
+  },
+  {
+   "id": "medium_gaps_seconds",
+   "value": {
+    "tuna": [
+     2,
+     7
+    ],
+    "barracuda": [
+     2,
+     6
+    ],
+    "octopus": [
+     1,
+     4
+    ],
+    "swordfish": [
+     10,
+     22
+    ],
+    "turtle": [
+     1,
+     3
+    ]
+   },
+   "unit": null,
+   "what": "Pause between one visit of a species and its next.",
+   "used_by": "sketch tool",
+   "status": "designed (not in the game yet)",
+   "try_next": "Shorter gaps make busier waves."
+  },
+  {
+   "id": "screen_counts",
+   "value": {
+    "tiny": 12,
+    "small": 10,
+    "medium": 7
+   },
+   "unit": null,
+   "what": "Target fish on screen before scene mix and density settings.",
+   "used_by": "game code",
+   "status": "in game (v5)",
+   "try_next": null
+  },
+  {
+   "id": "medium_seat_fairness_memory",
+   "value": 600,
+   "unit": "s",
+   "what": "How long medium time near each seat is remembered.",
+   "used_by": "game code",
+   "status": "in game (v7)",
+   "try_next": null
+  }
+ ]
+}

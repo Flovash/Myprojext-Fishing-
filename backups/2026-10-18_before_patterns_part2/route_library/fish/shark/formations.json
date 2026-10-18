@@ -1,0 +1,13 @@
+{
+ "about": "Formations this fish may swim in. sizes = school size limits; lag and lat = spacing behind and beside, in body lengths and heights.",
+ "formations": {
+  "single": {
+   "sizes": [
+    1,
+    1
+   ],
+   "what": "Alone; a second Shark (Shadow or Pincer) is the scheduler's call, not a formation.",
+   "status": "in game (v6)"
+  }
+ }
+}

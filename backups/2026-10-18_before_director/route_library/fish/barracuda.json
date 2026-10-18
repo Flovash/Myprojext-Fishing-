@@ -1,0 +1,161 @@
+{
+ "name": "Barracuda",
+ "group": "medium",
+ "pays": "10-25x",
+ "role": "Hunter. Its pauses are the moments to shoot it.",
+ "home": "Middle band",
+ "habit": "Only straight lines and sharp corners; pauses at every corner. Waits at its ambush spot until a Shark has passed.",
+ "status": "designed, not in game yet (game v7 has the older medium set)",
+ "routes": [
+  {
+   "id": "ambush",
+   "name": "Ambush",
+   "dur": [
+    14,
+    18
+   ],
+   "crosser": true,
+   "sharp": true,
+   "pauses": [
+    {
+     "at": 0.3,
+     "hold": [
+      1.2,
+      2
+     ]
+    }
+   ],
+   "speed": [
+    [
+     0.3,
+     0.45
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.35,
+     0.5
+    ],
+    [
+     1.1,
+     0.15
+    ]
+   ],
+   "purpose": "Creeps in, holds still, then darts out to a corner."
+  },
+  {
+   "id": "zigzag",
+   "name": "Zigzag stalk",
+   "dur": [
+    16,
+    20
+   ],
+   "crosser": true,
+   "sharp": true,
+   "pauses": [
+    {
+     "at": 0.18,
+     "hold": [
+      0.7,
+      1.2
+     ]
+    },
+    {
+     "at": 0.38,
+     "hold": [
+      0.7,
+      1.2
+     ]
+    },
+    {
+     "at": 0.58,
+     "hold": [
+      0.7,
+      1.2
+     ]
+    },
+    {
+     "at": 0.78,
+     "hold": [
+      0.7,
+      1.2
+     ]
+    }
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.2,
+     0.35
+    ],
+    [
+     0.4,
+     0.62
+    ],
+    [
+     0.6,
+     0.35
+    ],
+    [
+     0.8,
+     0.62
+    ],
+    [
+     1.1,
+     0.45
+    ]
+   ],
+   "purpose": "Straight legs with a stop at every corner."
+  },
+  {
+   "id": "strikeRetreat",
+   "name": "Strike and retreat",
+   "dur": [
+    14,
+    18
+   ],
+   "sharp": true,
+   "lanes": [
+    -0.15,
+    0,
+    0.15
+   ],
+   "pauses": [
+    {
+     "at": 0.5,
+     "hold": [
+      1,
+      1.6
+     ]
+    }
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.45
+    ],
+    [
+     0.45,
+     0.5
+    ],
+    [
+     -0.1,
+     0.55
+    ]
+   ],
+   "purpose": "Darts in, stops, backs out the side it came from. Never crosses the middle."
+  }
+ ],
+ "id": "barracuda"
+}

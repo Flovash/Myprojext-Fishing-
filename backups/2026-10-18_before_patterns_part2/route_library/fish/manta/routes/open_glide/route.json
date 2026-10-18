@@ -1,0 +1,32 @@
+{
+ "id": "openGlide",
+ "name": "Open glide",
+ "dur": [
+  30,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.28
+  ],
+  [
+   0.4,
+   0.25
+  ],
+  [
+   0.7,
+   0.31
+  ],
+  [
+   1.1,
+   0.28
+  ]
+ ],
+ "purpose": "Straight glide in the top or bottom half; leaves the other half free.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

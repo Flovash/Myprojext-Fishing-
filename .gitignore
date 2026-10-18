@@ -1,9 +1,5 @@
-# data and reports stay in Google Drive
-route_library/data/
-route_library/readable/
-stats.csv
-reports/
-backups/
+# Google Docs/Sheets shortcuts only open inside Google Drive (and carry the owner's email)
 *.gsheet
 *.gdoc
 .DS_Store
+.lock/

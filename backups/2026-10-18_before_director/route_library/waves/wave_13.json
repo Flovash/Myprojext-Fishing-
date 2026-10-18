@@ -1,0 +1,657 @@
+{
+ "n": 13,
+ "seconds": 74,
+ "title": "Two Sharks",
+ "story": "Rare double. The Shark patrols the left side and a smaller Shark shadows it 2.5 seconds behind in the same lane. The right half belongs to the mediums. Once both Sharks leave, two Hammerheads patrol the top and bottom seat rows, mirrored.",
+ "seed": 816,
+ "big_fish": [
+  {
+   "fish": "marlin",
+   "route": "dash",
+   "name": "Dash",
+   "start": 3,
+   "end": 8,
+   "tag": "",
+   "points": [
+    [
+     1.1,
+     0.5
+    ],
+    [
+     -0.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "shark",
+   "route": "patrol",
+   "name": "Patrol loop",
+   "start": 10,
+   "end": 33,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.24
+    ],
+    [
+     0.3,
+     0.23
+    ],
+    [
+     0.44,
+     0.5
+    ],
+    [
+     0.3,
+     0.77
+    ],
+    [
+     -0.1,
+     0.76
+    ]
+   ]
+  },
+  {
+   "fish": "shark",
+   "route": "patrol",
+   "name": "Patrol loop",
+   "start": 12.5,
+   "end": 35.5,
+   "tag": "Shadow",
+   "points": [
+    [
+     -0.1,
+     0.24
+    ],
+    [
+     0.3,
+     0.23
+    ],
+    [
+     0.44,
+     0.5
+    ],
+    [
+     0.3,
+     0.77
+    ],
+    [
+     -0.1,
+     0.76
+    ]
+   ]
+  },
+  {
+   "fish": "hammerhead",
+   "route": "rail",
+   "name": "Rail patrol",
+   "start": 40,
+   "end": 62,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.85
+    ],
+    [
+     0.3,
+     0.82
+    ],
+    [
+     0.6,
+     0.87
+    ],
+    [
+     1.1,
+     0.84
+    ]
+   ]
+  },
+  {
+   "fish": "hammerhead",
+   "route": "rail",
+   "name": "Rail patrol",
+   "start": 40,
+   "end": 62,
+   "tag": "pair",
+   "points": [
+    [
+     1.1,
+     0.15
+    ],
+    [
+     0.7,
+     0.18
+    ],
+    [
+     0.4,
+     0.13
+    ],
+    [
+     -0.1,
+     0.16
+    ]
+   ]
+  },
+  {
+   "fish": "marlin",
+   "route": "cut",
+   "name": "Sharp cut",
+   "start": 64,
+   "end": 70,
+   "tag": "",
+   "points": [
+    [
+     -0.1,
+     0.28
+    ],
+    [
+     0.5,
+     0.72
+    ],
+    [
+     0.54,
+     0.75
+    ],
+    [
+     0.58,
+     0.72
+    ],
+    [
+     1.1,
+     0.28
+    ]
+   ]
+  }
+ ],
+ "mediums": [
+  {
+   "fish": "turtle",
+   "route": "sideLoop",
+   "name": "Side loop",
+   "start": 0.1,
+   "end": 23.0,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.3
+    ],
+    [
+     0.64,
+     0.4
+    ],
+    [
+     0.7,
+     0.64
+    ],
+    [
+     0.84,
+     0.6
+    ],
+    [
+     0.88,
+     0.44
+    ],
+    [
+     0.74,
+     0.38
+    ],
+    [
+     0.66,
+     0.56
+    ],
+    [
+     0.8,
+     0.72
+    ],
+    [
+     1.1,
+     0.7
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "edgeHops",
+   "name": "Edge hops",
+   "start": 0.4,
+   "end": 20.2,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.88
+    ],
+    [
+     0.15,
+     0.75
+    ],
+    [
+     0.3,
+     0.88
+    ],
+    [
+     0.45,
+     0.75
+    ],
+    [
+     0.6,
+     0.88
+    ],
+    [
+     0.75,
+     0.75
+    ],
+    [
+     0.9,
+     0.88
+    ],
+    [
+     1.1,
+     0.86
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 2.1,
+   "end": 14.4,
+   "direction": "local",
+   "points": [
+    [
+     1.08,
+     1.05
+    ],
+    [
+     0.78,
+     0.74
+    ],
+    [
+     0.68,
+     0.5
+    ],
+    [
+     0.78,
+     0.26
+    ],
+    [
+     1.08,
+     -0.05
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "spear",
+   "name": "Spear",
+   "start": 3.5,
+   "end": 12.3,
+   "direction": "local",
+   "points": [
+    [
+     0.7,
+     1.1
+    ],
+    [
+     0.78,
+     -0.1
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 4.3,
+   "end": 20.3,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.7
+    ],
+    [
+     0.55,
+     0.65
+    ],
+    [
+     1.1,
+     0.6
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 21.8,
+   "end": 42.1,
+   "direction": "local",
+   "points": [
+    [
+     0.65,
+     1.1
+    ],
+    [
+     0.6,
+     0.74
+    ],
+    [
+     0.5,
+     0.66
+    ],
+    [
+     0.4,
+     0.74
+    ],
+    [
+     0.35,
+     1.1
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 21.9,
+   "end": 35.3,
+   "direction": "right",
+   "points": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.35,
+     0.28
+    ],
+    [
+     0.65,
+     0.72
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "ambush",
+   "name": "Ambush",
+   "start": 23.6,
+   "end": 41.3,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.15
+    ],
+    [
+     0.65,
+     0.5
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "lazyS",
+   "name": "Lazy S",
+   "start": 24.6,
+   "end": 47.9,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.44
+    ],
+    [
+     0.4,
+     0.58
+    ],
+    [
+     0.7,
+     0.36
+    ],
+    [
+     1.1,
+     0.45
+    ]
+   ]
+  },
+  {
+   "fish": "swordfish",
+   "route": "ricochet",
+   "name": "Ricochet",
+   "start": 37.3,
+   "end": 46.1,
+   "direction": "right",
+   "points": [
+    [
+     -0.1,
+     0.25
+    ],
+    [
+     0.5,
+     0.88
+    ],
+    [
+     1.1,
+     0.25
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerHook",
+   "name": "Corner hook",
+   "start": 38.2,
+   "end": 51.5,
+   "direction": "local",
+   "points": [
+    [
+     1.08,
+     1.05
+    ],
+    [
+     0.78,
+     0.74
+    ],
+    [
+     0.68,
+     0.5
+    ],
+    [
+     0.78,
+     0.26
+    ],
+    [
+     1.08,
+     -0.05
+    ]
+   ]
+  },
+  {
+   "fish": "barracuda",
+   "route": "strikeRetreat",
+   "name": "Strike and retreat",
+   "start": 43.4,
+   "end": 58.1,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.7
+    ],
+    [
+     0.55,
+     0.65
+    ],
+    [
+     1.1,
+     0.6
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "edgeHops",
+   "name": "Edge hops",
+   "start": 45.2,
+   "end": 62.4,
+   "direction": "local",
+   "points": [
+    [
+     1.1,
+     0.12
+    ],
+    [
+     0.85,
+     0.25
+    ],
+    [
+     0.7,
+     0.12
+    ],
+    [
+     0.55,
+     0.25
+    ],
+    [
+     0.4,
+     0.12
+    ],
+    [
+     0.25,
+     0.25
+    ],
+    [
+     0.1,
+     0.12
+    ],
+    [
+     -0.1,
+     0.14
+    ]
+   ]
+  },
+  {
+   "fish": "turtle",
+   "route": "sideLoop",
+   "name": "Side loop",
+   "start": 49.2,
+   "end": 73.5,
+   "direction": "local",
+   "points": [
+    [
+     -0.1,
+     0.3
+    ],
+    [
+     0.36,
+     0.4
+    ],
+    [
+     0.3,
+     0.64
+    ],
+    [
+     0.16,
+     0.6
+    ],
+    [
+     0.12,
+     0.44
+    ],
+    [
+     0.26,
+     0.38
+    ],
+    [
+     0.34,
+     0.56
+    ],
+    [
+     0.2,
+     0.72
+    ],
+    [
+     -0.1,
+     0.7
+    ]
+   ]
+  },
+  {
+   "fish": "tuna",
+   "route": "cornerRun",
+   "name": "Corner run",
+   "start": 56.1,
+   "end": 68.4,
+   "direction": "left",
+   "points": [
+    [
+     1.08,
+     -0.05
+    ],
+    [
+     0.65,
+     0.28
+    ],
+    [
+     0.35,
+     0.72
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ]
+  },
+  {
+   "fish": "octopus",
+   "route": "riseSink",
+   "name": "Rise and sink",
+   "start": 66.1,
+   "end": 87.5,
+   "direction": "local",
+   "points": [
+    [
+     0.9,
+     -0.1
+    ],
+    [
+     0.85,
+     0.26
+    ],
+    [
+     0.75,
+     0.34
+    ],
+    [
+     0.65,
+     0.26
+    ],
+    [
+     0.6,
+     -0.1
+    ]
+   ]
+  }
+ ],
+ "checks": {
+  "medium_visits": 16,
+  "crossings_against_shark": 0,
+  "crossings_with_shark": 0,
+  "peak_fast_crossers": 2
+ }
+}

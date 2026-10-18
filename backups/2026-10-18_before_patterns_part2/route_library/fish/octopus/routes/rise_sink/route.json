@@ -1,0 +1,51 @@
+{
+ "id": "riseSink",
+ "name": "Rise and sink",
+ "dur": [
+  17,
+  22
+ ],
+ "pts": [
+  [
+   0.1,
+   1.1
+  ],
+  [
+   0.15,
+   0.74
+  ],
+  [
+   0.25,
+   0.66
+  ],
+  [
+   0.35,
+   0.74
+  ],
+  [
+   0.4,
+   1.1
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.5,
+   "hold": [
+    2,
+    3
+   ]
+  }
+ ],
+ "shifts": [
+  0,
+  0.25,
+  0.5
+ ],
+ "edge": true,
+ "purpose": "Comes up from under a seat, rests, sinks back.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": false
+ }
+}

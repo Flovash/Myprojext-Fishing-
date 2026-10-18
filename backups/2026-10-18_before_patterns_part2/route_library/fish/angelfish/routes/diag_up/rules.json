@@ -1,0 +1,7 @@
+{
+ "route": "diagUp",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Slow diagonal, bottom-left to top-right."
+}

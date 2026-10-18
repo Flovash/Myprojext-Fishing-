@@ -1,0 +1,9 @@
+{
+ "route": "deep",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "King",
+ "meeting_ok": true,
+ "seasons": {},
+ "why": "Sweeps a seat row; pushes the Octopus to the other seat row. Allowed during meetings."
+}

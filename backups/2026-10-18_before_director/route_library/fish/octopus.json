@@ -1,0 +1,143 @@
+{
+ "name": "Octopus",
+ "group": "medium",
+ "pays": "12-30x",
+ "role": "Personal fish: hangs out at a seat.",
+ "home": "Seat edges only, never the middle",
+ "habit": "Moves to the opposite seat row when a Shark takes its row. 7 hits in 3 s: squirts ink and jets for the nearest edge (show only).",
+ "status": "designed, not in game yet (game v7 has the older medium set)",
+ "routes": [
+  {
+   "id": "seatCrawl",
+   "name": "Seat crawl",
+   "dur": [
+    17,
+    22
+   ],
+   "edge": true,
+   "pauses": [
+    {
+     "at": 0.3,
+     "hold": [
+      1.5,
+      2.5
+     ]
+    },
+    {
+     "at": 0.65,
+     "hold": [
+      1.5,
+      2.5
+     ]
+    }
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.88
+    ],
+    [
+     0.5,
+     0.89
+    ],
+    [
+     1.1,
+     0.88
+    ]
+   ],
+   "purpose": "Crawls along a seat row and rests twice."
+  },
+  {
+   "id": "edgeHops",
+   "name": "Edge hops",
+   "dur": [
+    17,
+    22
+   ],
+   "edge": true,
+   "pulse": true,
+   "pts": [
+    [
+     -0.1,
+     0.88
+    ],
+    [
+     0.15,
+     0.75
+    ],
+    [
+     0.3,
+     0.88
+    ],
+    [
+     0.45,
+     0.75
+    ],
+    [
+     0.6,
+     0.88
+    ],
+    [
+     0.75,
+     0.75
+    ],
+    [
+     0.9,
+     0.88
+    ],
+    [
+     1.1,
+     0.86
+    ]
+   ],
+   "purpose": "Hops along the edge in bursts."
+  },
+  {
+   "id": "riseSink",
+   "name": "Rise and sink",
+   "dur": [
+    17,
+    22
+   ],
+   "edge": true,
+   "shifts": [
+    0,
+    0.25,
+    0.5
+   ],
+   "pauses": [
+    {
+     "at": 0.5,
+     "hold": [
+      2,
+      3
+     ]
+    }
+   ],
+   "pts": [
+    [
+     0.1,
+     1.1
+    ],
+    [
+     0.15,
+     0.74
+    ],
+    [
+     0.25,
+     0.66
+    ],
+    [
+     0.35,
+     0.74
+    ],
+    [
+     0.4,
+     1.1
+    ]
+   ],
+   "purpose": "Comes up from under a seat, rests, sinks back."
+  }
+ ],
+ "id": "octopus"
+}

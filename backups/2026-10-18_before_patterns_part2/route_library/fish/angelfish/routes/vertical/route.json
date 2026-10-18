@@ -1,0 +1,32 @@
+{
+ "id": "vertical",
+ "name": "Vertical",
+ "dur": [
+  25,
+  35
+ ],
+ "pts": [
+  [
+   0.22,
+   -0.1
+  ],
+  [
+   0.21,
+   0.4
+  ],
+  [
+   0.24,
+   0.7
+  ],
+  [
+   0.2,
+   1.1
+  ]
+ ],
+ "purpose": "Straight down one side.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

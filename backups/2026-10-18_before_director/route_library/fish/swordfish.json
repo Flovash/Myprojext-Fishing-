@@ -1,0 +1,84 @@
+{
+ "name": "Swordfish",
+ "group": "medium",
+ "pays": "15-35x",
+ "role": "Bully: fast, risky, top medium pay.",
+ "home": "Anywhere, fast",
+ "habit": "Straight lines with at most one hard angle. The only medium that goes top to bottom.",
+ "status": "designed, not in game yet (game v7 has the older medium set)",
+ "routes": [
+  {
+   "id": "spear",
+   "name": "Spear",
+   "dur": [
+    8,
+    11
+   ],
+   "crosser": true,
+   "sharp": true,
+   "shifts": [
+    -0.2,
+    0,
+    0.2
+   ],
+   "pts": [
+    [
+     0.42,
+     -0.1
+    ],
+    [
+     0.5,
+     1.1
+    ]
+   ],
+   "purpose": "Drops straight down (or up) through the screen."
+  },
+  {
+   "id": "ricochet",
+   "name": "Ricochet",
+   "dur": [
+    8,
+    11
+   ],
+   "crosser": true,
+   "sharp": true,
+   "pts": [
+    [
+     -0.1,
+     0.25
+    ],
+    [
+     0.5,
+     0.88
+    ],
+    [
+     1.1,
+     0.25
+    ]
+   ],
+   "purpose": "Bounces off a seat row like a pool shot."
+  },
+  {
+   "id": "lowSlash",
+   "name": "Low slash",
+   "dur": [
+    8,
+    11
+   ],
+   "crosser": true,
+   "sharp": true,
+   "pts": [
+    [
+     -0.1,
+     0.82
+    ],
+    [
+     1.1,
+     0.32
+    ]
+   ],
+   "purpose": "One long fast line."
+  }
+ ],
+ "id": "swordfish"
+}

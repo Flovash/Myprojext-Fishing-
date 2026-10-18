@@ -1,0 +1,8 @@
+{
+ "route": "lowArc",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "no_shark_on_screen": true,
+ "seasons": {},
+ "why": "Under the middle. Only when no Shark is on screen."
+}

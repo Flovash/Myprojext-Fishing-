@@ -1,0 +1,7 @@
+{
+ "route": "seatRow",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Glides along a seat row; that row gets the followers up close."
+}

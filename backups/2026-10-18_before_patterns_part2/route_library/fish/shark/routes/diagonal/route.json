@@ -1,0 +1,28 @@
+{
+ "id": "diagonal",
+ "name": "Diagonal",
+ "dur": [
+  18,
+  22
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.15
+  ],
+  [
+   0.5,
+   0.5
+  ],
+  [
+   1.1,
+   0.85
+  ]
+ ],
+ "purpose": "Corner to corner; mediums take the two corners it leaves open.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

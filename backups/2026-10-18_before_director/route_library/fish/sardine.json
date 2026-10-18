@@ -1,0 +1,236 @@
+{
+ "name": "Sardine",
+ "group": "tiny",
+ "pays": "2-3x",
+ "role": "The crowd. Fills the screen and hits every corner.",
+ "home": "Everywhere; a coverage map sends schools to the emptiest zones",
+ "habit": "Schools of 6-9; 35% of the time a mirror twin school takes the reflected route. 1 in 700 hits is a Golden Sardine (50x).",
+ "status": "in game (v5)",
+ "routes": [
+  {
+   "id": "perimeter",
+   "name": "Perimeter",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.12,
+     0.5
+    ],
+    [
+     0.12,
+     0.15
+    ],
+    [
+     0.5,
+     0.12
+    ],
+    [
+     0.88,
+     0.15
+    ],
+    [
+     0.88,
+     0.85
+    ],
+    [
+     0.5,
+     0.88
+    ],
+    [
+     0.12,
+     0.85
+    ],
+    [
+     0.1,
+     0.6
+    ],
+    [
+     -0.1,
+     0.58
+    ]
+   ],
+   "purpose": "A lap around the whole table past every seat."
+  },
+  {
+   "id": "cornerS",
+   "name": "Corner S",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.1
+    ],
+    [
+     0.25,
+     0.15
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     0.75,
+     0.85
+    ],
+    [
+     1.1,
+     0.9
+    ]
+   ],
+   "purpose": "Corner to corner in an S."
+  },
+  {
+   "id": "wDip",
+   "name": "W dip",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.25
+    ],
+    [
+     0.2,
+     0.8
+    ],
+    [
+     0.4,
+     0.3
+    ],
+    [
+     0.6,
+     0.8
+    ],
+    [
+     0.8,
+     0.3
+    ],
+    [
+     1.1,
+     0.7
+    ]
+   ],
+   "purpose": "Dips to the bottom seats three times."
+  },
+  {
+   "id": "figure8",
+   "name": "Figure 8",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.25,
+     0.2
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     0.75,
+     0.8
+    ],
+    [
+     0.9,
+     0.5
+    ],
+    [
+     0.75,
+     0.2
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     0.25,
+     0.8
+    ],
+    [
+     0.1,
+     0.62
+    ],
+    [
+     -0.1,
+     0.6
+    ]
+   ],
+   "purpose": "A figure eight through the middle."
+  },
+  {
+   "id": "seatSweep",
+   "name": "Seat sweep",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.82
+    ],
+    [
+     0.4,
+     0.84
+    ],
+    [
+     0.8,
+     0.8
+    ],
+    [
+     0.92,
+     0.5
+    ],
+    [
+     0.8,
+     0.2
+    ],
+    [
+     0.4,
+     0.16
+    ],
+    [
+     -0.1,
+     0.2
+    ]
+   ],
+   "purpose": "Along one seat row, around, back along the other."
+  },
+  {
+   "id": "cornerArc",
+   "name": "Corner arc",
+   "dur": null,
+   "pts": [
+    [
+     -0.1,
+     0.9
+    ],
+    [
+     0.15,
+     0.6
+    ],
+    [
+     0.2,
+     0.25
+    ],
+    [
+     0.4,
+     0.1
+    ],
+    [
+     0.7,
+     0.15
+    ],
+    [
+     1.1,
+     0.1
+    ]
+   ],
+   "purpose": "Up from a bottom corner and across the top."
+  }
+ ],
+ "id": "sardine"
+}

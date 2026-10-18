@@ -1,0 +1,2 @@
+MERGED into the route library by Claude Code on 2026-10-18.
+See CHANGES.md. These files are kept as the original design; editing them changes nothing.

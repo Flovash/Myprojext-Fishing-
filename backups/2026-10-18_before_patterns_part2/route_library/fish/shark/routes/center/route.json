@@ -1,0 +1,28 @@
+{
+ "id": "center",
+ "name": "Center line",
+ "dur": [
+  22,
+  26
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.5,
+   0.5
+  ],
+  [
+   1.1,
+   0.5
+  ]
+ ],
+ "purpose": "Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

@@ -1,0 +1,261 @@
+{
+ "ran": "2026-10-18T08:54:54.337Z",
+ "label": "baseline-v7",
+ "seed": 1,
+ "minutes": 720,
+ "errors": 0,
+ "seats": 10,
+ "rerun": "node lab/playerlab.js --minutes 720 --seed 1 --label baseline-v7 --game 'backups/2026-10-18_before_director/game/peacock_reef.html'",
+ "game": {
+  "file": "backups/2026-10-18_before_director/game/peacock_reef.html",
+  "version": 7,
+  "sha1": "334ed68cdd76",
+  "difficulty": "normal",
+  "groupPaybacks": {
+   "tiny": 0.98,
+   "small": 0.98,
+   "medium": 0.97,
+   "big": 0.95,
+   "boss": 0.9,
+   "special": 0.95
+  }
+ },
+ "laws": {
+  "file": "route_library/director/laws.json",
+  "sha1": "5b96046e3cae",
+  "law_zero": "Movement never changes catch chances or pays. Routes only decide where and when fish swim.",
+  "inGame": [
+   {
+    "id": "big_wave_seconds",
+    "value": [
+     60,
+     75
+    ]
+   },
+   {
+    "id": "sharks_per_wave",
+    "value": 1
+   },
+   {
+    "id": "shark_attitude_weights",
+    "value": {
+     "King": 0.45,
+     "Hungry": 0.2,
+     "Curious": 0.2,
+     "Aggressive": 0.15
+    }
+   },
+   {
+    "id": "shark_no_repeat_last",
+    "value": 4
+   },
+   {
+    "id": "manta_every_n_waves",
+    "value": 2
+   },
+   {
+    "id": "meeting_roll",
+    "value": 0.5
+   },
+   {
+    "id": "meeting_min_visits_between",
+    "value": 1
+   },
+   {
+    "id": "meeting_not_before_wave",
+    "value": 3
+   },
+   {
+    "id": "shark_gate_routes",
+    "value": [
+     "cruise",
+     "patrol",
+     "deep",
+     "center",
+     "feed"
+    ]
+   },
+   {
+    "id": "shark_gate_clearance",
+    "value": 200
+   },
+   {
+    "id": "shadow_in_meeting_chance",
+    "value": 0.16666666666666666
+   },
+   {
+    "id": "second_shark_chance",
+    "value": 0.16666666666666666
+   },
+   {
+    "id": "hammerhead_wave_chance",
+    "value": 0.6666666666666666
+   },
+   {
+    "id": "hammerhead_pair_chance",
+    "value": 0.16666666666666666
+   },
+   {
+    "id": "marlin_second_chance",
+    "value": 0.25
+   },
+   {
+    "id": "max_big_on_screen",
+    "value": 3
+   },
+   {
+    "id": "clearances",
+    "value": {
+     "hammerhead_shark": 150,
+     "hammerhead_manta": 140,
+     "marlin_shark": 120,
+     "marlin_manta": 140,
+     "shark_shark": 150
+    }
+   },
+   {
+    "id": "marlin_behind_shark_seconds",
+    "value": 2
+   },
+   {
+    "id": "event_drop_seconds",
+    "value": 40
+   },
+   {
+    "id": "manta_followers",
+    "value": [
+     8,
+     12
+    ]
+   },
+   {
+    "id": "shark_provoked",
+    "value": {
+     "hits": 14,
+     "seconds": 3
+    }
+   },
+   {
+    "id": "seat_fairness_memory",
+    "value": 900
+   },
+   {
+    "id": "fast_crossers_max",
+    "value": 2
+   },
+   {
+    "id": "counterflow_share",
+    "value": 0.5
+   },
+   {
+    "id": "counterflow_weight",
+    "value": {
+     "against": 1.4,
+     "with": -1
+    }
+   },
+   {
+    "id": "lane_reservation_seconds",
+    "value": {
+     "shark_ahead": 8,
+     "shark_behind": 2,
+     "manta_ahead": 10,
+     "hammerhead_ahead": 6
+    }
+   },
+   {
+    "id": "medium_clearance",
+    "value": {
+     "shark": 0.2,
+     "manta": 0.18,
+     "marlin": 0.12,
+     "hammerhead": 0.1
+    }
+   },
+   {
+    "id": "split_rule",
+    "value": true
+   },
+   {
+    "id": "no_same_route_twice",
+    "value": true
+   },
+   {
+    "id": "octopus_ink",
+    "value": {
+     "hits": 7,
+     "seconds": 3
+    }
+   },
+   {
+    "id": "screen_counts",
+    "value": {
+     "tiny": 12,
+     "small": 10,
+     "medium": 7
+    }
+   },
+   {
+    "id": "medium_seat_fairness_memory",
+    "value": 600
+   }
+  ]
+ },
+ "director": null,
+ "playerTypes": {
+  "sniper": {
+   "name": "Sniper",
+   "buyIn": 2000,
+   "maxMin": 60,
+   "about": "Big fish and bosses only, lock-on, bet 10. Holds fire otherwise."
+  },
+  "sprayer": {
+   "name": "Sprayer",
+   "buyIn": 1000,
+   "maxMin": 60,
+   "about": "Fires as fast as the gun allows at the closest fish, bet 1."
+  },
+  "chaser": {
+   "name": "Chaser",
+   "buyIn": 2000,
+   "maxMin": 60,
+   "about": "Starts at bet 2, doubles after every 12 shots without a catch (cap 100), back to 2 after a catch."
+  },
+  "grinder": {
+   "name": "Grinder",
+   "buyIn": 1000,
+   "maxMin": 90,
+   "about": "Steady bet 2, aims at mediums first, then smalls."
+  },
+  "whale": {
+   "name": "Whale",
+   "buyIn": 20000,
+   "maxMin": 60,
+   "about": "Bet 100 on bosses and Sharks, 50 on other big fish (lock-on), 10 on anything else."
+  },
+  "fisher": {
+   "name": "Fisher",
+   "buyIn": 2000,
+   "maxMin": 90,
+   "about": "About 85% of the time on the pole with base and medium baits; lands 90% of fights. Gun at bet 3 otherwise."
+  },
+  "casual": {
+   "name": "Casual",
+   "buyIn": 1000,
+   "maxMin": 45,
+   "about": "Bets 1-5 on random fish, takes pauses, sometimes fishes. Leaves when down 400."
+  },
+  "newbie": {
+   "name": "Newbie",
+   "buyIn": 500,
+   "maxMin": 45,
+   "about": "Slow aim, fires before lined up (misses a lot), slow fire, bets 1-3. Lands 60% of fights."
+  }
+ },
+ "ledgerCheck": {
+  "labWagered": 3525280,
+  "gameWagered": 3525280,
+  "labPaid": 3105472,
+  "gamePaid": 3105472
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "route": "diagonal",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "attitude": "King",
+ "meeting_ok": false,
+ "seasons": {},
+ "why": "Corner to corner; mediums take the two corners it leaves open."
+}

@@ -1,0 +1,26 @@
+{
+ "name": "Marlin",
+ "group": "big",
+ "pays": "150-500x",
+ "role": "Speed trophy. Only dashes into clear water; crosses a Shark lane only 2+ s after it passes.",
+ "home": "Clear water, a few seconds at a time",
+ "habit": "Every wave, twice in about 1 wave in 4. Never during a Shark + Manta meeting. One at a time. Counts as a fast crosser.",
+ "status": "in game (v6)",
+ "id": "marlin",
+ "game_id": "marlin",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "dash",
+  "diag",
+  "hook",
+  "cut",
+  "burst",
+  "slash"
+ ]
+}

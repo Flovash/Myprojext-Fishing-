@@ -1,0 +1,182 @@
+{
+ "name": "Angelfish",
+ "group": "small",
+ "pays": "3-8x",
+ "role": "The messenger. Crosses alone; freezes near the Shark, drifts to the Manta.",
+ "home": "Anywhere, alone",
+ "habit": "Solo; crosses the screen in 25-35 s with a gentle wobble.",
+ "status": "in game (v5)",
+ "routes": [
+  {
+   "id": "diagDown",
+   "name": "Diagonal down",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.2
+    ],
+    [
+     0.3,
+     0.38
+    ],
+    [
+     0.65,
+     0.62
+    ],
+    [
+     1.1,
+     0.82
+    ]
+   ],
+   "purpose": "Slow diagonal, top-left to bottom-right."
+  },
+  {
+   "id": "diagUp",
+   "name": "Diagonal up",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.8
+    ],
+    [
+     0.35,
+     0.62
+    ],
+    [
+     0.7,
+     0.4
+    ],
+    [
+     1.1,
+     0.3
+    ]
+   ],
+   "purpose": "Slow diagonal, bottom-left to top-right."
+  },
+  {
+   "id": "steep",
+   "name": "Steep",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     0.15,
+     -0.1
+    ],
+    [
+     0.4,
+     0.35
+    ],
+    [
+     0.65,
+     0.7
+    ],
+    [
+     0.85,
+     1.1
+    ]
+   ],
+   "purpose": "Steep drop from the top."
+  },
+  {
+   "id": "vertical",
+   "name": "Vertical",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     0.22,
+     -0.1
+    ],
+    [
+     0.21,
+     0.4
+    ],
+    [
+     0.24,
+     0.7
+    ],
+    [
+     0.2,
+     1.1
+    ]
+   ],
+   "purpose": "Straight down one side."
+  },
+  {
+   "id": "hook",
+   "name": "Hook",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     0.55,
+     -0.1
+    ],
+    [
+     0.53,
+     0.22
+    ],
+    [
+     0.62,
+     0.42
+    ],
+    [
+     0.8,
+     0.46
+    ],
+    [
+     1.1,
+     0.32
+    ]
+   ],
+   "purpose": "Drops in and hooks out the side."
+  },
+  {
+   "id": "arch",
+   "name": "Arch",
+   "dur": [
+    25,
+    35
+   ],
+   "pts": [
+    [
+     0.35,
+     1.1
+    ],
+    [
+     0.38,
+     0.75
+    ],
+    [
+     0.55,
+     0.62
+    ],
+    [
+     0.85,
+     0.68
+    ],
+    [
+     0.95,
+     1.1
+    ]
+   ],
+   "purpose": "Rises from the bottom and sinks back."
+  }
+ ],
+ "id": "angelfish"
+}

@@ -1,0 +1,522 @@
+{
+ "name": "Shark",
+ "group": "big",
+ "pays": "100-400x",
+ "role": "Apex. Sets the plan every wave; everyone else reads its lane and reacts.",
+ "home": "Its own lane plus a buffer band; changes every wave",
+ "habit": "One per wave. Never enters from the same edge or travels the same direction two waves in a row. Picks an attitude, then a route from that attitude.",
+ "status": "in game (v6)",
+ "routes": [
+  {
+   "id": "cruise",
+   "name": "Cruise",
+   "attitude": "King",
+   "dur": [
+    18,
+    22
+   ],
+   "lanes": [
+    0.2,
+    0.28,
+    0.72,
+    0.8
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.3
+    ],
+    [
+     0.35,
+     0.27
+    ],
+    [
+     0.65,
+     0.33
+    ],
+    [
+     1.1,
+     0.3
+    ]
+   ],
+   "purpose": "The calm default: owns one horizontal lane at one of four heights. Allowed during Manta meetings."
+  },
+  {
+   "id": "patrol",
+   "name": "Patrol loop",
+   "attitude": "King",
+   "dur": [
+    20,
+    26
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.24
+    ],
+    [
+     0.3,
+     0.23
+    ],
+    [
+     0.44,
+     0.5
+    ],
+    [
+     0.3,
+     0.77
+    ],
+    [
+     -0.1,
+     0.76
+    ]
+   ],
+   "purpose": "Loops one side and leaves the way it came, handing the other half to the mediums. Allowed during meetings."
+  },
+  {
+   "id": "deep",
+   "name": "Deep sweep",
+   "attitude": "King",
+   "dur": [
+    20,
+    24
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.68
+    ],
+    [
+     0.3,
+     0.82
+    ],
+    [
+     0.7,
+     0.82
+    ],
+    [
+     1.1,
+     0.68
+    ]
+   ],
+   "purpose": "Sweeps a seat row; pushes the Octopus to the other seat row. Allowed during meetings."
+  },
+  {
+   "id": "center",
+   "name": "Center line",
+   "attitude": "King",
+   "dur": [
+    22,
+    26
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ],
+   "purpose": "Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings."
+  },
+  {
+   "id": "split",
+   "name": "Split",
+   "attitude": "King",
+   "dur": [
+    12,
+    16
+   ],
+   "pts": [
+    [
+     0.5,
+     -0.1
+    ],
+    [
+     0.48,
+     0.5
+    ],
+    [
+     0.5,
+     1.1
+    ]
+   ],
+   "purpose": "Top to bottom through the center. Nothing crosses the middle while it is there; each half keeps its own fish."
+  },
+  {
+   "id": "diagonal",
+   "name": "Diagonal",
+   "attitude": "King",
+   "dur": [
+    18,
+    22
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.15
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.1,
+     0.85
+    ]
+   ],
+   "purpose": "Corner to corner; mediums take the two corners it leaves open."
+  },
+  {
+   "id": "strike",
+   "name": "Strike",
+   "attitude": "Hungry",
+   "dur": [
+    9,
+    12
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.4
+    ],
+    [
+     0.35,
+     0.45
+    ],
+    [
+     0.55,
+     0.56
+    ],
+    [
+     1.1,
+     0.64
+    ]
+   ],
+   "purpose": "A short fast lunge through the middle."
+  },
+  {
+   "id": "feed",
+   "name": "Feeding circle",
+   "attitude": "Hungry",
+   "dur": [
+    22,
+    28
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.653
+    ],
+    [
+     0.22,
+     0.67
+    ],
+    [
+     0.38,
+     0.534
+    ],
+    [
+     0.33,
+     0.33
+    ],
+    [
+     0.18,
+     0.432
+    ],
+    [
+     0.21,
+     0.602
+    ],
+    [
+     0.32,
+     0.636
+    ],
+    [
+     0.37,
+     0.449
+    ],
+    [
+     0.28,
+     0.313
+    ],
+    [
+     -0.1,
+     0.33
+    ]
+   ],
+   "purpose": "Circles one spot, then leaves the way it came. The only Hungry route allowed in meetings, on the far side."
+  },
+  {
+   "id": "stalker",
+   "name": "Stalker",
+   "attitude": "Curious",
+   "dur": [
+    24,
+    30
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.6
+    ],
+    [
+     0.25,
+     0.54
+    ],
+    [
+     0.45,
+     0.63
+    ],
+    [
+     0.65,
+     0.55
+    ],
+    [
+     0.85,
+     0.6
+    ],
+    [
+     1.1,
+     0.57
+    ]
+   ],
+   "purpose": "Slow wavy pass through the lower middle: a long, easy target."
+  },
+  {
+   "id": "inspector",
+   "name": "Inspector",
+   "attitude": "Curious",
+   "dur": [
+    20,
+    26
+   ],
+   "pts": [
+    [
+     0.2,
+     -0.1
+    ],
+    [
+     0.28,
+     0.4
+    ],
+    [
+     0.45,
+     0.72
+    ],
+    [
+     0.62,
+     0.72
+    ],
+    [
+     0.78,
+     0.4
+    ],
+    [
+     0.84,
+     -0.1
+    ]
+   ],
+   "purpose": "Drops in to look at one seat and climbs back out; that seat feels watched."
+  },
+  {
+   "id": "bubble",
+   "name": "Bubble check",
+   "attitude": "Curious",
+   "dur": [
+    22,
+    26
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.3
+    ],
+    [
+     0.38,
+     0.44
+    ],
+    [
+     0.5,
+     0.38
+    ],
+    [
+     0.56,
+     0.5
+    ],
+    [
+     0.45,
+     0.56
+    ],
+    [
+     0.6,
+     0.46
+    ],
+    [
+     1.1,
+     0.34
+    ]
+   ],
+   "purpose": "Lingers near the center with small turns."
+  },
+  {
+   "id": "charge",
+   "name": "Charge",
+   "attitude": "Aggressive",
+   "dur": [
+    6,
+    8
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.45
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.1,
+     0.55
+    ]
+   ],
+   "purpose": "Fast straight run across in 6-8 s: a jolt."
+  },
+  {
+   "id": "thrash",
+   "name": "Thrash",
+   "attitude": "Aggressive",
+   "dur": [
+    12,
+    15
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.2,
+     0.32
+    ],
+    [
+     0.35,
+     0.68
+    ],
+    [
+     0.5,
+     0.32
+    ],
+    [
+     0.65,
+     0.68
+    ],
+    [
+     0.8,
+     0.32
+    ],
+    [
+     1.1,
+     0.5
+    ]
+   ],
+   "purpose": "Fast zigzag; looks angry and is hard to track."
+  },
+  {
+   "id": "rush",
+   "name": "Rush",
+   "attitude": "Aggressive",
+   "dur": [
+    7,
+    9
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.85
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.1,
+     0.15
+    ]
+   ],
+   "purpose": "Fast corner-to-corner run."
+  }
+ ],
+ "reactions": [
+  {
+   "id": "snapBack",
+   "name": "Snap back",
+   "trigger": "14 hits in 3 s, 50%",
+   "effect": "Reverses along its own lane at 1.6x speed and leaves where it came in."
+  },
+  {
+   "id": "frenzy",
+   "name": "Frenzy",
+   "trigger": "14 hits in 3 s, 50%",
+   "effect": "3 s of 1.5x speed with a hard side-to-side shake."
+  }
+ ],
+ "attitudes": {
+  "King": 0.45,
+  "Hungry": 0.2,
+  "Curious": 0.2,
+  "Aggressive": 0.15
+ },
+ "co_paths": [
+  {
+   "id": "shadow",
+   "name": "Shadow",
+   "status": "in game (v6)",
+   "effect": "A smaller second Shark follows 2-3 s behind in the same lane."
+  },
+  {
+   "id": "pincer",
+   "name": "Pincer",
+   "status": "in game (v6)",
+   "effect": "A smaller second Shark takes the mirrored lane at the same moment, never touching."
+  },
+  {
+   "id": "huntingPair",
+   "name": "Hunting pair",
+   "status": "designed"
+  },
+  {
+   "id": "sizeUp",
+   "name": "Size-up",
+   "status": "designed"
+  },
+  {
+   "id": "foodFight",
+   "name": "Food fight",
+   "status": "designed"
+  },
+  {
+   "id": "standoff",
+   "name": "Standoff",
+   "status": "designed"
+  },
+  {
+   "id": "waitingHolder",
+   "name": "Waiting holder",
+   "status": "designed"
+  },
+  {
+   "id": "frenzySpread",
+   "name": "Frenzy spreads",
+   "status": "designed"
+  }
+ ],
+ "id": "shark"
+}

@@ -1,0 +1,44 @@
+{
+ "id": "bubble",
+ "name": "Bubble check",
+ "dur": [
+  22,
+  26
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.3
+  ],
+  [
+   0.38,
+   0.44
+  ],
+  [
+   0.5,
+   0.38
+  ],
+  [
+   0.56,
+   0.5
+  ],
+  [
+   0.45,
+   0.56
+  ],
+  [
+   0.6,
+   0.46
+  ],
+  [
+   1.1,
+   0.34
+  ]
+ ],
+ "purpose": "Lingers near the center with small turns.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

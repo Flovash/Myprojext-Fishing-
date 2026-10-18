@@ -1,0 +1,117 @@
+<title>Peacock Reef Waves 8–16</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: a reef logbook. Glance strip of nine screens, then one card per wave: story, timeline, three snapshots. */
+:root {
+  --bg: #e6efed; --surface: #f6faf9; --ink: #0e2a2e; --muted: #4d696b; --line: #c4d6d2;
+  --water: #d3e9e4; --water-edge: #86b2aa; --seat: #5d7c78; --lane: rgba(216, 90, 48, .16); --shade: rgba(216, 90, 48, .07);
+  --accent: #c94f22; --bar-ink: #ffffff;
+  --shark: #d85a30; --manta: #3c3489; --hammer: #5f5e5a; --marlin: #e24b4a;
+  --tuna: #0f6e56; --barracuda: #ba7517; --octopus: #993556; --sword: #185fa5; --turtle: #3b6d11; --follower: #7d9592;
+  --display: "Bungee", "Arial Black", Impact, sans-serif;
+  --body: "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0a1a1d; --surface: #0f262a; --ink: #e2efed; --muted: #93aeab; --line: #22403e;
+  --water: #123236; --water-edge: #2f5f59; --seat: #7fa09b; --lane: rgba(240, 153, 123, .2); --shade: rgba(240, 153, 123, .07);
+  --accent: #f0997b; --bar-ink: #0b1a1d;
+  --shark: #f0997b; --manta: #afa9ec; --hammer: #b4b2a9; --marlin: #f09595;
+  --tuna: #5dcaa5; --barracuda: #ef9f27; --octopus: #ed93b1; --sword: #85b7eb; --turtle: #97c459; --follower: #6f8986;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0a1a1d; --surface: #0f262a; --ink: #e2efed; --muted: #93aeab; --line: #22403e;
+  --water: #123236; --water-edge: #2f5f59; --seat: #7fa09b; --lane: rgba(240, 153, 123, .2); --shade: rgba(240, 153, 123, .07);
+  --accent: #f0997b; --bar-ink: #0b1a1d;
+  --shark: #f0997b; --manta: #afa9ec; --hammer: #b4b2a9; --marlin: #f09595;
+  --tuna: #5dcaa5; --barracuda: #ef9f27; --octopus: #ed93b1; --sword: #85b7eb; --turtle: #97c459; --follower: #6f8986;
+  color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 48px; }
+.page { max-width: 1040px; margin: 0 auto; display: grid; gap: 28px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 6vw, 52px); line-height: 1.05; margin: 4px 0 8px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 0; max-width: 64ch; color: var(--muted); font-size: 17px; }
+.rules { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.rules li { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: 14px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; font-size: 14px; color: var(--muted); }
+.leg { display: inline-flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; width: 18px; height: 6px; border-radius: 3px; }
+.glance { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+.tile { display: grid; gap: 2px; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 6px 8px; }
+.tile:hover, .tile:focus-visible { border-color: var(--accent); outline: none; }
+.tile svg { width: 100%; height: auto; display: block; }
+.tnum { font-family: var(--display); font-size: 16px; line-height: 1; }
+.tname { font-size: 12px; color: var(--muted); line-height: 1.2; }
+.wave { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px clamp(14px, 3vw, 26px) 22px; display: grid; gap: 12px; scroll-margin-top: 16px; }
+.wavehead { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.wavenum { font-family: var(--display); font-size: 15px; background: var(--ink); color: var(--surface); border-radius: 8px; padding: 6px 10px 4px; white-space: nowrap; }
+.wavetitle { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
+h2 { font-size: 24px; line-height: 1.15; margin: 0; font-weight: 700; text-wrap: balance; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; color: var(--muted); }
+.badge.hot { border-color: var(--accent); color: var(--accent); }
+.story { margin: 0; max-width: 72ch; }
+.meta { margin: 0; font-size: 14px; color: var(--muted); }
+.meta strong { color: var(--ink); }
+.tl { overflow-x: auto; }
+.tl svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.snaps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.snap { margin: 0; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.snap svg { width: 100%; height: auto; display: block; }
+.snaphead { display: flex; align-items: center; gap: 8px; }
+.letter { font-family: var(--display); font-size: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--surface); display: grid; place-items: center; padding-top: 2px; }
+.time { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+figcaption { display: grid; gap: 2px; font-size: 15px; line-height: 1.3; }
+.onscreen { font-size: 13px; color: var(--muted); }
+/* svg pieces */
+.water { fill: var(--water); stroke: var(--water-edge); stroke-width: 1; }
+.seat { stroke: var(--seat); stroke-width: 3; stroke-linecap: round; fill: none; }
+.lane { fill: none; stroke: var(--lane); stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; }
+polyline[class^="k-"], polyline[class*=" k-"] { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.slow { stroke-dasharray: 4 3; }
+.k-shark { stroke: var(--shark); } .k-manta { stroke: var(--manta); } .k-hammer { stroke: var(--hammer); } .k-marlin { stroke: var(--marlin); }
+.k-tuna { stroke: var(--tuna); } .k-barracuda { stroke: var(--barracuda); } .k-octopus { stroke: var(--octopus); } .k-sword { stroke: var(--sword); } .k-turtle { stroke: var(--turtle); }
+.f-shark { fill: var(--shark); background: var(--shark); } .f-manta { fill: var(--manta); background: var(--manta); } .f-hammer { fill: var(--hammer); background: var(--hammer); } .f-marlin { fill: var(--marlin); background: var(--marlin); }
+.f-tuna { fill: var(--tuna); background: var(--tuna); } .f-barracuda { fill: var(--barracuda); background: var(--barracuda); } .f-octopus { fill: var(--octopus); background: var(--octopus); } .f-sword { fill: var(--sword); background: var(--sword); } .f-turtle { fill: var(--turtle); background: var(--turtle); }
+.now { stroke: var(--surface); stroke-width: 1.5; }
+.follower { fill: var(--follower); }
+.waiting text { font-family: var(--mono); font-size: 9px; fill: var(--accent); }
+.rowlab { font-family: var(--body); font-size: 13px; fill: var(--muted); }
+.grid { stroke: var(--line); stroke-width: 1; }
+.shade { fill: var(--shade); }
+.barlab { font-family: var(--body); font-size: 11px; font-weight: 600; fill: var(--bar-ink); }
+.barlab.dark { fill: var(--accent); }
+.waitbar { fill: none; stroke: var(--shark); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.snapline { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; opacity: .5; }
+.snapdot { fill: var(--ink); }
+.snaplab { font-family: var(--display); font-size: 10px; fill: var(--surface); }
+.tick { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+footer { font-size: 14px; color: var(--muted); max-width: 72ch; }
+@media (max-width: 860px) { .glance { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .snaps { grid-template-columns: minmax(0, 1fr); } .glance { grid-template-columns: repeat(3, minmax(0, 1fr)); } h2 { font-size: 20px; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M1.5 1L8.5 5L1.5 9" fill="none" stroke="context-stroke" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker></defs></svg>
+<main class="page">
+  <header>
+    <p class="eyebrow">Peacock Reef · wave plan · big and medium fish</p>
+    <h1>Waves <em>8–16</em></h1>
+    <p class="lede">The next nine waves after wave 7, laid out by the rules we set. Each wave has its own Shark entrance, and every medium reacts to it. Dots mark where each fish is at that moment; lines show the whole route it is on.</p>
+    <ul class="rules">
+      <li>One Shark per wave, entering from a new edge each time</li>
+      <li>Manta every other wave, meeting about 1 visit in 3</li>
+      <li>Mediums flow against the Shark</li>
+      <li>At most 2 fast fish crossing at once</li>
+      <li>Max 3 big fish on screen</li>
+    </ul>
+    <div class="legend">%LEGEND%</div>
+  </header>
+  <nav class="glance" aria-label="Waves at a glance">%TILES%</nav>
+%CARDS%
+  <footer>Seats are the short marks on the top and bottom edges. Shaded columns on each timeline show when the Shark is on screen. The Shark's buffer lane is the soft orange band. Movement never changes catch odds or pays.</footer>
+</main>

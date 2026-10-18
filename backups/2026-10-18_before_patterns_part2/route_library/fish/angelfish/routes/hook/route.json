@@ -1,0 +1,36 @@
+{
+ "id": "hook",
+ "name": "Hook",
+ "dur": [
+  25,
+  35
+ ],
+ "pts": [
+  [
+   0.55,
+   -0.1
+  ],
+  [
+   0.53,
+   0.22
+  ],
+  [
+   0.62,
+   0.42
+  ],
+  [
+   0.8,
+   0.46
+  ],
+  [
+   1.1,
+   0.32
+  ]
+ ],
+ "purpose": "Drops in and hooks out the side.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

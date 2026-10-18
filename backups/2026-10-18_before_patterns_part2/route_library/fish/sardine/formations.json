@@ -1,0 +1,13 @@
+{
+ "about": "Formations this fish may swim in. sizes = school size limits; lag and lat = spacing behind and beside, in body lengths and heights.",
+ "formations": {
+  "school": {
+   "sizes": [
+    6,
+    9
+   ],
+   "what": "A loose school strung along the route; 35% of the time a mirror twin school.",
+   "status": "in game (v5)"
+  }
+ }
+}

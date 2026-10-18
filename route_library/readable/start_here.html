@@ -1,0 +1,99 @@
+<html><body>
+<h1>Fish Game Table: Start Here</h1>
+<p>Updated 2026-10-18 by Claude Code. This is the readable guide to the whole project, for you and for your chat Claude. The working files (.json, .csv, .md) stay in the folder for Claude Code; everything important is summarized here and in the <b>Fish &amp; Routes</b> Google Sheet next to this doc.</p>
+
+<h2>1. What this project is</h2>
+<p>Peacock Reef: a custom 10-seat fish table game (points only, friends in a garage). Two weapons: the gun (shared odds) and the fishing pole (personal, strategic). Target payback about 97-98% over a week.</p>
+<p><b>Law zero:</b> movement never changes catch chances or pays. Routes, formations, seasons and plays decide where and when fish swim, never the odds. Catch chance per hit = group payback / average multiplier.</p>
+
+<h2>2. For your chat Claude: designing new fish and routes</h2>
+<ol>
+<li>Look at the <b>Fish &amp; Routes</b> sheet to see every fish and route that exists (with lab results).</li>
+<li>Write one new fish as a JSON file named after the fish (for example <i>lanternfish.json</i>) and save it in the folder <b>new_fish_inbox</b> (Drive folder id 129nhGGTTBJJ3AiuYubKiEd1k0es32gnI). A Google Doc in that folder containing the same JSON also works. To add routes to an existing fish, write the same format with the fish's existing id.</li>
+<li>Tell the owner it is there. Claude Code imports it (<i>node route_library/tools/import_fish.js new_fish_inbox/lanternfish.json</i>), which checks it, lists anything to fix, draws a sketch of every route, and updates the sheet.</li>
+</ol>
+<h3>The screen</h3>
+<ul>
+<li>Points are [x, y] fractions of the screen. x: 0 = left edge, 1 = right edge. y: 0 = top seat row, 1 = bottom seat row. There are 5 seats along the top and 5 along the bottom, at x = 0.1, 0.3, 0.5, 0.7, 0.9.</li>
+<li>Start and end every route off screen (for example -0.1 or 1.1) so the fish swims in and out.</li>
+<li>The game draws a smooth curve through the points; add "sharp": true for straight lines with hard corners.</li>
+<li>Every route is automatically mirrored left-right and top-bottom and run backwards, so one drawing gives 8 lanes.</li>
+</ul>
+<h3>Template</h3>
+<pre>{
+ "id": "lanternfish",
+ "name": "Lanternfish",
+ "group": "small",
+ "pays": "4-9x",
+ "role": "What job this fish does at the table, in one sentence.",
+ "home": "Where on the screen it likes to be.",
+ "habit": "How it behaves: school size, rhythm, anything special.",
+ "group_sizes": [2, 4],
+ "routes": [
+  {
+   "id": "glowArc",
+   "name": "Glow arc",
+   "dur": [14, 18],
+   "pts": [[-0.1, 0.7], [0.3, 0.35], [0.7, 0.35], [1.1, 0.7]],
+   "pauses": [{"at": 0.5, "hold": [1, 2]}],
+   "purpose": "What this route is for, in one sentence."
+  }
+ ]
+}</pre>
+<h3>Fields</h3>
+<ul>
+<li><b>group</b>: tiny, small, medium, big, boss or special. The group sets the odds (tiny/small 98%, medium 97%, big 95%, boss 90%, special 95%); designs never set odds.</li>
+<li><b>group_sizes</b>: [smallest school, largest school].</li>
+<li><b>dur</b>: [min, max] seconds on screen. Typical: tiny/small 8-12, medium 12-25, big 20-35.</li>
+<li>Optional per route: <b>pauses</b> (stop at a fraction of the route for a few seconds: the "now!" moment), <b>sharp</b>, <b>crosser</b> (fast fish crossing the whole screen; at most 2 at once), <b>edge</b> (seat edges only), <b>shifts</b> (also slide the route left/right), <b>lanes</b> (also run it at other heights).</li>
+<li>Not designed yet, so open for new routes: small fish (Clownfish, Butterflyfish, Puffer, Lionfish, Seahorse, Minnow, Anchovy), specials (Bomb Crab, Lightning Eel) and bosses (Megalodon, Kraken, Giant Squid, Healer Jellyfish).</li>
+</ul>
+
+<h2>3. The director: what is built (2026-10-18)</h2>
+<p>From the four plans in the folder (PLAN_director_tracking, brain, memory, theories), the <b>tracking</b> plan is built; brain, memory and theories come next, in that order. The game is now version 8.</p>
+<ul>
+<li>Every fish and route has its own folder in route_library (route, rules, tracked stats, sketch).</li>
+<li>The medium fish swim the designed routes, with the lane rules (at most 2 fast crossers, counterflow against the Shark, lane reservation around big fish, nothing crosses the middle during a Shark split).</li>
+<li>Every school the director sends is logged: who it passed, hits, catches, escapes, first catch. The lab keeps a scoreboard for every fish + route + formation + size.</li>
+<li>Tuna schools of 2-6 in four formations: arc, echelon, line, ball.</li>
+<li>Seasons (Winter, Monsoon, Summer reef) change which routes and formations are favored and tint the water.</li>
+<li>Five plays ("if this, then send that"), each switchable.</li>
+</ul>
+
+<h2>4. Lab results (12 simulated hours x 3 nights each, 8 bot player types, 10 seats)</h2>
+<table border="1">
+<tr><th></th><th>Old game (v7)</th><th>New routes</th><th>Tuna formations</th><th>Seasons every 3 waves</th><th>every 6</th><th>every 9</th><th>Plays on</th></tr>
+<tr><td>Table payback %</td><td>88.6</td><td>93.7</td><td>88.9</td><td>93.7</td><td>90.3</td><td>96.9</td><td>93.3</td></tr>
+<tr><td>Average session (min)</td><td>35.0</td><td>35.3</td><td>34.4</td><td>35.3</td><td>35.3</td><td>34.9</td><td>35.1</td></tr>
+<tr><td>Longest dry spell, p90 (s)</td><td>66.9</td><td>70.7</td><td>70.4</td><td>70.0</td><td>74.4</td><td>67.9</td><td>73.3</td></tr>
+<tr><td>Catches per player-minute</td><td>10.4</td><td>10.3</td><td>10.5</td><td>10.5</td><td>10.5</td><td>10.5</td><td>10.4</td></tr>
+<tr><td>Medium fish caught (% of fish sent)</td><td>-</td><td>41.0</td><td>39.2</td><td>39.1</td><td>40.1</td><td>40.1</td><td>39.7</td></tr>
+<tr><td>Plays fired per night</td><td>-</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>209</td></tr>
+</table>
+<p><b>What it means:</b></p>
+<ul>
+<li>Everything runs: no errors in 21 nights, and the bookkeeping check (lab totals vs the game's own ledger) passed every time. Hits per catch match the designed odds for every medium fish (Tuna about 11, Turtle about 33), so law zero holds.</li>
+<li>The new routes, formations, seasons and plays did not change session length or dry spells for the bots. That is expected: bot players do not get bored, excited or tired, so they cannot react to variety or timing. These settings need real players (or smarter bot types) to judge. Season length can stay at 6 for now.</li>
+<li>Payback differences between columns (88-97%) are night-to-night luck, mostly bosses: each column's 3 nights spread over 4-8 points. Payback runs under the 97-98% target in every column, the old game too, so that is a separate thing to look at (big fish and bosses pay back well under their design over a night).</li>
+<li>The plays fire about 210 times a night. "Cold table" plays almost never fire because 10 bots keep the table busy.</li>
+</ul>
+
+<h2>Director laws</h2><p>Movement never changes catch chances or pays. Routes only decide where and when fish swim.</p>
+<table border="1"><tr><th>Law</th><th>Value</th><th>What it does</th><th>Status</th></tr><tr><td>season_length_waves</td><td>6 big-fish waves</td><td>How many big-fish waves one season lasts. Each season favors its own routes and formations and tints the water (seasons.json). 0 turns seasons off.</td><td>in game (v8)</td></tr><tr><td>plays_check_seconds</td><td>1 s</td><td>How often the director checks the plays in director/plays/.</td><td>in game (v8)</td></tr><tr><td>play_min_score</td><td>-4</td><td>A play's school is only sent when its best lane scores at least this under the medium laws (lane reservation, split rule, fast crossers). Otherwise the play waits and tries again next check.</td><td>in game (v8)</td></tr><tr><td>big_wave_seconds</td><td>[60, 75] s</td><td>Length of one big-fish wave. Runs on its own clock and pauses while a boss is on screen.</td><td>in game (v6)</td></tr><tr><td>sharks_per_wave</td><td>1</td><td>One Shark every wave.</td><td>in game (v6)</td></tr><tr><td>shark_new_entry_each_wave</td><td>true</td><td>The Shark never enters from the same edge or travels the same direction two waves in a row.</td><td>designed (not in the game yet)</td></tr><tr><td>shark_attitude_weights</td><td>King: 0.45, Hungry: 0.2, Curious: 0.2, Aggressive: 0.15</td><td>How often each attitude is picked outside meetings.</td><td>in game (v6)</td></tr><tr><td>shark_no_repeat_last</td><td>4</td><td>A Shark route is not reused until 4 other routes have run.</td><td>in game (v6)</td></tr><tr><td>manta_every_n_waves</td><td>2</td><td>A Manta comes every other wave.</td><td>in game (v6)</td></tr><tr><td>meeting_roll</td><td>0.5</td><td>Chance a Manta visit becomes a Shark + Manta meeting. With the one-visit gap below this works out to about 1 visit in 3.</td><td>in game (v6)</td></tr><tr><td>meeting_min_visits_between</td><td>1</td><td>At least one plain Manta visit between meetings.</td><td>in game (v6)</td></tr><tr><td>meeting_not_before_wave</td><td>3</td><td>No meeting in the first 2 waves.</td><td>in game (v6)</td></tr><tr><td>shark_gate_routes</td><td>[cruise, patrol, deep, center, feed]</td><td>The only Shark routes allowed while a Manta glides.</td><td>in game (v6)</td></tr><tr><td>shark_gate_clearance</td><td>200 px x S</td><td>How far (scaled pixels) the Shark lane must stay from the Manta remaining path; if nothing fits, the Shark waits.</td><td>in game (v6)</td></tr><tr><td>shadow_in_meeting_chance</td><td>0.16666666666666666</td><td>Chance a meeting Shark brings a Shadow (never on a Grand arc).</td><td>in game (v6)</td></tr><tr><td>second_shark_chance</td><td>0.16666666666666666</td><td>Chance a non-meeting wave brings a second, smaller Shark (Shadow or Pincer).</td><td>in game (v6)</td></tr><tr><td>hammerhead_wave_chance</td><td>0.6666666666666666</td><td>Chance a wave has a Hammerhead.</td><td>in game (v6)</td></tr><tr><td>hammerhead_pair_chance</td><td>0.16666666666666666</td><td>Chance a Hammerhead visit is a pair patrol on both seat rows.</td><td>in game (v6)</td></tr><tr><td>marlin_second_chance</td><td>0.25</td><td>Chance a wave gets a second Marlin.</td><td>in game (v6)</td></tr><tr><td>max_big_on_screen</td><td>3</td><td>Never more than 3 big fish at once.</td><td>in game (v6)</td></tr><tr><td>clearances</td><td>hammerhead_shark: 150, hammerhead_manta: 140, marlin_shark: 120, marlin_manta: 140, shark_shark: 150 px x S</td><td>Minimum gaps between big fish lanes.</td><td>in game (v6)</td></tr><tr><td>marlin_behind_shark_seconds</td><td>2 s</td><td>A Marlin may cross a Shark lane only this long after the Shark passed.</td><td>in game (v6)</td></tr><tr><td>event_drop_seconds</td><td>40 s</td><td>A Hammerhead or Marlin that cannot find clear water for this long is dropped.</td><td>in game (v6)</td></tr><tr><td>manta_followers</td><td>[8, 12]</td><td>Small followers that travel with the Manta; they pull in to half their spread when a Shark is within 520 px.</td><td>in game (v6)</td></tr><tr><td>shark_provoked</td><td>hits: 14, seconds: 3</td><td>Hits within the window that provoke Snap back or Frenzy.</td><td>in game (v6)</td></tr><tr><td>seat_fairness_memory</td><td>900 s</td><td>How long big-fish time near each seat is remembered when routes are chosen.</td><td>in game (v6)</td></tr><tr><td>fast_crossers_max</td><td>2</td><td>No more than 2 fast fish (Tuna, Barracuda, Swordfish, Marlin) crossing the screen at once. A Crisscross counts as 2.</td><td>in game (v8)</td></tr><tr><td>counterflow_share</td><td>0.5</td><td>While a Shark crosses, at most this share of crossing mediums may go its direction; the rest go against it, vertical or stay local.</td><td>in game (v8)</td></tr><tr><td>counterflow_weight</td><td>against: 1.4, with: -1</td><td>Score the sketch tool gives a crossing route that goes against or with the Shark.</td><td>in game (v8)</td></tr><tr><td>lane_reservation_seconds</td><td>shark_ahead: 8, shark_behind: 2, manta_ahead: 10, hammerhead_ahead: 6</td><td>Water a big fish will use in the next few seconds is off limits to mediums.</td><td>in game (v8)</td></tr><tr><td>medium_clearance</td><td>shark: 0.2, manta: 0.18, marlin: 0.12, hammerhead: 0.1</td><td>Minimum gap from that water, in screen fractions.</td><td>in game (v8)</td></tr><tr><td>split_rule</td><td>true</td><td>While a Shark splits the screen top to bottom, no medium crosses the center.</td><td>in game (v8)</td></tr><tr><td>no_same_route_twice</td><td>true</td><td>A medium never runs the same route twice in a row.</td><td>in game (v7)</td></tr><tr><td>octopus_ink</td><td>hits: 7, seconds: 3</td><td>Hits that make an Octopus squirt ink and jet off (show only).</td><td>in game (v7)</td></tr><tr><td>medium_gaps_seconds</td><td>tuna: [2, 7], barracuda: [2, 6], octopus: [1, 4], swordfish: [10, 22], turtle: [1, 3]</td><td>Pause between one visit of a species and its next.</td><td>designed (not in the game yet)</td></tr><tr><td>screen_counts</td><td>tiny: 12, small: 10, medium: 7</td><td>Target fish on screen before scene mix and density settings.</td><td>in game (v5)</td></tr><tr><td>medium_seat_fairness_memory</td><td>600 s</td><td>How long medium time near each seat is remembered.</td><td>in game (v7)</td></tr></table>
+<h2>Seasons</h2><p>Each season lasts season_length_waves big-fish waves. Numbers are how much more (or less) often a route or formation is picked.</p>
+<table border="1"><tr><th>Season</th><th>Story</th><th>Routes favored</th><th>Formations favored</th></tr><tr><td>Winter · Hokkaido</td><td>Calm, cold water. Heavy rod season; Tuna in demand. Fish keep to tidy lines and corners.</td><td>tuna.cornerRun: 1.6, tuna.cornerHook: 1.4, turtle.lazyS: 1.4, turtle.slowCircle: 1.3, octopus.seatCrawl: 1.3, swordfish.spear: 0.6, barracuda.zigzag: 0.7</td><td>tuna.line: 1.6, tuna.echelon: 1.3</td></tr><tr><td>Monsoon · Bay of Bengal</td><td>Rough, dark water. Hunters come out: Barracuda ambush, Swordfish ricochet, Octopus hops along the edges.</td><td>barracuda.ambush: 1.6, barracuda.strikeRetreat: 1.4, swordfish.ricochet: 1.4, octopus.edgeHops: 1.4, tuna.crisscross: 1.2, turtle.slowCircle: 0.7</td><td>tuna.ball: 1.6, tuna.arc: 1.2</td></tr><tr><td>Summer reef · Australia</td><td>Bright and lively. Fish come close to the seats: Turtle seat visits, Octopus rising under seats, Tuna swinging between corners.</td><td>turtle.seatVisit: 1.6, octopus.riseSink: 1.5, tuna.cornerSwing: 1.4, tuna.crisscross: 1.3, swordfish.lowSlash: 1.2</td><td>tuna.arc: 1.6</td></tr></table>
+<h2>Plays</h2><p>Checked every second. When all the "if" conditions hold and the limits allow, the director does "then".</p>
+<table border="1"><tr><th>Play</th><th>If</th><th>Then</th><th>Limits</th><th>Why</th></tr><tr><td>after_boss_reset</td><td>seconds_since_boss_ended: &lt;10</td><td>send tuna cornerSwing in arc size 4-4 + send turtle lazyS</td><td>cooldown_s: 60, max_per_wave: 1</td><td>The boss is over: two easy schools so everyone gets back to catching.</td></tr><tr><td>after_shark_release</td><td>seconds_since_shark_left: &lt;10, shark_on_screen: false, boss_on: false</td><td>send tuna crisscross in arc size 3-4</td><td>cooldown_s: 50, max_per_wave: 1</td><td>The Shark just left: release the tension with a Tuna Crisscross (later: Medium Rush). Waits up to 10 s for the fast-crosser limit to allow two schools.</td></tr><tr><td>cold_seat_octopus</td><td>coldest_seat_seconds: &gt;60, boss_on: false</td><td>send octopus seatCrawl/riseSink at cold seat</td><td>cooldown_s: 60, max_per_wave: 1</td><td>One player has gone 60 s without a catch: bring the personal fish (Octopus) to their seat.</td></tr><tr><td>cold_table_tuna</td><td>seconds_since_medium_catch: &gt;45, shark_on_screen: false, boss_on: false, active_seats: &gt;0, season: any</td><td>send tuna cornerSwing in arc size 4-6 at coldest seats</td><td>cooldown_s: 90, max_per_wave: 1</td><td>Give a cold table an easy, readable school to work on.</td></tr><tr><td>hot_table_spread</td><td>payback_vs_target: &gt;3</td><td>effect for 120s</td><td>cooldown_s: 180, max_per_wave: 1</td><td>The table is running hot (rolling payback over target + 3 points): calm routes, mediums spread out, no Crisscross, for two minutes.</td></tr></table>
+
+
+<h2>5. Where things are</h2>
+<ul>
+<li><b>Fish &amp; Routes</b> (Google Sheet): every fish and route, readable.</li>
+<li><b>new_fish_inbox</b>: drop new fish designs here.</li>
+<li>game/peacock_reef.html: the game (open on the computer in a browser).</li>
+<li>route_library/: the fish and route folders, director laws, seasons, plays, and the lab's dispatch log and scoreboard.</li>
+<li>reports/: one folder per lab run (summary.md, report.html), LOG.csv, and compare_director-build.md.</li>
+<li>PLAN_director_*.md: the director plans; HANDOFF.md and CHANGES.md: notes between the two Claudes.</li>
+<li>backups/2026-10-18_before_director/: everything as it was before this build.</li>
+</ul>
+</body></html>

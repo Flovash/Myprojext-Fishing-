@@ -1,0 +1,37 @@
+{
+ "id": "wDip",
+ "name": "W dip",
+ "dur": null,
+ "pts": [
+  [
+   -0.1,
+   0.25
+  ],
+  [
+   0.2,
+   0.8
+  ],
+  [
+   0.4,
+   0.3
+  ],
+  [
+   0.6,
+   0.8
+  ],
+  [
+   0.8,
+   0.3
+  ],
+  [
+   1.1,
+   0.7
+  ]
+ ],
+ "purpose": "Dips to the bottom seats three times.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "name": "Tuna",
+ "group": "medium",
+ "pays": "8-15x",
+ "role": "Cheapest medium, most predictable. Easy team shooting.",
+ "home": "Corners",
+ "habit": "Schools of 2-6 that hold formation: side-by-side arc, diagonal echelon, single-file line or a tight ball. Always enters and leaves at corners.",
+ "status": "in game (v8)",
+ "id": "tuna",
+ "game_id": "tuna",
+ "group_sizes": [
+  2,
+  6
+ ],
+ "formations_allowed": [
+  "arc",
+  "echelon",
+  "line",
+  "ball"
+ ],
+ "route_order": [
+  "cornerRun",
+  "crisscross",
+  "cornerSwing",
+  "cornerHook"
+ ]
+}

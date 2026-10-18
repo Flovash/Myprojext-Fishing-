@@ -1,0 +1,31 @@
+{
+ "id": "spear",
+ "name": "Spear",
+ "dur": [
+  8,
+  11
+ ],
+ "pts": [
+  [
+   0.42,
+   -0.1
+  ],
+  [
+   0.5,
+   1.1
+  ]
+ ],
+ "sharp": true,
+ "shifts": [
+  -0.2,
+  0,
+  0.2
+ ],
+ "crosser": true,
+ "purpose": "Drops straight down (or up) through the screen.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

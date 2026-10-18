@@ -1,0 +1,72 @@
+{
+ "id": "zigzag",
+ "name": "Zigzag stalk",
+ "dur": [
+  16,
+  20
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.5
+  ],
+  [
+   0.2,
+   0.35
+  ],
+  [
+   0.4,
+   0.62
+  ],
+  [
+   0.6,
+   0.35
+  ],
+  [
+   0.8,
+   0.62
+  ],
+  [
+   1.1,
+   0.45
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.18,
+   "hold": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "at": 0.38,
+   "hold": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "at": 0.58,
+   "hold": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "at": 0.78,
+   "hold": [
+    0.7,
+    1.2
+   ]
+  }
+ ],
+ "sharp": true,
+ "crosser": true,
+ "purpose": "Straight legs with a stop at every corner.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

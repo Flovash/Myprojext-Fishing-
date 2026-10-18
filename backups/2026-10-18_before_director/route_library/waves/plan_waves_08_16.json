@@ -1,0 +1,432 @@
+{
+ "about": "Big fish placed by the scheduler rules for waves 8-16. Each entry: fish, route id (see fish/), start and end second, optional lane height, mirror flags (mx left-right, my top-bottom, rev backwards) and tag. Mediums are filled in by tools/sketch_waves.py using laws/laws.json.",
+ "waves": [
+  {
+   "n": 8,
+   "dur": 72,
+   "title": "Manta first, then a curious Shark",
+   "bigs": [
+    {
+     "kind": "manta",
+     "route": "openGlide",
+     "t0": 4,
+     "t1": 37
+    },
+    {
+     "kind": "hammerhead",
+     "route": "rail",
+     "t0": 8,
+     "t1": 30,
+     "mx": 1
+    },
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 20,
+     "t1": 26,
+     "lane": 0.55,
+     "mx": 1
+    },
+    {
+     "kind": "shark",
+     "route": "inspector",
+     "t0": 41,
+     "t1": 64
+    }
+   ],
+   "story": "The Manta glides the top row with its followers while the Hammerhead patrols the bottom seats. The Shark waits until the Manta is gone, then drops in from the top, inspects a bottom seat and climbs back out.",
+   "snaps": [
+    [
+     12,
+     "Manta high, Hammerhead low"
+    ],
+    [
+     52,
+     "Curious Shark dips to a seat"
+    ],
+    [
+     67,
+     "Shark climbs out, water reopens"
+    ]
+   ]
+  },
+  {
+   "n": 9,
+   "dur": 70,
+   "title": "The Shark cuts a diagonal",
+   "bigs": [
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 4,
+     "t1": 10,
+     "lane": 0.3
+    },
+    {
+     "kind": "shark",
+     "route": "diagonal",
+     "t0": 12,
+     "t1": 32,
+     "my": 1
+    },
+    {
+     "kind": "hammerhead",
+     "route": "corner",
+     "t0": 38,
+     "t1": 58
+    },
+    {
+     "kind": "marlin",
+     "route": "slash",
+     "t0": 50,
+     "t1": 57
+    }
+   ],
+   "story": "A Marlin opens the wave with a fast dash. The Shark comes in from the bottom-left corner and climbs to the top-right, so the mediums split to the two corners it leaves open. After it passes, the Hammerhead turns down the right side and a second Marlin slashes through a Sardine school.",
+   "snaps": [
+    [
+     7,
+     "Marlin dash opens the wave"
+    ],
+    [
+     22,
+     "Shark climbs the diagonal"
+    ],
+    [
+     53,
+     "Hammerhead turns, Marlin slashes"
+    ]
+   ]
+  },
+  {
+   "n": 10,
+   "dur": 74,
+   "title": "Meeting: Shark and Manta",
+   "meet": true,
+   "bigs": [
+    {
+     "kind": "manta",
+     "route": "seatRow",
+     "t0": 6,
+     "t1": 39,
+     "mx": 1
+    },
+    {
+     "kind": "shark",
+     "route": "cruise",
+     "t0": 15,
+     "t1": 35,
+     "lane": 0.22
+    },
+    {
+     "kind": "marlin",
+     "route": "diag",
+     "t0": 44,
+     "t1": 50,
+     "my": 1
+    }
+   ],
+   "story": "Meeting wave. The Manta glides the bottom seat row right to left. The Shark gate only allows a calm lane far from it, so the Shark cruises the top row, entering from the edge farthest from the Manta. Mediums stay in the middle band between the two. No Hammerhead or Marlin during the meeting.",
+   "snaps": [
+    [
+     10,
+     "Manta takes the bottom row"
+    ],
+    [
+     25,
+     "Meeting: Shark top, Manta bottom"
+    ],
+    [
+     47,
+     "Marlin crosses after the meeting"
+    ]
+   ]
+  },
+  {
+   "n": 11,
+   "dur": 66,
+   "title": "An aggressive Charge",
+   "bigs": [
+    {
+     "kind": "marlin",
+     "route": "hook",
+     "t0": 8,
+     "t1": 16
+    },
+    {
+     "kind": "shark",
+     "route": "charge",
+     "t0": 20,
+     "t1": 27,
+     "mx": 1
+    },
+    {
+     "kind": "hammerhead",
+     "route": "sweep",
+     "t0": 30,
+     "t1": 52
+    }
+   ],
+   "story": "Short and sharp. A Marlin hooks in and out, then an aggressive Shark charges straight across the middle, right to left, in seven seconds. The Hammerhead follows by sweeping the top row.",
+   "snaps": [
+    [
+     12,
+     "Marlin hooks back"
+    ],
+    [
+     24,
+     "Shark charges, right to left"
+    ],
+    [
+     40,
+     "Hammerhead sweeps the top"
+    ]
+   ]
+  },
+  {
+   "n": 12,
+   "dur": 75,
+   "title": "Feeding circle, then the Manta",
+   "bigs": [
+    {
+     "kind": "shark",
+     "route": "feed",
+     "t0": 8,
+     "t1": 33,
+     "mx": 1
+    },
+    {
+     "kind": "hammerhead",
+     "route": "swing",
+     "t0": 12,
+     "t1": 26,
+     "mx": 1
+    },
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 34,
+     "t1": 40,
+     "lane": 0.5
+    },
+    {
+     "kind": "manta",
+     "route": "wideDiag",
+     "t0": 38,
+     "t1": 71
+    }
+   ],
+   "story": "A hungry Shark comes in from the right and circles on the right side. The Hammerhead keeps to the left with a side swing. Once the Shark leaves, a Marlin dashes through and the Manta glides corner to corner with its followers.",
+   "snaps": [
+    [
+     18,
+     "Shark feeds right, Hammerhead left"
+    ],
+    [
+     37,
+     "Marlin dashes behind the Shark"
+    ],
+    [
+     55,
+     "Manta glides the diagonal"
+    ]
+   ]
+  },
+  {
+   "n": 13,
+   "dur": 74,
+   "title": "Two Sharks",
+   "bigs": [
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 3,
+     "t1": 8,
+     "lane": 0.5,
+     "mx": 1
+    },
+    {
+     "kind": "shark",
+     "route": "patrol",
+     "t0": 10,
+     "t1": 33
+    },
+    {
+     "kind": "shark",
+     "route": "patrol",
+     "t0": 12.5,
+     "t1": 35.5,
+     "tag": "Shadow"
+    },
+    {
+     "kind": "hammerhead",
+     "route": "rail",
+     "t0": 40,
+     "t1": 62
+    },
+    {
+     "kind": "hammerhead",
+     "route": "rail",
+     "t0": 40,
+     "t1": 62,
+     "mx": 1,
+     "my": 1,
+     "tag": "pair"
+    },
+    {
+     "kind": "marlin",
+     "route": "cut",
+     "t0": 64,
+     "t1": 70
+    }
+   ],
+   "story": "Rare double. The Shark patrols the left side and a smaller Shark shadows it 2.5 seconds behind in the same lane. The right half belongs to the mediums. Once both Sharks leave, two Hammerheads patrol the top and bottom seat rows, mirrored.",
+   "snaps": [
+    [
+     20,
+     "Shark and its Shadow loop the left"
+    ],
+    [
+     50,
+     "Hammerhead pair on both rows"
+    ],
+    [
+     67,
+     "Marlin cuts through"
+    ]
+   ]
+  },
+  {
+   "n": 14,
+   "dur": 73,
+   "title": "Manta loop, then a Stalker",
+   "bigs": [
+    {
+     "kind": "manta",
+     "route": "feedLoop",
+     "t0": 5,
+     "t1": 38
+    },
+    {
+     "kind": "hammerhead",
+     "route": "rail",
+     "t0": 10,
+     "t1": 32,
+     "my": 1,
+     "mx": 1
+    },
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 38,
+     "t1": 44,
+     "lane": 0.5,
+     "mx": 1
+    },
+    {
+     "kind": "shark",
+     "route": "stalker",
+     "t0": 44,
+     "t1": 68,
+     "mx": 1
+    }
+   ],
+   "story": "The Manta circles on the left side while the Hammerhead runs the top seats the other way. When the Manta leaves, a Marlin dashes through, then a curious Shark stalks slowly from right to left through the lower middle.",
+   "snaps": [
+    [
+     20,
+     "Manta loops left, Hammerhead on top"
+    ],
+    [
+     41,
+     "Marlin in the gap"
+    ],
+    [
+     56,
+     "Shark stalks right to left"
+    ]
+   ]
+  },
+  {
+   "n": 15,
+   "dur": 62,
+   "title": "The Shark splits the screen",
+   "bigs": [
+    {
+     "kind": "shark",
+     "route": "split",
+     "t0": 14,
+     "t1": 29
+    },
+    {
+     "kind": "marlin",
+     "route": "dash",
+     "t0": 33,
+     "t1": 39,
+     "lane": 0.35
+    }
+   ],
+   "story": "The Shark drops straight down the middle. Nothing crosses the center while it is there: each half gets its own fish that come in and leave on the same side. A Marlin crosses 4 seconds after the Shark is gone.",
+   "snaps": [
+    [
+     9,
+     "Before the split"
+    ],
+    [
+     21,
+     "Shark splits, each half on its own"
+    ],
+    [
+     36,
+     "Marlin crosses after"
+    ]
+   ]
+  },
+  {
+   "n": 16,
+   "dur": 75,
+   "title": "Meeting: the Shark has to wait",
+   "meet": true,
+   "wait": [
+    18,
+    31
+   ],
+   "bigs": [
+    {
+     "kind": "manta",
+     "route": "grandArc",
+     "t0": 4,
+     "t1": 37
+    },
+    {
+     "kind": "shark",
+     "route": "cruise",
+     "t0": 31,
+     "t1": 51,
+     "lane": 0.2
+    },
+    {
+     "kind": "marlin",
+     "route": "diag",
+     "t0": 56,
+     "t1": 62
+    }
+   ],
+   "story": "Meeting wave on a Grand arc. The Manta covers most of the screen, so no Shark lane fits and the Shark waits off screen. It enters at 31 s along the top row once the Manta has passed. This happens about once every 36 waves.",
+   "snaps": [
+    [
+     20,
+     "Grand arc, Shark waits off screen"
+    ],
+    [
+     36,
+     "Shark enters behind the Manta"
+    ],
+    [
+     58,
+     "Marlin closes the wave"
+    ]
+   ]
+  }
+ ]
+}

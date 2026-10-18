@@ -1,0 +1,128 @@
+{
+ "name": "Tuna",
+ "group": "medium",
+ "pays": "8-15x",
+ "role": "Cheapest medium, most predictable. Easy team shooting.",
+ "home": "Corners",
+ "habit": "Schools of 2-4 that hold formation (side-by-side arc or diagonal echelon). Always enters and leaves at corners.",
+ "status": "designed, not in game yet (game v7 has the older medium set)",
+ "routes": [
+  {
+   "id": "cornerRun",
+   "name": "Corner run",
+   "dur": [
+    12,
+    15
+   ],
+   "crosser": true,
+   "pts": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.35,
+     0.28
+    ],
+    [
+     0.65,
+     0.72
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ],
+   "purpose": "Corner to opposite corner as a block."
+  },
+  {
+   "id": "crisscross",
+   "name": "Crisscross",
+   "dur": [
+    12,
+    15
+   ],
+   "crosser": 2,
+   "twin": true,
+   "pts": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ],
+   "purpose": "Two schools at once, mirrored, crossing in an X. Best used as the release right after a Shark leaves."
+  },
+  {
+   "id": "cornerSwing",
+   "name": "Corner swing",
+   "dur": [
+    12,
+    15
+   ],
+   "crosser": true,
+   "pts": [
+    [
+     -0.08,
+     1.05
+    ],
+    [
+     0.25,
+     0.42
+    ],
+    [
+     0.5,
+     0.32
+    ],
+    [
+     0.75,
+     0.42
+    ],
+    [
+     1.08,
+     1.05
+    ]
+   ],
+   "purpose": "Corner to the neighbouring corner in an arch; flips to open up or down away from the Shark."
+  },
+  {
+   "id": "cornerHook",
+   "name": "Corner hook",
+   "dur": [
+    12,
+    15
+   ],
+   "pts": [
+    [
+     -0.08,
+     -0.05
+    ],
+    [
+     0.22,
+     0.26
+    ],
+    [
+     0.32,
+     0.5
+    ],
+    [
+     0.22,
+     0.74
+    ],
+    [
+     -0.08,
+     1.05
+    ]
+   ],
+   "purpose": "Stays on one side, corner to corner. The Tuna option while a Shark splits the screen."
+  }
+ ],
+ "id": "tuna"
+}

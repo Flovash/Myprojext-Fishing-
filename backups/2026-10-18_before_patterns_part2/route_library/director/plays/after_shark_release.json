@@ -1,0 +1,23 @@
+{
+ "id": "after_shark_release",
+ "enabled": true,
+ "if": {
+  "seconds_since_shark_left": "<10",
+  "shark_on_screen": false,
+  "boss_on": false
+ },
+ "then": {
+  "send": "tuna",
+  "route": "crisscross",
+  "formation": "arc",
+  "size": [
+   3,
+   4
+  ]
+ },
+ "limits": {
+  "cooldown_s": 50,
+  "max_per_wave": 1
+ },
+ "why": "The Shark just left: release the tension with a Tuna Crisscross (later: Medium Rush). Waits up to 10 s for the fast-crosser limit to allow two schools."
+}

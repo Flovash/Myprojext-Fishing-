@@ -1,0 +1,8 @@
+{
+ "id": "hot_table_spread",
+ "enabled": true,
+ "if": {"payback_vs_target": ">3"},
+ "then": {"effect": {"seconds": 120, "ban_routes": ["tuna.crisscross"], "route_weights": {"turtle.lazyS": 2, "turtle.slowCircle": 2, "tuna.cornerSwing": 1.5, "octopus.seatCrawl": 1.5}, "spread": true}},
+ "limits": {"cooldown_s": 180, "max_per_wave": 1},
+ "why": "The table is running hot (rolling payback over target + 3 points): calm routes, mediums spread out, no Crisscross, for two minutes."
+}

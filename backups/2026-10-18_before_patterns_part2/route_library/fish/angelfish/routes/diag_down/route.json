@@ -1,0 +1,32 @@
+{
+ "id": "diagDown",
+ "name": "Diagonal down",
+ "dur": [
+  25,
+  35
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.2
+  ],
+  [
+   0.3,
+   0.38
+  ],
+  [
+   0.65,
+   0.62
+  ],
+  [
+   1.1,
+   0.82
+  ]
+ ],
+ "purpose": "Slow diagonal, top-left to bottom-right.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": true
+ }
+}

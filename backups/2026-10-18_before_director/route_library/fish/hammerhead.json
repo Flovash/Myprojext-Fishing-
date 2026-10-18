@@ -1,0 +1,184 @@
+{
+ "name": "Hammerhead",
+ "group": "big",
+ "pays": "80-150x",
+ "role": "Edge guard. Gives way to the Shark and the Manta.",
+ "home": "Seat rows and sides",
+ "habit": "2 waves in 3; 1 in 6 of those is a pair patrol on both seat rows. Takes the edge opposite the Shark.",
+ "status": "in game (v6)",
+ "routes": [
+  {
+   "id": "rail",
+   "name": "Rail patrol",
+   "dur": [
+    20,
+    24
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.85
+    ],
+    [
+     0.3,
+     0.82
+    ],
+    [
+     0.6,
+     0.87
+    ],
+    [
+     1.1,
+     0.84
+    ]
+   ],
+   "purpose": "Patrols one seat row with a light weave. Also used for the pair patrol, mirrored on both rows."
+  },
+  {
+   "id": "corner",
+   "name": "Corner turn",
+   "dur": [
+    18,
+    22
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.15
+    ],
+    [
+     0.6,
+     0.13
+    ],
+    [
+     0.85,
+     0.22
+    ],
+    [
+     0.88,
+     0.6
+    ],
+    [
+     0.86,
+     1.1
+    ]
+   ],
+   "purpose": "Top row, then down a side."
+  },
+  {
+   "id": "sweep",
+   "name": "Head sweep",
+   "dur": [
+    20,
+    24
+   ],
+   "sway": true,
+   "pts": [
+    [
+     -0.1,
+     0.16
+    ],
+    [
+     0.5,
+     0.16
+    ],
+    [
+     1.1,
+     0.16
+    ]
+   ],
+   "purpose": "Sways side to side along a row."
+  },
+  {
+   "id": "wideU",
+   "name": "Wide U",
+   "dur": [
+    22,
+    26
+   ],
+   "pts": [
+    [
+     1.1,
+     0.18
+    ],
+    [
+     0.45,
+     0.2
+    ],
+    [
+     0.3,
+     0.5
+    ],
+    [
+     0.45,
+     0.8
+    ],
+    [
+     1.1,
+     0.82
+    ]
+   ],
+   "purpose": "In and out on the same side."
+  },
+  {
+   "id": "lowArc",
+   "name": "Low arc",
+   "dur": [
+    18,
+    22
+   ],
+   "noShark": true,
+   "pts": [
+    [
+     -0.1,
+     0.6
+    ],
+    [
+     0.3,
+     0.74
+    ],
+    [
+     0.7,
+     0.74
+    ],
+    [
+     1.1,
+     0.6
+    ]
+   ],
+   "purpose": "Under the middle. Only when no Shark is on screen."
+  },
+  {
+   "id": "swing",
+   "name": "Side swing",
+   "dur": [
+    12,
+    16
+   ],
+   "pts": [
+    [
+     1.1,
+     0.3
+    ],
+    [
+     0.76,
+     0.34
+    ],
+    [
+     0.7,
+     0.58
+    ],
+    [
+     0.8,
+     0.74
+    ],
+    [
+     1.1,
+     0.72
+    ]
+   ],
+   "purpose": "A short visit to one side."
+  }
+ ],
+ "id": "hammerhead"
+}

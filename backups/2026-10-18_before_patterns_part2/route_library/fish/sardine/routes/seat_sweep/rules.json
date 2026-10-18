@@ -1,0 +1,7 @@
+{
+ "route": "seatSweep",
+ "weight": 1,
+ "never_twice_in_a_row": true,
+ "seasons": {},
+ "why": "Along one seat row, around, back along the other."
+}

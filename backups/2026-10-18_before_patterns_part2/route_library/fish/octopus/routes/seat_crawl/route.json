@@ -1,0 +1,45 @@
+{
+ "id": "seatCrawl",
+ "name": "Seat crawl",
+ "dur": [
+  17,
+  22
+ ],
+ "pts": [
+  [
+   -0.1,
+   0.88
+  ],
+  [
+   0.5,
+   0.89
+  ],
+  [
+   1.1,
+   0.88
+  ]
+ ],
+ "pauses": [
+  {
+   "at": 0.3,
+   "hold": [
+    1.5,
+    2.5
+   ]
+  },
+  {
+   "at": 0.65,
+   "hold": [
+    1.5,
+    2.5
+   ]
+  }
+ ],
+ "edge": true,
+ "purpose": "Crawls along a seat row and rests twice.",
+ "flips": {
+  "mx": true,
+  "my": true,
+  "rev": false
+ }
+}

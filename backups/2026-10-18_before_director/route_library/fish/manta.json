@@ -1,0 +1,190 @@
+{
+ "name": "Manta Ray",
+ "group": "big",
+ "pays": "150-300x",
+ "role": "Second respect point, the attractor. Brings 8-12 small followers that tighten when a Shark is near.",
+ "home": "Half the screen; never the Shark lane",
+ "habit": "Every other wave. Meets the Shark about 1 visit in 3 (only through the Shark gate). Never flees, never speeds past 1.3x.",
+ "status": "in game (v6)",
+ "routes": [
+  {
+   "id": "grandArc",
+   "name": "Grand arc",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.78
+    ],
+    [
+     0.22,
+     0.32
+    ],
+    [
+     0.5,
+     0.2
+    ],
+    [
+     0.78,
+     0.32
+    ],
+    [
+     1.1,
+     0.78
+    ]
+   ],
+   "purpose": "Covers most of the screen. In a meeting no Shark lane fits, so the Shark waits off screen."
+  },
+  {
+   "id": "openGlide",
+   "name": "Open glide",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.28
+    ],
+    [
+     0.4,
+     0.25
+    ],
+    [
+     0.7,
+     0.31
+    ],
+    [
+     1.1,
+     0.28
+    ]
+   ],
+   "purpose": "Straight glide in the top or bottom half; leaves the other half free."
+  },
+  {
+   "id": "slowS",
+   "name": "Slow S",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.5
+    ],
+    [
+     0.25,
+     0.42
+    ],
+    [
+     0.5,
+     0.62
+    ],
+    [
+     0.75,
+     0.76
+    ],
+    [
+     1.1,
+     0.68
+    ]
+   ],
+   "purpose": "Middle-to-low S; only the far edge is left for a meeting Shark."
+  },
+  {
+   "id": "feedLoop",
+   "name": "Feeding loop",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.62
+    ],
+    [
+     0.14,
+     0.58
+    ],
+    [
+     0.26,
+     0.42
+    ],
+    [
+     0.36,
+     0.56
+    ],
+    [
+     0.26,
+     0.72
+    ],
+    [
+     0.14,
+     0.6
+    ],
+    [
+     0.2,
+     0.45
+    ],
+    [
+     -0.1,
+     0.4
+    ]
+   ],
+   "purpose": "Circles one side; followers bunch around it."
+  },
+  {
+   "id": "seatRow",
+   "name": "Seat row glide",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.8
+    ],
+    [
+     0.5,
+     0.83
+    ],
+    [
+     1.1,
+     0.8
+    ]
+   ],
+   "purpose": "Glides along a seat row; that row gets the followers up close."
+  },
+  {
+   "id": "wideDiag",
+   "name": "Wide diagonal",
+   "dur": [
+    30,
+    35
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.18
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     1.1,
+     0.82
+    ]
+   ],
+   "purpose": "Corner to corner glide."
+  }
+ ],
+ "id": "manta"
+}

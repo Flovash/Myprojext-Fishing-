@@ -1,0 +1,98 @@
+{
+ "name": "Shark",
+ "group": "big",
+ "pays": "100-400x",
+ "role": "Apex. Sets the plan every wave; everyone else reads its lane and reacts.",
+ "home": "Its own lane plus a buffer band; changes every wave",
+ "habit": "One per wave. Never enters from the same edge or travels the same direction two waves in a row. Picks an attitude, then a route from that attitude.",
+ "status": "in game (v6)",
+ "reactions": [
+  {
+   "id": "snapBack",
+   "name": "Snap back",
+   "trigger": "14 hits in 3 s, 50%",
+   "effect": "Reverses along its own lane at 1.6x speed and leaves where it came in."
+  },
+  {
+   "id": "frenzy",
+   "name": "Frenzy",
+   "trigger": "14 hits in 3 s, 50%",
+   "effect": "3 s of 1.5x speed with a hard side-to-side shake."
+  }
+ ],
+ "attitudes": {
+  "King": 0.45,
+  "Hungry": 0.2,
+  "Curious": 0.2,
+  "Aggressive": 0.15
+ },
+ "co_paths": [
+  {
+   "id": "shadow",
+   "name": "Shadow",
+   "status": "in game (v6)",
+   "effect": "A smaller second Shark follows 2-3 s behind in the same lane."
+  },
+  {
+   "id": "pincer",
+   "name": "Pincer",
+   "status": "in game (v6)",
+   "effect": "A smaller second Shark takes the mirrored lane at the same moment, never touching."
+  },
+  {
+   "id": "huntingPair",
+   "name": "Hunting pair",
+   "status": "designed"
+  },
+  {
+   "id": "sizeUp",
+   "name": "Size-up",
+   "status": "designed"
+  },
+  {
+   "id": "foodFight",
+   "name": "Food fight",
+   "status": "designed"
+  },
+  {
+   "id": "standoff",
+   "name": "Standoff",
+   "status": "designed"
+  },
+  {
+   "id": "waitingHolder",
+   "name": "Waiting holder",
+   "status": "designed"
+  },
+  {
+   "id": "frenzySpread",
+   "name": "Frenzy spreads",
+   "status": "designed"
+  }
+ ],
+ "id": "shark",
+ "game_id": "shark",
+ "group_sizes": [
+  1,
+  1
+ ],
+ "formations_allowed": [
+  "single"
+ ],
+ "route_order": [
+  "cruise",
+  "patrol",
+  "deep",
+  "center",
+  "split",
+  "diagonal",
+  "strike",
+  "feed",
+  "stalker",
+  "inspector",
+  "bubble",
+  "charge",
+  "thrash",
+  "rush"
+ ]
+}

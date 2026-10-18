@@ -1,0 +1,177 @@
+{
+ "name": "Sea Turtle",
+ "group": "medium",
+ "pays": "20-50x",
+ "role": "Calm: easy to catch but pays the most of the mediums. May drift near the Manta.",
+ "home": "Center",
+ "habit": "Slow curves only; the only fish that circles. Not counted as a fast crosser.",
+ "status": "designed, not in game yet (game v7 has the older medium set)",
+ "routes": [
+  {
+   "id": "lazyS",
+   "name": "Lazy S",
+   "dur": [
+    22,
+    27
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.45
+    ],
+    [
+     0.3,
+     0.36
+    ],
+    [
+     0.6,
+     0.58
+    ],
+    [
+     1.1,
+     0.44
+    ]
+   ],
+   "purpose": "A slow S through the center."
+  },
+  {
+   "id": "slowCircle",
+   "name": "Slow circle",
+   "dur": [
+    22,
+    27
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.42
+    ],
+    [
+     0.32,
+     0.36
+    ],
+    [
+     0.58,
+     0.38
+    ],
+    [
+     0.66,
+     0.56
+    ],
+    [
+     0.5,
+     0.68
+    ],
+    [
+     0.36,
+     0.56
+    ],
+    [
+     0.48,
+     0.4
+    ],
+    [
+     0.7,
+     0.38
+    ],
+    [
+     1.1,
+     0.44
+    ]
+   ],
+   "purpose": "One lazy loop in the middle."
+  },
+  {
+   "id": "seatVisit",
+   "name": "Seat visit",
+   "dur": [
+    22,
+    27
+   ],
+   "pauses": [
+    {
+     "at": 0.5,
+     "hold": [
+      2,
+      3
+     ]
+    }
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.25
+    ],
+    [
+     0.3,
+     0.3
+    ],
+    [
+     0.45,
+     0.8
+    ],
+    [
+     0.55,
+     0.8
+    ],
+    [
+     0.7,
+     0.3
+    ],
+    [
+     1.1,
+     0.25
+    ]
+   ],
+   "purpose": "Dips to a seat and rests there."
+  },
+  {
+   "id": "sideLoop",
+   "name": "Side loop",
+   "dur": [
+    22,
+    27
+   ],
+   "pts": [
+    [
+     -0.1,
+     0.3
+    ],
+    [
+     0.2,
+     0.28
+    ],
+    [
+     0.34,
+     0.44
+    ],
+    [
+     0.26,
+     0.62
+    ],
+    [
+     0.12,
+     0.56
+    ],
+    [
+     0.16,
+     0.4
+    ],
+    [
+     0.3,
+     0.36
+    ],
+    [
+     0.36,
+     0.6
+    ],
+    [
+     -0.1,
+     0.7
+    ]
+   ],
+   "purpose": "Loops on one side. The Turtle option while a Shark splits the screen."
+  }
+ ],
+ "id": "turtle"
+}
