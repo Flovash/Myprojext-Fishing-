@@ -17,9 +17,16 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 ## The list
 
 ### A. Foundations (needed by everything else)
-1. **Fixed odds everywhere:** the game still has three bank-driven odds features (scene payback multipliers with
-   bank-driven shapes, Golden Koi chance from the pocket, Wild moods capped by jars). Make them fixed (owner to confirm
-   how). The laws stay as they are: the director controls the show, never the odds.
+1. **Fixed odds; the banks decide *when*, not *how likely*** (owner, 2026-10-19):
+   - **Golden Koi:** fixed catch chance. The golden pocket decides **when the Koi is allowed to come**: only when the
+     pocket is almost full enough that the bank is safe. The director may take a risk and send it a little early.
+     In the market, the Golden lure is only for sale while a Koi is in the water, so nobody buys a 500 bait for nothing.
+   - **Wild moods:** same pattern. Each fish's jar decides when a Wild spell may start; while it's Wild, its table is fixed.
+   - **Scenes:** drop the gun payback multipliers (Bait Ball ×1.06, Hunt ×0.975, Current ×0.98, Giants ×0.97). Scenes
+     stay as show.
+   - **Gun and pole never affect each other:** separate algorithms, separate banks. The gun's show reads only the gun
+     bank, the pole's show only the pole bank. Today the director's rolling payback mixes both, and a waiting bobber
+     sends schools onto the gun's screen (spawn assist). The underwater world replaces that.
 2. **Two banks + one total:** gun bank and pole bank, each with balance, in/out, a target, and **reserved** (fish in
    bags not yet sold). The director reads both plus the total.
 3. **Tracking:** per fish (points spent on it, points paid), per bait, per seat, per bet size (incl. 1-token), per time
@@ -80,4 +87,4 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 4. No-cast box size, and whether a cast into it is moved to the edge or blocked.
 5. Boss bait outside boss waves (for deep visitors)?
 6. Season length: 3, 6 or 9 waves?
-7. The three bank-driven odds features in today's game: make them fixed now, or when the market is built?
+7. Do item 1 now, or together with the market?

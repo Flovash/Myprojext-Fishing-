@@ -2,6 +2,7 @@
 
 Newest first. One dated line per change, and say who made it (Claude Code, chat Claude, or you).
 
+- 2026-10-19 (Claude Code): Build list item 1 refined with the owner: odds are fixed and the banks only decide when things may happen (the Golden Koi only comes when its pocket makes the bank safe, and the director may risk it a little early; Wild spells gated by jars; scene payback multipliers dropped); gun and pole are separate algorithms and banks that never affect each other.
 - 2026-10-19 (Claude Code): Corrected the build list: the owner confirmed the director controls the show only and never changes any odds (I had written that it could balance odds table-wide). Item 1 is now making today's three bank-driven odds features fixed.
 - 2026-10-19 (Claude Code): Build list (`docs/plans/BUILD_LIST.md`) from the owner's direction: the director balances the pole table-wide with fish odds (tide is in, never per player), a no-cast box in the middle, dive points per fish with dive-and-return and dive-and-gone rules, a rarity budget so dives stay occasional, and the marketplace as the main feature. 24 items in build order, plus open decisions. Nothing built.
 - 2026-10-19 (Claude Code): Bait market plan updated with the owner's correction: selling a fish any time pays its catch value; keeping it to season end adds a weight (lb) bonus. Recommended funding: split today's pay into catch value + bonus so holders get today's return.
