@@ -135,7 +135,7 @@ select{background:#0a222b;border:1px solid var(--line);border-radius:8px;padding
 'use strict';
 const $ = s => document.querySelector(s);
 const cv = $('#cv'), ctx = cv.getContext('2d');
-const GAME_VERSION = 8;
+const GAME_VERSION = 9;
 const PI = Math.PI, TAU = PI * 2;
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -229,7 +229,8 @@ const FIGHT = {tiny: [2, 0.72], small: [3, 0.62], medium: [4, 0.52], big: [5, 0.
 const FIGHT_AVG = 0.9; // average player lands about 90% of fights, so the nibble chance is bite / 0.9
 
 // ================= SCENES (the director's building blocks) =================
-// pb scales the gun's catch chances for the whole table while the scene runs; mix sets how many fish of each group swim.
+// mix sets how many fish of each group swim. Scenes are show only: since v9 the old pb numbers are kept for the record but
+// never touch catch chances (the director controls the show, never the odds).
 const SCENES = {
   reef:     {name: 'Morning Reef', dur: [25, 35], pb: 1.0, mix: {tiny: 1.3, small: 1.1, medium: .8, big: .5}},
   hunt:     {name: 'The Hunt', dur: [30, 40], pb: 0.975, mix: {tiny: .9, small: .8, medium: 1.4, big: .8}, hunt: true},
@@ -277,11 +278,21 @@ const poleMood = {}, poleMoodT = {}, poleJar = {};
 for (const k in POLE_MOODS) { poleMood[k] = POLE_MOODS[k].moods.findIndex(m => m.n === 'Normal'); poleMoodT[k] = 0; poleJar[k] = 0; }
 let goldPocket = 5000;
 const director = {shape: null, queue: [], scene: null, sceneKey: 'reef', sceneT: 0, sceneDur: 30, wave: 0, wildcard: false, wildT: 0, log: []};
-const ledger = {gunW: 0, gunP: 0, poleW: 0, poleP: 0, rW: 0, rP: 0, totW: 0, totP: 0, byGroup: {}, pole: {}};
-const poleStat = (bait, k) => { if (!running) return; const o = ledger.pole[bait] = ledger.pole[bait] || {cast: 0, spoiled: 0, took: 0, lost: 0, landed: 0, w: 0, p: 0}; o[k]++; return o; };
+// Two banks: the gun and the pole are separate algorithms with separate money. Each bank = points in - points out.
+// r.gun / r.pole are each side's rolling totals (fade over ~10 min); rW/rP stay as the whole table's rolling totals.
+// byFish: points spent on each kind of fish and paid by it (gun = bets on hits, pole = bait cost when it reached the bobber).
+// byBet: gun points in and out by bet size. reserved: points owed for fish waiting in bags (the market).
+const ledger = {gunW: 0, gunP: 0, poleW: 0, poleP: 0, rW: 0, rP: 0, totW: 0, totP: 0, byGroup: {}, pole: {},
+  r: {gun: {w: 0, p: 0}, pole: {w: 0, p: 0}}, deposits: 0, reserved: 0, bonusPaid: 0, byFish: {}, byBet: {}};
+const fishStat = id => ledger.byFish[id] = ledger.byFish[id] || {gunW: 0, gunP: 0, hits: 0, catches: 0, poleW: 0, poleP: 0, bites: 0, landed: 0};
+const BET_BANDS = [[1, '1'], [9, '2-9'], [49, '10-49'], [1e9, '50+']];
+const betBand = n => BET_BANDS.find(b => n <= b[0])[1];
+const betStat = n => { const k = betBand(n); return ledger.byBet[k] = ledger.byBet[k] || {w: 0, p: 0, shots: 0, catches: 0}; };
+const bank = kind => ledger[kind + 'W'] - ledger[kind + 'P'];
+const poleStat = (bait, k) => { if (!running) return; const o = ledger.pole[bait] = ledger.pole[bait] || {bought: 0, cast: 0, spoiled: 0, took: 0, lost: 0, landed: 0, sold: 0, w: 0, p: 0}; o[k]++; return o; };
 
 function makeSeat(i) {
-  return {i, color: COLORS[i], points: 0, bet: 1, off: 0, cool: 0, recoil: 0, mode: 'gun', bait: 'worms', charge: -1, bobber: null, lock: null,
+  return {i, color: COLORS[i], points: 0, bet: 1, off: 0, cool: 0, recoil: 0, mode: 'gun', bait: 'worms', baits: {}, bag: [], mk: {open: false, tab: 0, i: 0, hold: 0, rep: 0}, charge: -1, bobber: null, lock: null,
     upHeld: 0, upRep: 0, lastFwd: -9, fwdDown: false, msg: null,
     lastInput: -1e9, prev: {fire: false, up: false, down: false, lock: false, rotL: false, rotR: false}, bot: {target: null, wait: 0, betT: 0, poleT: rand(20, 60), fishing: false, plan: null}, isBot: true,
     x: 0, y: 0, normal: -PI / 2, plateW: 100, side: 'bottom', slot: 0};
@@ -290,7 +301,7 @@ function buildSeats() {
   const n = clamp(settings.players | 0, 1, 10);
   const next = [];
   for (let i = 0; i < n; i++) next.push(seats[i] || makeSeat(i));
-  for (let i = n; i < seats.length; i++) if (seats[i].bobber) removeBobber(seats[i].bobber);
+  for (let i = n; i < seats.length; i++) { if (seats[i].bobber) removeBobber(seats[i].bobber); if (seats[i].bag.length) cashOutBag(seats[i]); }
   seats = next;
   layoutSeats();
 }
@@ -448,9 +459,9 @@ cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
 cv.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') pointer.active = false; });
 
 // ================= LEDGER =================
-function bookWager(kind, n) { if (!(n > 0)) return; ledger[kind + 'W'] += n; ledger.rW += n; ledger.totW += n; }
-function bookPay(kind, n) { if (!(n > 0)) return; ledger[kind + 'P'] += n; ledger.rP += n; ledger.totP += n; }
-const rollingPB = () => ledger.rW > 1500 ? ledger.rP / ledger.rW : TARGET[settings.diff];
+function bookWager(kind, n) { if (!(n > 0)) return; ledger[kind + 'W'] += n; ledger.r[kind].w += n; ledger.rW += n; ledger.totW += n; }
+function bookPay(kind, n) { if (!(n > 0)) return; ledger[kind + 'P'] += n; ledger.r[kind].p += n; ledger.rP += n; ledger.totP += n; }
+const rollingPB = kind => { const r = kind ? ledger.r[kind] : {w: ledger.rW, p: ledger.rP}; return r.w > 1500 ? r.p / r.w : TARGET[settings.diff]; };
 function seatPay(seat, n, kind) { if (!seats.includes(seat) || !(n > 0)) return; seat.points += n; if (running) bookPay(kind, n); }
 
 // ================= GUN =================
@@ -459,7 +470,7 @@ function shoot(s) {
   if (!free && s.points <= 0) return;
   if (bullets.filter(b => b.seat === s).length >= 24) return;
   const bet = free ? 0 : Math.min(s.bet, s.points);
-  s.points -= bet; if (!free) bookWager('gun', bet);
+  s.points -= bet; if (!free) { bookWager('gun', bet); const bs = betStat(bet); bs.w += bet; bs.shots++; }
   const lvl = Math.min(6, Math.floor(Math.log2(Math.max(1, s.bet))));
   const a = s.normal + s.off, p = pivot(s), bl = (40 + lvl * 4) * S, sp = 760 * S;
   bullets.push({x: p.x + Math.cos(a) * bl, y: p.y + Math.sin(a) * bl, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, seat: s, bet, bounces: settings.bounce ? 3 : 0, life: 4, lvl});
@@ -468,22 +479,22 @@ function shoot(s) {
 }
 function addCredits(s, n) {
   if (!s || !(n > 0)) return;
-  s.points += n;
+  s.points += n; if (running) ledger.deposits += n;
   const p = pivot(s);
   pops.push({x: p.x, y: p.y + Math.sin(s.normal) * 60 * S, text: '+' + fmt(n) + ' credits', color: s.color, t: 0});
   sfx('refill');
   const el = document.getElementById('cr' + s.i); if (el) el.textContent = fmt(s.points);
 }
-// The P that applies to this fish right now: group payback x difficulty x scene x seesaw state (states average to 1).
+// The P that applies to this fish right now: group payback x difficulty x seesaw state (states average to 1).
 function liveP(sp) {
-  let P = GROUPS[sp.group].pb * DIFF[settings.diff] * (director.scene ? director.scene.pb : 1);
+  let P = GROUPS[sp.group].pb * DIFF[settings.diff];
   if (sp.id === 'sardine') P *= SEESAW[seesaw.state][0];
   if (sp.id === 'minnow') P *= SEESAW[seesaw.state][1];
   return clamp(P, 0.8, 1.15);
 }
 function chainTargets(f) {
   const sp = f.type, out = [];
-  const pool = fish.filter(o => o !== f && !o.dead && !o.hooked && !o.type.poleOnly && o.type.group !== 'boss' && o.type.group !== 'big' && o.type.group !== 'special' && !inBubble(o));
+  const pool = fish.filter(o => o !== f && !o.dead && !o.hooked && !o.type.poleOnly && !o.underwater && !isDiving(o) && o.type.group !== 'boss' && o.type.group !== 'big' && o.type.group !== 'special' && !inBubble(o));
   if (sp.id === 'crab') { const R = sp.radius * S; for (const o of pool) if (Math.hypot(o.x - f.x, o.y - f.y) < R) out.push(o); }
   else { let cur = f; const R = 260 * S; for (let k = 0; k < sp.chain; k++) { let best = null, bd = R; for (const o of pool) { if (out.includes(o)) continue; const d = Math.hypot(o.x - cur.x, o.y - cur.y); if (d < bd) { bd = d; best = o; } } if (!best) break; out.push(best); cur = best; } }
   return out;
@@ -491,7 +502,8 @@ function chainTargets(f) {
 function resolveHit(f, b) {
   const sp = f.type;
   dispatchHit(f, b);
-  if (b.bet > 0) { const g = ledger.byGroup[sp.group] = ledger.byGroup[sp.group] || {hitW: 0, paid: 0, hits: 0, catches: 0}; g.hitW += b.bet; g.hits++; }
+  if (b.bet > 0) { const g = ledger.byGroup[sp.group] = ledger.byGroup[sp.group] || {hitW: 0, paid: 0, hits: 0, catches: 0}; g.hitW += b.bet; g.hits++; if (running) { const fs = fishStat(sp.id); fs.gunW += b.bet; fs.hits++; } }
+  hitBet = b.bet;
   sharkHit(f); octoHit(f);
   if (sp.group === 'special') {
     // Chance = P / (own value + average value of everything it would catch), so a crowded crab pays more but hits less.
@@ -519,13 +531,13 @@ function resolveHit(f, b) {
   if (Math.random() < chance) kill(f, b.seat, Math.round(drawMult(sp, mood) * b.bet));
   else sfx('hit');
 }
-let zaps = [];
+let zaps = [], hitBet = 1; // hitBet: the bet of the bullet being resolved, for the by-bet-size tracking
 function kill(f, seat, reward, silent, label, golden) {
   f.dead = true; f.dieT = 0;
   dispatchCatch(f, reward, false);
   if (reward > 0 && seats.includes(seat)) noteCatch(seat, f);
   if (seat.lock === f) seat.lock = null;
-  if (reward > 0) { seatPay(seat, reward, 'gun'); const g = ledger.byGroup[f.type.group]; if (g && running) { g.paid += reward; g.catches++; } }
+  if (reward > 0) { seatPay(seat, reward, 'gun'); const g = ledger.byGroup[f.type.group]; if (g && running) { g.paid += reward; g.catches++; } if (running) { const fs = fishStat(f.type.id); fs.gunP += reward; fs.catches++; const bs = betStat(hitBet); bs.p += reward; bs.catches++; } }
   const big = reward > 0 && (f.type.group === 'big' || f.type.group === 'boss' || golden || label);
   const n = Math.min(16, 3 + Math.floor(Math.sqrt(reward / Math.max(1, seat.bet)) / 2));
   const tp = seats.includes(seat) ? pivot(seat) : {x: W / 2, y: H / 2};
@@ -540,7 +552,7 @@ function fishHit(f, b) {
   const rx = f.len * 0.45 + 4 * S, ry = f.h * 0.5 + 4 * S;
   return (lx * lx) / (rx * rx) + (ly * ly) / (ry * ry) <= 1;
 }
-const reachableFrom = (s, f) => { const p = pivot(s); return !f.dead && !f.hooked && !f.type.poleOnly && f.x > 20 && f.x < W - 20 && f.y > 20 && f.y < H - 20 && Math.abs(wrap(Math.atan2(f.y - p.y, f.x - p.x) - s.normal)) < MAX_OFF - 0.05; };
+const reachableFrom = (s, f) => { const p = pivot(s); return !f.dead && !f.hooked && !f.type.poleOnly && !f.underwater && !isDiving(f) && f.x > 20 && f.x < W - 20 && f.y > 20 && f.y < H - 20 && Math.abs(wrap(Math.atan2(f.y - p.y, f.x - p.x) - s.normal)) < MAX_OFF - 0.05; };
 function aimAt(s, f, dt, rate) {
   const p = pivot(s), d = Math.hypot(f.x - p.x, f.y - p.y), lead = d / (760 * S);
   const tx = f.x + Math.cos(f.heading) * f.speed * lead, ty = f.y + Math.sin(f.heading) * f.speed * lead;
@@ -650,7 +662,7 @@ function moveFish(f, dt) {
     return;
   }
   if (f.path) {
-    for (const bb of bobbers) if (bb.state === 'wait' && eatsBait(sp.id, bb.bait) && Math.hypot(bb.x - f.x, bb.y - f.y) < bb.r * 4) { f.path = null; f.base = f.heading; break; }
+    for (const bb of bobbers) if (bb.state === 'wait' && f.koiFor === bb && Math.hypot(bb.x - f.x, bb.y - f.y) < bb.r * 4) { f.path = null; f.base = f.heading; break; }
     if (f.path) {
       const dir = f.dir || 1;
       let v = f.speed;
@@ -668,13 +680,14 @@ function moveFish(f, dt) {
       if (f.px || f.py) { const q = Math.exp(-dt / 1.2); f.px *= q; f.py *= q; }
       f.x = a.x - Math.sin(a.ang) * lat + (f.px || 0); f.y = a.y + Math.cos(a.ang) * lat + (f.py || 0);
       const dh = wrap(a.ang + (dir < 0 ? PI : 0) + wob - f.heading); f.heading += clamp(dh, -4 * dt, 4 * dt); f.base = f.heading;
+      if (f.dv) diveStep(f, dt, d);
       return;
     }
   }
-  // Bait pull: fish that eat a nearby bait steer toward it
+  // Bait pull: only the Golden Koi steers to its own lure (other baits are for the underwater fish)
   let pulled = false;
   for (const bb of bobbers) {
-    if (bb.state !== 'wait' || !eatsBait(sp.id, bb.bait)) continue;
+    if (bb.state !== 'wait' || f.koiFor !== bb) continue;
     const d = Math.hypot(bb.x - f.x, bb.y - f.y);
     if (d < bb.r * 4) { const want = Math.atan2(bb.y - f.y, bb.x - f.x); f.base += clamp(wrap(want - f.base), -1.6 * dt, 1.6 * dt); pulled = true; break; }
   }
@@ -785,7 +798,7 @@ function spawnOnPath(type, norm, count) {
     const f = addFish(type, a.x, a.y, a.ang, {path, s: 0, lag, lat, turn: 0});
     f.speed = speed; group.push(f);
   }
-  return group;
+  return planDive(group);
 }
 function spawnPathSchool(type, opts) {
   const count = opts.count || Math.floor(rand(type.school[0], type.school[1] + 1));
@@ -926,6 +939,7 @@ function spawnBig(c, extra = {}) {
   f.speed = speed;
   if (extra.scale) { f.len *= extra.scale; f.h *= extra.scale; }
   Object.assign(f, extra.props || {});
+  planDive([f]);
   const last = big.last[c.kind]; last.unshift(c.name); last.length = Math.min(last.length, c.kind === 'shark' ? 4 : 3);
   tagFish([f], newDispatch({fish: type.id, route: c.name, variant: (extra.props && extra.props.second) || c.variant || 'base', path}));
   return f;
@@ -1030,7 +1044,7 @@ function trySpawnMarlin(e) {
 function planBigWave() {
   const w = ++big.wave, lnb = rand(60, 75);
   big.waveEnd = time + lnb;
-  seasonWave();
+  seasonWave(); marketWave();
   big.events = big.events.filter(e => e.kind === 'shadow');
   bigStats.waves++;
   const ev = (kind, at, o = {}) => big.events.push(Object.assign({kind, at: time + at, wave: w, next: 0, born: time + at}, o));
@@ -1273,10 +1287,10 @@ function formationSlots(name, f, n, L, Hh) {
 }
 function placeSchool(type, r, path, rev, pauses, speed, slots) {
   const a0 = pathAt(path, 0);
-  return slots.map(o => {
+  return planDive(slots.map(o => {
     const f = addFish(type, a0.x, a0.y, a0.ang, {path, s: 0, lag: o.lag, lat: o.lat, turn: 0, rt: r, rev, pauses: pauses.map(q => Object.assign({}, q)), pi: 0, holdT: 0, px: 0, py: 0});
     f.speed = speed; return f;
-  });
+  }));
 }
 // want (from a play): {route, formation, size, exposure, spread, play, minScore}
 function spawnMedSchool(type, opts = {}) {
@@ -1327,7 +1341,7 @@ function medExposureTick(dt) {
 
 // ================= DIRECTOR =================
 function chooseShape() {
-  const pb = rollingPB(), tgt = TARGET[settings.diff], bossOn = !!settings.boss;
+  const pb = rollingPB('gun'), tgt = TARGET[settings.diff], bossOn = !!settings.boss; // the gun's show reads only the gun bank
   let shape;
   if (Math.random() < 0.12) shape = Math.random() < 0.5 ? 'storm' : 'giants';      // experiments
   else if (pb > tgt + 0.03) shape = 'recover';                                       // players ahead: quiet recovery
@@ -1351,19 +1365,21 @@ function nextScene() {
 }
 function directorTick(dt) {
   director.sceneT += dt;
+  koiTick(dt);
   if (director.wildcard && director.sceneT > director.wildT) { director.wildcard = false; spawnSchool(Math.random() < 0.5 ? SP.crab : SP.eel, {count: 1}); }
   if (director.sceneT >= director.sceneDur) nextScene();
   // table-wide gun moods: Stable about 60% of the time, Swingy 40%, each group on its own clock
   for (const g in gunMood) if ((gunMoodT[g] -= dt) <= 0) { gunMood[g] = Math.random() < 0.6 ? 'stable' : 'swingy'; gunMoodT[g] = rand(60, 180); }
   if ((seesaw.t -= dt) <= 0) { seesaw.state = pickW([['cold', .25], ['even', .5], ['hot', .25]], o => o[1])[0]; seesaw.t = rand(15, 30); }
-  // fishing moods: switch every 15-30 sec; Wild only when that fish's jar can pay for it
+  // fishing moods: switch every 15-30 sec; Wild only when that fish's jar can pay for it. The jar decides WHEN a Wild spell may
+  // start; while a fish is in a mood, that mood's published table is fixed.
   for (const k in POLE_MOODS) if ((poleMoodT[k] -= dt) <= 0) {
     const M = POLE_MOODS[k], i = M.moods.indexOf(pickW(M.moods, m => m.t)), m = M.moods[i];
     const normal = M.moods.find(x => x.n === 'Normal');
     poleMood[k] = (moodEV(m) > moodEV(normal) && poleJar[k] < M.cost * 1.5) ? M.moods.indexOf(normal) : i;
     poleMoodT[k] = rand(15, 30);
   }
-  const decay = Math.exp(-dt / 600); ledger.rW *= decay; ledger.rP *= decay;
+  const decay = Math.exp(-dt / 600); ledger.rW *= decay; ledger.rP *= decay; for (const k in ledger.r) { ledger.r[k].w *= decay; ledger.r[k].p *= decay; }
 }
 
 // ================= PLAYS =================
@@ -1395,7 +1411,7 @@ function playSignals(cold) {
     manta_on_screen: fish.some(f => !f.dead && f.big && f.type.id === 'manta' && onScreen(f)),
     boss_on: !!(director.scene && director.scene.boss),
     season: season.name,
-    payback_vs_target: (rollingPB() - TARGET[settings.diff]) * 100,
+    payback_vs_target: (rollingPB('gun') - TARGET[settings.diff]) * 100,
     seconds_since_shark_left: time - sharkLeftAt,
     seconds_since_boss_ended: time - bossEndedAt,
   };
@@ -1452,28 +1468,327 @@ function playsTick(dt) {
 
 // ================= FISHING =================
 const eatsBait = (id, bait) => !!BAITS[bait].fish[id];
-function availableBaits() { return BAIT_ORDER.filter(k => k !== 'c_cg' || (director.scene && director.scene.boss)); }
+function availableBaits() { return BAIT_ORDER.filter(k => (k !== 'c_cg' || (director.scene && director.scene.boss) || deepInWater()) && (k !== 'golden' || koi.open)); }
 function nextBait(s) { const list = availableBaits(); let i = list.indexOf(s.bait); s.bait = list[(i + 1) % list.length]; sfx('bet'); }
 function castAt(s, x, y) {
   if (s.bobber) return;
   if (!availableBaits().includes(s.bait)) s.bait = 'worms';
   const B = BAITS[s.bait];
-  if (running && s.points < B.cost) { s.msg = {text: `Need ${B.cost}`, t: 0}; return; }
-  if (running) { s.points -= B.cost; bookWager('pole', B.cost); poleStat(s.bait, 'cast').w += B.cost; }
-  if (!running) {} else if (B.tier === 'medium') goldPocket += B.cost * 0.02; else if (B.tier === 'big' || B.tier === 'boss') goldPocket += B.cost * 0.04; else if (B.tier === 'special') goldPocket += B.cost;
+  // each cast uses one bait from the seat's stock; with none left, a quick cast buys one at the counter
+  if (running && !(s.baits[s.bait] > 0) && !buyBait(s, s.bait, 1)) return;
+  if (running) { s.baits[s.bait]--; poleStat(s.bait, 'cast'); }
   const r = B.r * S;
   x = clamp(x, r * 0.6, W - r * 0.6); y = clamp(y, r * 0.6 + 50 * S, H - r * 0.6 - 50 * S);
+  const nc = outOfNoCast(x, y); if (nc.moved) { x = nc.x; y = nc.y; s.msg = {text: 'Too deep in the middle', t: 0}; }
   const bb = {seat: s, bait: s.bait, x, y, r, life: 30, spook: 0, state: 'wait', idle: 0, fight: null, fish: null, free: !running, t: 0};
   bobbers.push(bb); s.bobber = bb; s.lastShot = time;
   if (s.bait === 'golden') bb.koiAt = rand(2, 6);
   sfx('cast');
 }
-function removeBobber(bb) { bobbers = bobbers.filter(o => o !== bb); if (bb.seat.bobber === bb) bb.seat.bobber = null; if (bb.fish && !bb.fish.dead) { bb.fish.hooked = null; bb.fish.base = rand(0, TAU); bb.fish.speed *= 1.6; } }
-function koiChance() { return goldPocket < 5000 ? 0.05 : goldPocket > 15000 ? 0.11 : 0.088; }
+function removeBobber(bb) { bobbers = bobbers.filter(o => o !== bb); if (bb.seat.bobber === bb) bb.seat.bobber = null; if (bb.fish && !bb.fish.dead) { bb.fish.hooked = null; bb.fish.base = rand(0, TAU); bb.fish.speed *= 1.6; if (bb.fish.underwater) { bb.fish.gone = true; underSpawn(bb.fish.type.id, {x: bb.fish.x, y: bb.fish.y}, bb.fish.base); } } }
+// Golden Koi: its catch chance is fixed. The golden pocket only decides WHEN a Koi may be in the water (and so whether the
+// Golden lure can be used): when the pocket can cover a full Koi pay, the bank is safe. Between KOI_RISK and KOI_SAFE the
+// director may take the risk and let it in early. Checked every KOI_CHECK seconds; a cast already made is never changed.
+const KOI_CHANCE = 0.088, KOI_PAY = 5000, KOI_SAFE = 5000, KOI_RISK = 4000, KOI_RISK_TAKE = 0.25, KOI_CHECK = 60;
+const koi = {open: true, t: KOI_CHECK, opened: 0, risked: 0};
+function koiTick(dt) {
+  if ((koi.t -= dt) > 0) return;
+  koi.t = KOI_CHECK;
+  const was = koi.open;
+  if (goldPocket >= KOI_SAFE) koi.open = true;
+  else if (goldPocket >= KOI_RISK) { if (!was && Math.random() < KOI_RISK_TAKE) { koi.open = true; koi.risked++; } }
+  else koi.open = false;
+  if (koi.open && !was) koi.opened++;
+}
+function koiChance() { return KOI_CHANCE; }
+// ================= DIVING (v9) =================
+// Some fish sometimes sink to a faint shadow, keep swimming their own route under the water, and come back up further along
+// it. While down they belong to the pole's world (the gun can't hit them; they can bite a bait their route crosses).
+// Sometimes a fish dives and never comes back. The dive point is picked when the fish's trip starts, before anyone aims,
+// so a dive never depends on who is shooting at it. A shared budget keeps it rare: one dive at a time, a random wait between
+// dives, quiet stretches with none, and none during a boss intro or a big banner. Movement never changes catch chances.
+const DIVE = {
+  chance: {turtle: 1 / 6, manta: 1 / 6, octopus: 1 / 6, tuna: 1 / 6, sword: 1 / 6, marlin: 1 / 6, hammer: 1 / 6, shark: 1 / 6, sardine: 1 / 15, minnow: 1 / 15, anchovy: 1 / 15},
+  window: [0.25, 0.7],   // where on the route a dive may start (share of its length); a route's own `dive: [a, b]` or `dive: false` wins
+  under: [3, 8],         // seconds under the water
+  sink: 1.0, rise: 1.0,  // seconds to go down and to come back up
+  gone: 0.25,            // share of dives that never come back (only from the later part of a route)
+  goneFrom: 0.55,
+  wait: [45, 100],       // seconds between dives, table-wide
+  quietChance: 0.2, quiet: [120, 240], // after a dive, sometimes a few minutes with none at all
+  maxAtOnce: 1,
+};
+const dive = {active: 0, nextOK: 30, quietUntil: 0, started: 0, gone: 0, skipped: 0, bites: 0};
+let diveFx = []; // bubbles from fish going down or coming up
+const isDiving = f => !!(f.dv && f.dv.phase !== 'wait' && f.dv.phase !== 'done');
+// called with each new school or big fish on a route: decide once for the whole group whether and where it may dive
+function planDive(group) {
+  const f0 = group[0]; if (!f0 || !f0.path) return group;
+  const ch = DIVE.chance[f0.type.id]; if (!ch) return group;
+  const own = f0.rt && f0.rt.dive; if (own === false) return group;
+  if (Math.random() >= ch) return group;
+  const win = Array.isArray(own) ? own : DIVE.window, at = rand(win[0], win[1]);
+  const plan = {at, under: rand(DIVE.under[0], DIVE.under[1]), gone: at >= DIVE.goneFrom && Math.random() < DIVE.gone, group};
+  for (const f of group) f.dv = {plan, phase: 'wait', t: 0};
+  return group;
+}
+function diveAllowed() {
+  if (dive.active >= DIVE.maxAtOnce || time < dive.nextOK || time < dive.quietUntil) return false;
+  if (director.scene && director.scene.boss && director.sceneT < 8) return false;
+  if (banner && banner.t < banner.dur) return false;
+  return true;
+}
+// the group's leader (first fish) decides when the dive starts; every fish of the group follows at its own place on the route
+function diveStep(f, dt, d) {
+  const v = f.dv, P = v.plan;
+  if (v.phase === 'wait') {
+    const lead = P.group.find(o => !o.dead && !o.gone && o.dv === v) || f;
+    if (P.started == null && lead === f && d / f.path.len >= P.at) {
+      P.started = diveAllowed() ? time : -1;
+      if (P.started > 0) { dive.active++; dive.started++; if (P.gone) dive.gone++; }
+      else dive.skipped++;
+    }
+    if (P.started > 0 && !f.hooked && !f.dead) { v.phase = 'down'; v.t = 0; if (f === lead || !P.lockedOut) underLink(f); }
+    else if (P.started === -1) v.phase = 'done';
+    return;
+  }
+  v.t += dt;
+  if ((v.phase === 'down' || v.phase === 'up') && Math.random() < dt * 12) diveFx.push({x: f.x + rand(-0.3, 0.3) * f.len, y: f.y, r: rand(1.5, 4) * S, vy: rand(20, 50) * S, life: rand(0.6, 1.4), t: 0});
+  const left = (f.path.len - d) / Math.max(1, f.speed); // seconds until the route ends
+  if (v.phase === 'down' && v.t >= DIVE.sink) {
+    if (P.gone) { f.gone = true; underFree(f); return; }
+    v.phase = 'under'; v.t = 0;
+  } else if (v.phase === 'under' && (v.t >= P.under || left < DIVE.rise + 1.5)) { v.phase = 'up'; v.t = 0; underUnlink(f); }
+  else if (v.phase === 'up' && v.t >= DIVE.rise) { v.phase = 'done'; diveDone(P); }
+}
+function diveDone(P) {
+  if (P.ended) return;
+  if (P.group.some(o => !o.dead && !o.gone && o.dv && o.dv.plan === P && isDiving(o))) return;
+  P.ended = true; dive.active = Math.max(0, dive.active - 1);
+  dive.nextOK = time + rand(DIVE.wait[0], DIVE.wait[1]);
+  if (Math.random() < DIVE.quietChance) dive.quietUntil = time + rand(DIVE.quiet[0], DIVE.quiet[1]);
+}
+// while a fish is down, an entry in the underwater pool rides along with it (it can bite a bait its route crosses)
+function underLink(f) { const u = underSpawn(f.type.id, {x: f.x, y: f.y}, f.heading); u.link = f; f.under = u; }
+function underUnlink(f) { if (f.under) { f.under.gone = true; f.under = null; } }
+// a fish that dives and never comes back joins the underwater pool for good
+function underFree(f) { if (f.under) { f.under.link = null; f.under.h = f.under.base = f.heading; f.under = null; } else underSpawn(f.type.id, {x: f.x, y: f.y}, f.heading); diveDone(f.dv.plan); }
+// ================= UNDERWATER (v9) =================
+// The pole's own world: fish under the water are a separate population from the gun's screen fish. The gun can't see or hit
+// them; screen fish never bite. A cast is decided here: the first underwater fish that eats the bait and swims into the
+// bobber's circle decides it, with the same roll, fight and pay as before. Species come in with fixed published weights
+// (each fish's w). The middle of the screen is too deep to fish: casts aimed there land at the box's edge.
+const UNDER = {
+  size: 18,         // underwater fish swimming at once
+  speed: 0.6,       // x their screen speed
+  smell: 4,         // a waiting bait pulls eaters from this many circle-widths away
+  arriveIdle: 5,    // seconds with no eater near a bait before one comes up from the deep toward it
+};
+const NO_CAST = {x0: 0.3, x1: 0.7, y0: 0.35, y1: 0.65}; // share of the screen
+let under = [];
+const UNDER_IDS = [...new Set(Object.values(BAITS).flatMap(B => Object.keys(B.fish)))].filter(id => id !== 'koi' && SP[id].group !== 'boss');
+const underStats = {spawned: 0, arrivals: 0, bites: 0, took: 0};
+function underSpawn(id, at, heading) {
+  const T = SP[id], L = T.len * S, e = at || entryPoint(L);
+  const h = heading != null ? heading : Math.atan2(rand(H * 0.2, H * 0.8) - e.y, rand(W * 0.2, W * 0.8) - e.x);
+  const u = {id, x: e.x, y: e.y, h, base: h, sp: T.speed * speedMult() * S * UNDER.speed * rand(0.8, 1.2), len: L, age: 0, deep: false};
+  under.push(u); underStats.spawned++;
+  return u;
+}
+const pickUnderId = ids => pickW(ids.map(id => SP[id]), t => underWeight(t)).id;
+function underTick(dt) {
+  if (!W) return;
+  while (under.filter(u => !u.link).length < UNDER.size) {
+    // the first fish of the night start spread around the water, later ones swim in from the edges
+    const id = pickUnderId(UNDER_IDS);
+    if (!underStats.spawned) { for (let k = 0; k < UNDER.size; k++) underSpawn(pickUnderId(UNDER_IDS), {x: rand(0, W), y: rand(0, H)}, rand(0, TAU)); continue; }
+    underSpawn(id);
+  }
+  // boss waves: the boss is under the water too, so the boss bait has something to find
+  const bossOn = director.scene && director.scene.boss ? fish.find(f => !f.dead && f.type.group === 'boss') : null;
+  if (bossOn && !under.some(u => u.id === bossOn.type.id)) { const u = underSpawn(bossOn.type.id, {x: rand(W * 0.2, W * 0.8), y: rand(H * 0.2, H * 0.8)}, rand(0, TAU)); u.deep = true; u.boss = true; }
+  for (const u of under) {
+    u.age += dt;
+    if (u.link) { const f = u.link; if (f.dead || f.gone || !isDiving(f)) { u.gone = true; continue; } u.x = f.x; u.y = f.y; u.h = u.base = f.heading; continue; }
+    let pulled = false;
+    for (const bb of bobbers) {
+      if (bb.state !== 'wait' || !eatsBait(u.id, bb.bait)) continue;
+      if (Math.hypot(bb.x - u.x, bb.y - u.y) < bb.r * UNDER.smell) { u.base += clamp(wrap(Math.atan2(bb.y - u.y, bb.x - u.x) - u.base), -1.6 * dt, 1.6 * dt); pulled = true; break; }
+    }
+    if (!pulled && !u.deep) u.base += Math.sin(u.age * 0.5 + u.len) * 0.15 * dt;
+    u.h += clamp(wrap(u.base - u.h), -2 * dt, 2 * dt);
+    u.x += Math.cos(u.h) * u.sp * dt; u.y += Math.sin(u.h) * u.sp * dt;
+    const m = u.len * 1.5;
+    if (u.boss) { if (!bossOn) u.gone = true; else if (u.x < 0 || u.x > W || u.y < 0 || u.y > H) u.base = Math.atan2(H / 2 - u.y, W / 2 - u.x); }
+    else if (u.x < -m || u.x > W + m || u.y < -m || u.y > H + m) u.gone = true;
+  }
+  under = under.filter(u => !u.gone);
+}
+// nothing that eats this bait came near for a while: one swims up from the deep toward it
+function underArrive(bb) {
+  const ids = Object.keys(BAITS[bb.bait].fish).filter(id => UNDER_IDS.includes(id));
+  if (!ids.length) return;
+  const id = pickUnderId(ids), e = entryPoint(SP[id].len * S);
+  underSpawn(id, e, Math.atan2(bb.y - e.y, bb.x - e.x)); underStats.arrivals++;
+}
+// an underwater fish took the bait: it rises at the bobber for the fight as a pole-only fish the gun can't touch
+function underBite(bb, u) {
+  if (running && !bb.free) { const fs = fishStat(u.id); fs.poleW += BAITS[bb.bait].cost; fs.bites++; }
+  underStats.bites++;
+  const row = biteRow(u.id, bb.bait);
+  if (u.deep && !u.boss && row) deep.caught++;
+  if (u.link && row) { const f = u.link; dive.bites++; f.gone = true; f.dv.phase = 'done'; diveDone(f.dv.plan); }
+  if (row) {
+    u.gone = true; under = under.filter(o => o !== u);
+    const f = addFish(SP[u.id], u.x, u.y, u.h, {underwater: true, entered: true});
+    startFight(bb, f, row);
+  } else {
+    underStats.took++; poleStat(bb.bait, 'took'); bb.seat.msg = {text: `${SP[u.id].name} took the bait`, t: 0};
+    if (!u.link) u.base = Math.atan2(u.y - bb.y, u.x - bb.x);
+    removeBobber(bb); sfx('lost');
+  }
+}
+function inNoCast(x, y) { return x > W * NO_CAST.x0 && x < W * NO_CAST.x1 && y > H * NO_CAST.y0 && y < H * NO_CAST.y1; }
+function outOfNoCast(x, y) {
+  if (!inNoCast(x, y)) return {x, y, moved: false};
+  const opts = [[W * NO_CAST.x0 - 1, y, x - W * NO_CAST.x0], [W * NO_CAST.x1 + 1, y, W * NO_CAST.x1 - x], [x, H * NO_CAST.y0 - 1, y - H * NO_CAST.y0], [x, H * NO_CAST.y1 + 1, H * NO_CAST.y1 - y]];
+  const best = opts.reduce((a, b) => b[2] < a[2] ? b : a);
+  return {x: best[0], y: best[1], moved: true};
+}
+// ================= DEEP VISITORS + POLE SHOW (v9) =================
+// The director's show for the pole side. It reads only the pole bank, and only decides what swims under the water and when;
+// every bite table stays fixed.
+// - Deep visitors: now and then a Megalodon, Giant Squid, Kraken or Healer crosses as a huge shadow and never surfaces. While
+//   one is in the water the boss bait (Chum + Golden) is on sale, so a player who sees the shadow can try for it. Like the
+//   Golden Koi, a visitor only comes when the pole bank can cover its pay; the director may risk one a little early.
+// - Scene favorites: the fish a scene favors on screen (Turtle Parade, Night Water...) are also more common under the water.
+const DEEP = {
+  ids: ['megalodon', 'gsquid', 'kraken', 'healer'],
+  gap: [12, 25],          // minutes between visitors (2-5 an hour)
+  cross: [28, 40],        // seconds to cross the screen
+  safeBank: 15000,        // pole bank that covers a boss pay: the bank is safe
+  riskBank: 9000,         // between riskBank and safeBank the director takes the risk this often (per check)
+  riskTake: 0.3,
+  check: 30,              // seconds between checks
+};
+const deep = {next: 6 * 60, t: 0, sent: 0, risked: 0, held: 0, caught: 0, now: null};
+function deepTick(dt) {
+  if ((deep.t -= dt) > 0) return; deep.t = DEEP.check;
+  deep.now = under.find(u => u.deep && !u.boss) || null;
+  if (deep.now || time < deep.next || !running || (director.scene && director.scene.boss)) return;
+  const pb = bank('pole');
+  let go = pb >= DEEP.safeBank;
+  if (!go && pb >= DEEP.riskBank && Math.random() < DEEP.riskTake) { go = true; deep.risked++; }
+  if (!go) { deep.held++; return; }
+  const id = pickW(DEEP.ids.map(i => SP[i]), t => t.w || 5).id, side = Math.random() < 0.5;
+  const y0 = rand(H * 0.2, H * 0.8), y1 = rand(H * 0.2, H * 0.8), L = SP[id].len * S;
+  const u = underSpawn(id, {x: side ? -L : W + L, y: y0}, Math.atan2(y1 - y0, (side ? W + L : -L) - (side ? -L : W + L)));
+  u.deep = true; u.sp = (W + 2 * L) / rand(DEEP.cross[0], DEEP.cross[1]);
+  deep.now = u; deep.sent++; deep.next = time + rand(DEEP.gap[0], DEEP.gap[1]) * 60;
+  sceneTag = {text: 'Something big moves in the deep…', t: 0};
+}
+const deepInWater = () => under.some(u => u.deep && !u.gone);
+// scene favorites under the water too (show only)
+function underWeight(t) { const sc = director.scene; return (t.w || 5) * ((sc && sc.prefer && sc.prefer[t.id]) || 1); }
+// ================= MARKET (v9) =================
+// Every fishing seat has a market (pole mode only): buy bait into the seat's stock, and keep caught fish in a bag.
+// Sell a fish any time = its catch value (what the fish would have paid before v9). Keep it to the season end = catch value
+// + a weight bonus: its lb x bonusPerLb[group]. Weight only, nothing else. Buying bait is the pole wager; selling is the pay.
+// Numbers checked with lab/market_calc.js (bonus about 5% of a fish's value on average in every group).
+const MARKET = {
+  bonusPerLb: {tiny: 9, small: 6, medium: 0.2, big: 0.14, boss: 0.2, special: 0},
+  bagMax: 20,          // fish a seat can hold; a full bag sells its oldest fish at catch value to make room
+  closeEveryWaves: 6,  // only when seasons are off; otherwise the market closes when the season changes
+  leave: 'value',      // a player who leaves mid-season: the bag sells at catch value ('value') or with the bonus ('bonus')
+  buyRepeat: 0.22,     // holding Button 1 on a bait keeps buying, one every this many seconds
+  sellAllHold: 1.0,    // holding Button 1 this long on the Sell tab sells the whole bag now
+};
+// end MARKET
+const MK_TABS = ['BUY', 'SELL', 'BAG'];
+const market = {wave: 0, seasonSeen: 0, closes: 0, last: null};
+function feedPocket(B) { if (B.tier === 'medium') goldPocket += B.cost * 0.02; else if (B.tier === 'big' || B.tier === 'boss') goldPocket += B.cost * 0.04; else if (B.tier === 'special') goldPocket += B.cost; }
+const fishBonus = it => Math.round(it.lb * (MARKET.bonusPerLb[it.group] || 0));
+const bagValue = (s, withBonus) => s.bag.reduce((a, it) => a + it.value + (withBonus ? fishBonus(it) : 0), 0);
+function syncReserved() { ledger.reserved = seats.reduce((a, s) => a + bagValue(s, true), 0); }
+function buyBait(s, key, n) {
+  const B = BAITS[key];
+  if (!B || !availableBaits().includes(key)) return 0;
+  let got = 0;
+  for (; got < n; got++) {
+    if (!running) break;
+    if (s.points < B.cost) { if (!got) s.msg = {text: `Need ${B.cost}`, t: 0}; break; }
+    s.points -= B.cost; bookWager('pole', B.cost); const st = poleStat(key, 'bought'); if (st) st.w += B.cost; feedPocket(B);
+    s.baits[key] = (s.baits[key] || 0) + 1;
+  }
+  return got;
+}
+// a landed fish goes into the bag with its own kind, mood, weight and catch value
+function bagFish(s, f, value, lb, bait, mood) {
+  if (s.bag.length >= MARKET.bagMax) { const old = s.bag[0]; sellFish(s, 0, false); s.msg = {text: `Bag full: sold ${old.name} ${fmt(old.value)}`, t: 0}; }
+  s.bag.push({id: f.type.id, name: f.type.name, group: f.type.group, lb, value, bait, mood: mood || null, t: time});
+  syncReserved();
+}
+function sellFish(s, idx, withBonus) {
+  const it = s.bag[idx]; if (!it) return 0;
+  s.bag.splice(idx, 1);
+  const bonus = withBonus ? fishBonus(it) : 0, pts = it.value + bonus, f = {type: SP[it.id]};
+  if (pts > 0) {
+    seatPay(s, pts, 'pole');
+    if (running) { const fs = fishStat(it.id); fs.poleP += pts; const ps = poleStat(it.bait, 'sold'); if (ps) ps.p += pts; ledger.bonusPaid += bonus; }
+  }
+  syncReserved();
+  return pts;
+}
+function sellBag(s, withBonus) { let n = 0, pts = 0; while (s.bag.length) { pts += sellFish(s, 0, withBonus); n++; } return {n, pts}; }
+// a player leaving mid-season (or a seat closing): nothing in the bag is lost
+function cashOutBag(s) { return sellBag(s, MARKET.leave === 'bonus'); }
+function seatCoins(s, n) { const tp = pivot(s); for (let k = 0; k < n; k++) { const a = rand(0, TAU), r = rand(10, 50); coins.push({x0: W / 2, y0: H / 2, ox: Math.cos(a) * r, oy: Math.sin(a) * r, tx: tp.x, ty: tp.y, t: 0, d: k * 0.04}); } }
+// season end: every bag sells with its weight bonus
+function marketClose() {
+  market.closes++;
+  let total = 0, best = null;
+  for (const s of seats) {
+    if (!s.bag.length) continue;
+    const r = sellBag(s, true); total += r.pts;
+    if (r.pts > 0) { seatCoins(s, Math.min(12, 3 + r.n)); s.msg = {text: `Market: ${r.n} fish +${fmt(r.pts)}`, t: 0}; if (!best || r.pts > best.pts) best = {s, pts: r.pts, n: r.n}; }
+  }
+  market.last = {t: time, total};
+  if (total > 0) { banner = {text: 'Market closed', sub: `Season catch sold · +${fmt(total)}${best ? ` · top Player ${best.s.i + 1}` : ''}`, t: 0, dur: 2.4, color: '#ffc94a'}; sfx('big'); }
+}
+function marketWave() { // called at the start of every big-fish wave, after seasonWave()
+  const seasonsOn = LAW.season_length_waves > 0 && SEASONS.length;
+  if (seasonsOn ? season.changes !== market.seasonSeen : ++market.wave >= MARKET.closeEveryWaves) { market.seasonSeen = season.changes; market.wave = 0; marketClose(); }
+}
+function wavesToClose() { return LAW.season_length_waves > 0 && SEASONS.length ? Math.max(1, LAW.season_length_waves - season.wave + 1) : MARKET.closeEveryWaves - market.wave; }
+function mkList(s) { return s.mk.tab === 0 ? availableBaits() : s.mk.tab === 1 ? s.bag : []; }
+function toggleMarket(s) {
+  if (!running || s.mode !== 'pole' || (s.bobber && s.bobber.state === 'fight')) return;
+  s.mk.open = !s.mk.open; s.charge = -1;
+  if (s.mk.open) { s.mk.tab = 0; s.mk.i = Math.max(0, availableBaits().indexOf(s.bait)); }
+  sfx('bet');
+}
+// joystick inside the market: left/right scroll, Button 1 buys/sells (hold repeats / sells all), lock (E, double forward) next tab
+function marketInput(s, inp, dt, edge) {
+  const rotL = inp.rot < 0, rotR = inp.rot > 0;
+  if (edge('lock')) { s.mk.tab = (s.mk.tab + 1) % MK_TABS.length; s.mk.i = s.mk.tab === 0 ? Math.max(0, availableBaits().indexOf(s.bait)) : 0; sfx('bet'); }
+  const list = mkList(s);
+  if (list.length && ((rotL && !s.prev.rotL) || (rotR && !s.prev.rotR))) { s.mk.i = (s.mk.i + (rotR ? 1 : list.length - 1)) % list.length; sfx('bet'); }
+  s.mk.i = list.length ? clamp(s.mk.i, 0, list.length - 1) : 0;
+  if (s.mk.tab === 0 && list.length) s.bait = list[s.mk.i];
+  if (!inp.fire) { s.mk.hold = 0; return; }
+  s.mk.hold += dt;
+  if (s.mk.tab === 0 && list.length) {
+    if (edge('fire')) { s.mk.rep = 0.45; if (buyBait(s, list[s.mk.i], 1)) sfx('refill'); }
+    else if ((s.mk.rep -= dt) <= 0) { s.mk.rep = MARKET.buyRepeat; if (buyBait(s, list[s.mk.i], 1)) sfx('refill'); }
+  } else if (s.mk.tab === 1 && list.length) {
+    if (edge('fire')) { const it = list[s.mk.i], pts = sellFish(s, s.mk.i, false); if (pts) { seatCoins(s, 4); s.msg = {text: `Sold ${it.name} +${fmt(pts)}`, t: 0}; sfx('catch'); } }
+    else if (s.mk.hold >= MARKET.sellAllHold && s.bag.length) { const r = sellBag(s, false); seatCoins(s, 8); s.msg = {text: `Sold all ${r.n} +${fmt(r.pts)}`, t: 0}; sfx('catch'); s.mk.hold = -99; }
+  }
+}
 // The cast's one roll. Returns the landing row, or null if the fish swims off.
 function biteRow(id, bait) {
   const entry = BAITS[bait].fish[id];
-  if (entry === 'pocket') return Math.random() < koiChance() ? {pocket: true, p: pay([5000])} : null;
+  if (entry === 'pocket') return Math.random() < koiChance() ? {pocket: true, p: pay([KOI_PAY])} : null;
   if (entry === 'mood') {
     const M = POLE_MOODS[id], m = M.moods[poleMood[id]], normal = M.moods.find(x => x.n === 'Normal');
     poleJar[id] += M.cost * (moodEV(normal) - moodEV(m)) / M.cost; // Low feeds the jar, Wild draws from it (in points per cast)
@@ -1500,12 +1815,13 @@ function endFight(bb, landed) {
     dispatchCatch(f, pts, true);
     if (pts > 0) {
       noteCatch(s, f);
-      seatPay(s, pts, 'pole'); const ps = poleStat(bb.bait, 'landed'); if (ps) ps.p += pts;
       const lbs = r.lb || Math.round(rand(f.type.lb[0], f.type.lb[1]) * 10) / 10;
-      pops.push({x: f.x, y: f.y - 20 * S, text: '+' + fmt(pts), color: s.color, t: 0, big: pts >= 500});
-      pops.push({x: f.x, y: f.y + 16 * S, text: `${f.type.name} ${lbs} lb`, color: '#e8f6f4', t: 0, small: true});
+      poleStat(bb.bait, 'landed'); if (running) fishStat(f.type.id).landed++;
+      bagFish(s, f, pts, lbs, bb.bait, row.mood);
+      pops.push({x: f.x, y: f.y - 20 * S, text: `${fmt(pts)} in the bag`, color: s.color, t: 0, big: pts >= 500});
+      pops.push({x: f.x, y: f.y + 16 * S, text: `${row.mood ? row.mood + ' ' : ''}${f.type.name} ${lbs} lb · bonus +${fmt(fishBonus({lb: lbs, group: f.type.group}))}`, color: '#e8f6f4', t: 0, small: true});
       const tp = pivot(s); for (let k = 0; k < 8; k++) { const a = rand(0, TAU), rr2 = rand(10, 40); coins.push({x0: f.x, y0: f.y, ox: Math.cos(a) * rr2, oy: Math.sin(a) * rr2, tx: tp.x, ty: tp.y, t: 0, d: k * 0.03}); }
-      if (pts >= 1000 || row.pocket) { banner = {text: row.pocket ? 'Golden Koi!' : `${f.type.name}!`, sub: `Player ${s.i + 1}  +${fmt(pts)}`, t: 0, dur: 2.4, color: s.color}; sfx('big'); } else sfx('catch');
+      if (pts >= 1000 || row.pocket) { banner = {text: row.pocket ? 'Golden Koi!' : `${f.type.name}!`, sub: `Player ${s.i + 1}  ${fmt(pts)} in the bag`, t: 0, dur: 2.4, color: s.color}; sfx('big'); } else sfx('catch');
     }
   } else { poleStat(bb.bait, 'lost'); if (!s.msg) s.msg = {text: 'Got away', t: 0}; sfx('lost'); }
   bb.fish = landed ? null : f;
@@ -1518,30 +1834,31 @@ function bobberTick(bb, dt) {
     if (bb.spook <= 0) bb.life -= dt;
     if (bb.life <= 0) { poleStat(bb.bait, 'spoiled'); bb.seat.msg = {text: 'Bait spoiled', t: 0}; removeBobber(bb); return; }
     if (bb.koiAt != null && bb.t > bb.koiAt) { bb.koiAt = null; const e = entryPoint(SP.koi.len * S); addFish(SP.koi, e.x, e.y, Math.atan2(bb.y - e.y, bb.x - e.x), {turn: 0, koiFor: bb}); }
-    // first eligible fish to enter the circle decides the cast
+    // first eligible underwater fish to enter the circle decides the cast
     let near = false;
+    for (const u of under) {
+      if (u.gone || !eatsBait(u.id, bb.bait)) continue;
+      const d = Math.hypot(u.x - bb.x, u.y - bb.y), reach = SP[u.id].group === 'boss' ? bb.r + u.len * 0.3 : bb.r;
+      if (d < bb.r * UNDER.smell) near = true;
+      if (d < reach && bb.spook <= 0) { underBite(bb, u); return; }
+    }
+    // the Golden Koi is the one fish that swims up on screen, to its own lure
     for (const f of fish) {
-      if (f.dead || f.hooked || f.leader) continue;
+      if (f.dead || f.hooked || f.koiFor !== bb) continue;
       const id = f.type.id;
-      if (!eatsBait(id, bb.bait)) continue;
-      if (id === 'koi' && f.koiFor !== bb) continue;
       const d = Math.hypot(f.x - bb.x, f.y - bb.y), reach = f.type.group === 'boss' ? bb.r + f.len * 0.3 : bb.r;
       if (d < bb.r * 4) near = true;
       if (d < reach && bb.spook <= 0) {
+        if (running && !bb.free) { const fs = fishStat(id); fs.poleW += BAITS[bb.bait].cost; fs.bites++; }
         const row = biteRow(id, bb.bait);
         if (row) startFight(bb, f, row);
         else { poleStat(bb.bait, 'took'); bb.seat.msg = {text: `${f.type.name} took the bait`, t: 0}; f.base = Math.atan2(f.y - bb.y, f.x - bb.x); removeBobber(bb); sfx('lost'); }
         return;
       }
     }
-    // spawn assist: if nothing that eats this bait is around, send a school in
+    // nothing that eats this bait nearby for a while: one comes up from the deep (underwater only; the gun's screen is untouched)
     bb.idle = near ? 0 : bb.idle + dt;
-    if (bb.idle > 5 && bb.bait !== 'golden' && bb.bait !== 'c_cg') {
-      bb.idle = 0;
-      const ids = Object.keys(BAITS[bb.bait].fish).filter(id => SP[id].group !== 'boss');
-      const sp = pickW(ids.map(id => SP[id]), s => s.w || 5), e = entryPoint(sp.len * S);
-      spawnSchool(sp, {at: e, heading: Math.atan2(bb.y - e.y, bb.x - e.x), count: Math.min(3, (sp.school || [1, 1])[1]), noEscort: true});
-    }
+    if (bb.idle > UNDER.arriveIdle && bb.bait !== 'golden' && bb.bait !== 'c_cg') { bb.idle = 0; underArrive(bb); }
     return;
   }
   // fight: green = press, yellow = wait
@@ -1605,12 +1922,14 @@ function update(dt) {
     if (s.isBot) { const b = {rot: 0, fire: false}; botControl(s, dt, b); inp.rot = b.rot; inp.fire = b.fire; inp.aim = null; inp.up = inp.down = inp.lock = false; inp.pointerFire = false; }
     const edge = k => inp[k] && !s.prev[k];
     // mode switch (gun <-> pole)
-    if (edge('down')) { s.mode = s.mode === 'gun' ? 'pole' : 'gun'; s.lock = null; s.charge = -1; s.msg = {text: s.mode === 'gun' ? 'Gun' : 'Fishing pole', t: 0}; sfx('bet'); }
+    if (edge('down')) { s.mode = s.mode === 'gun' ? 'pole' : 'gun'; s.lock = null; s.charge = -1; s.mk.open = false; s.msg = {text: s.mode === 'gun' ? 'Gun' : 'Fishing pole', t: 0}; sfx('bet'); }
     // enhance: tap +1, hold to speed up, wraps at 100; in pole mode it cycles the bait
     if (s.mode === 'gun') {
       if (inp.up) { s.upHeld += dt; if (!s.prev.up) { s.bet = s.bet >= 100 ? 1 : s.bet + 1; sfx('bet'); s.upRep = 0.4; } else if ((s.upRep -= dt) <= 0) { s.bet = s.bet >= 100 ? 1 : Math.min(100, s.bet + (s.upHeld > 1.5 ? 5 : 1)); s.upRep = 0.08; sfx('bet'); } }
       else s.upHeld = 0;
-    } else if (edge('up')) nextBait(s);
+    } else if (edge('up')) { if (running && !s.isBot) toggleMarket(s); else nextBait(s); } // pole: Button 2 opens/closes the market
+    const inMarket = s.mode === 'pole' && s.mk.open && !s.isBot;
+    if (inMarket) marketInput(s, inp, dt, edge);
     // lock-on (gun only)
     if (s.mode === 'gun' && edge('lock')) {
       if (s.lock) s.lock = null;
@@ -1621,7 +1940,7 @@ function update(dt) {
     if (s.lock) {
       if ((rotL && !s.prev.rotL) || (rotR && !s.prev.rotR)) { const c = lockCandidates(s), i = c.findIndex(o => o.f === s.lock); if (c.length > 1) s.lock = c[(i + (rotR ? 1 : c.length - 1)) % c.length].f; }
       aimAt(s, s.lock, dt, 6);
-    } else {
+    } else if (!inMarket) {
       if (inp.aim) { const p = pivot(s); s.off = clamp(wrap(Math.atan2(inp.aim.y - p.y, inp.aim.x - p.x) - s.normal), -MAX_OFF, MAX_OFF); }
       s.off = clamp(s.off + inp.rot * 2.2 * dt, -MAX_OFF, MAX_OFF);
     }
@@ -1630,7 +1949,7 @@ function update(dt) {
     const fighting = s.bobber && s.bobber.state === 'fight';
     if (fighting && !s.isBot) { if (edge('fire')) fightPress(s.bobber); }
     else if (s.mode === 'gun') { if (inp.fire && s.cool <= 0) shoot(s); }
-    else if (!s.isBot) {
+    else if (!s.isBot && !inMarket) {
       const bb = s.bobber;
       if (!bb) {
         if (inp.pointerFire) { if (edge('fire')) castAt(s, inp.aim.x, inp.aim.y); }
@@ -1644,6 +1963,8 @@ function update(dt) {
   pointer.dirty = false;
 
   directorTick(dt);
+  underTick(dt);
+  deepTick(dt);
   coverageTick(dt);
   spawnTick(dt);
   bigTick(dt);
@@ -1654,11 +1975,12 @@ function update(dt) {
     if (f.dead) { f.dieT += dt; continue; }
     f.age += dt; f.flash = Math.max(0, f.flash - dt);
     moveFish(f, dt);
+    if (f.dv && !f.path && isDiving(f)) { if (f.dv.phase !== 'up') { f.dv.phase = 'up'; f.dv.t = 0; underUnlink(f); } else if ((f.dv.t += dt) >= DIVE.rise) { f.dv.phase = 'done'; diveDone(f.dv.plan); } }
     if (f.x > 0 && f.x < W && f.y > 0 && f.y < H) f.entered = true;
     const m = f.len;
     if (!f.hooked && ((f.entered && (f.x < -m || f.x > W + m || f.y < -m || f.y > H + m)) || f.age > 90)) f.gone = true;
   }
-  fish = fish.filter(f => { const out = f.gone || (f.dead && f.dieT > 0.7); if (out && f.disp) dispatchGone(f); return !out; });
+  fish = fish.filter(f => { const out = f.gone || (f.dead && f.dieT > 0.7); if (out && f.disp) dispatchGone(f); if (out && f.dv && f.dv.phase !== 'wait' && f.dv.phase !== 'done') { f.dv.phase = 'done'; underUnlink(f); diveDone(f.dv.plan); } return !out; });
 
   for (const bb of bobbers.slice()) bobberTick(bb, dt);
 
@@ -1680,7 +2002,7 @@ function update(dt) {
     if (bounced) continue;
     for (let k = fish.length - 1; k >= 0; k--) {
       const f = fish[k];
-      if (f.dead || f.hooked || f.type.poleOnly || !fishHit(f, b)) continue;
+      if (f.dead || f.hooked || f.type.poleOnly || f.underwater || isDiving(f) || !fishHit(f, b)) continue;
       b.life = 0; f.flash = 0.1;
       nets.push({x: b.x, y: b.y, t: 0, color: b.seat.color, r: (22 + b.lvl * 3) * S});
       resolveHit(f, b); // demo shots (bet 0) roll the same odds but pay nothing
@@ -1696,6 +2018,8 @@ function update(dt) {
   for (const p of pops) p.t += dt; pops = pops.filter(p => p.t < 1.3);
   if (banner) { banner.t += dt; if (banner.t > banner.dur) banner = null; }
   if (sceneTag && (sceneTag.t += dt) > 3) sceneTag = null;
+  for (const b of diveFx) { b.t += dt; b.y -= b.vy * dt; }
+  diveFx = diveFx.filter(b => b.t < b.life);
   for (const b of bubbles) { b.y -= b.v * dt; b.x += Math.sin(time + b.r * 3) * 6 * dt; if (b.y < -10) { b.y = H + 10; b.x = rand(0, W); } }
 }
 
@@ -1857,9 +2181,20 @@ function drawEel(L, Hh, T, t) {
 }
 const DRAW = {fish: drawGenericFish, angel: drawAngel, puffer: drawPuffer, jelly: drawJelly, octo: drawOcto, turtle: drawTurtle, ray: drawRay, shark: drawShark, hammer: drawHammer, seahorse: drawSeahorse, squid: drawSquid, kraken: drawKraken, crab: drawCrab, eel: drawEel};
 function drawFish(f) {
+  if (isDiving(f)) return drawDiver(f);
+  drawFishBody(f);
+}
+// a diving fish: sinks (shrinks, darkens, bubbles), swims as a faint shadow, then rises back up
+function drawDiver(f) {
+  const v = f.dv;
+  const k = v.phase === 'down' ? clamp(v.t / DIVE.sink, 0, 1) : v.phase === 'under' ? 1 : 1 - clamp(v.t / DIVE.rise, 0, 1);
+  if (k < 1) { ctx.save(); ctx.globalAlpha = 1 - k * 0.85; const sc = 1 - k * 0.25; ctx.translate(f.x, f.y); ctx.scale(sc, sc); ctx.translate(-f.x, -f.y); drawFishBody(f, true); ctx.restore(); }
+  if (k > 0.3) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.heading); ctx.globalAlpha = 0.16 * k; ctx.fillStyle = '#001826'; ell(0, 0, f.len * 0.42, f.h * 0.36); ctx.fill(); ctx.beginPath(); ctx.moveTo(-f.len * 0.38, 0); ctx.lineTo(-f.len * 0.6, -f.h * 0.3); ctx.lineTo(-f.len * 0.6, f.h * 0.3); ctx.fill(); ctx.restore(); }
+}
+function drawFishBody(f, noRing) {
   const T = f.type, L = f.len, Hh = f.h, t = time + f.phase;
   // value ring: one color per group, the same in every scene
-  if (!f.dead) { const R = Math.max(L * 0.5, Hh * 0.55) + 4 * S; ctx.strokeStyle = GROUPS[T.group].ring; ctx.globalAlpha = 0.45; ctx.lineWidth = Math.max(1.5, 2 * S); ctx.setLineDash([4 * S, 5 * S]); ell(f.x, f.y, R, R); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
+  if (!f.dead && !noRing) { const R = Math.max(L * 0.5, Hh * 0.55) + 4 * S; ctx.strokeStyle = GROUPS[T.group].ring; ctx.globalAlpha = 0.45; ctx.lineWidth = Math.max(1.5, 2 * S); ctx.setLineDash([4 * S, 5 * S]); ell(f.x, f.y, R, R); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
   ctx.save(); ctx.translate(f.x, f.y);
   if (f.dead) { const k = f.dieT / 0.7; ctx.rotate(f.dieT * 9); ctx.globalAlpha = Math.max(0, 1 - k); ctx.scale(1 + k * 0.4, 1 + k * 0.4); }
   ctx.rotate(f.heading);
@@ -1898,10 +2233,11 @@ function drawSeat(s) {
     ctx.fillText(s.lock ? 'LOCK · BET' : 'BET', pw / 2 - 9 * S, -ph + small + 5 * S);
     ctx.fillStyle = '#ffc94a'; ctx.font = `800 ${big}px "Baloo 2", system-ui, sans-serif`; ctx.fillText(s.bet, pw / 2 - 9 * S, -7 * S);
   } else {
-    const B = BAITS[s.bait];
-    ctx.fillText(B.name, pw / 2 - 9 * S, -ph + small + 5 * S, half);
+    const B = BAITS[s.bait], have = s.baits[s.bait] || 0;
+    ctx.fillText(`${B.name}${have ? ' ×' + have : ''}`, pw / 2 - 9 * S, -ph + small + 5 * S, half);
     ctx.fillStyle = '#ffc94a'; ctx.font = `800 ${big}px "Baloo 2", system-ui, sans-serif`; ctx.fillText(B.cost, pw / 2 - 9 * S, -7 * S);
   }
+  if (s.mode === 'pole' && running) drawMarket(s, pw, ph);
   ctx.textAlign = 'center';
   if (running && s.points <= 0 && !s.isBot) { ctx.globalAlpha = 0.6 + Math.sin(time * 6) * 0.4; ctx.fillStyle = s.color; ctx.font = `800 ${14 * S}px "Baloo 2", system-ui, sans-serif`; ctx.fillText('Add credits to play', 0, -ph - 70 * S); ctx.globalAlpha = 1; }
   if (s.msg) { ctx.globalAlpha = Math.min(1, (1.6 - s.msg.t) / 0.4); ctx.fillStyle = '#fff'; ctx.font = `800 ${13 * S}px "Baloo 2", system-ui, sans-serif`; ctx.lineWidth = 4 * S; ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.strokeText(s.msg.text, 0, -ph - 92 * S); ctx.fillText(s.msg.text, 0, -ph - 92 * S); ctx.globalAlpha = 1; }
@@ -1911,6 +2247,11 @@ function drawSeat(s) {
     const p = pivot(s), a = s.normal + s.off, d = 110 * S + s.charge * (Math.max(W, H) * 0.6), x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d;
     ctx.strokeStyle = s.color; ctx.globalAlpha = 0.7; ctx.setLineDash([6 * S, 6 * S]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(x, y); ctx.stroke();
     ell(x, y, BAITS[s.bait].r * S, BAITS[s.bait].r * S); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    // the middle is too deep to fish: shown only while aiming a cast
+    ctx.strokeStyle = 'rgba(160,220,255,.35)'; ctx.fillStyle = 'rgba(0,20,45,.18)'; ctx.setLineDash([10 * S, 8 * S]); ctx.lineWidth = 2;
+    const bx = W * NO_CAST.x0, by = H * NO_CAST.y0, bw = W * (NO_CAST.x1 - NO_CAST.x0), bh = H * (NO_CAST.y1 - NO_CAST.y0);
+    ctx.fillRect(bx, by, bw, bh); ctx.strokeRect(bx, by, bw, bh); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(200,235,255,.5)'; ctx.font = `700 ${12 * S}px "Baloo 2", system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.fillText('too deep to fish', bx + bw / 2, by + bh / 2);
   }
   // lock-on marker
   if (s.lock && !s.lock.dead) {
@@ -1918,6 +2259,50 @@ function drawSeat(s) {
     ctx.strokeStyle = s.color; ctx.lineWidth = 3 * S;
     for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.arc(f.x, f.y, R, a0 + k * PI / 2, a0 + k * PI / 2 + 0.6); ctx.stroke(); }
   }
+}
+// a deep visitor: a huge dark shape far below, never a clear fish
+function drawDeepShadow(u) {
+  const T = SP[u.id], L = u.len, Hh = T.h * S, a = 0.2 + Math.sin(time * 0.8 + u.len) * 0.04;
+  ctx.save(); ctx.translate(u.x, u.y); ctx.rotate(u.h); ctx.globalAlpha = a; ctx.fillStyle = '#00121e';
+  if (T.kind === 'shark') { ell(0, 0, L * 0.45, Hh * 0.38); ctx.fill(); ctx.beginPath(); ctx.moveTo(-L * 0.4, 0); ctx.lineTo(-L * 0.62, -Hh * 0.45); ctx.lineTo(-L * 0.55, 0); ctx.lineTo(-L * 0.62, Hh * 0.45); ctx.fill(); ctx.beginPath(); ctx.moveTo(-L * 0.05, -Hh * 0.3); ctx.lineTo(-L * 0.2, -Hh * 0.75); ctx.lineTo(-L * 0.22, -Hh * 0.3); ctx.fill(); }
+  else { ell(L * 0.12, 0, L * 0.3, Hh * 0.42); ctx.fill(); ctx.lineWidth = Hh * 0.08; ctx.strokeStyle = '#00121e'; for (let k = 0; k < 6; k++) { const off = (k - 2.5) * Hh * 0.13; ctx.beginPath(); ctx.moveTo(-L * 0.1, off); ctx.quadraticCurveTo(-L * 0.35, off + Math.sin(time * 2 + k) * Hh * 0.2, -L * 0.6, off * 1.6); ctx.stroke(); } }
+  ctx.restore();
+}
+// the seat's market panel (pole mode): a small bag line when closed, the shop when open
+function drawMarket(s, pw, ph) { ctx.save(); drawMarketBody(s, pw, ph); ctx.restore(); }
+function drawMarketBody(s, pw, ph) {
+  const font = (w, px) => `${w} ${px * S}px "Baloo 2", system-ui, sans-serif`;
+  ctx.textBaseline = 'middle';
+  if (!s.mk.open) {
+    if (s.isBot && !s.bag.length) return;
+    ctx.textAlign = 'center'; ctx.font = font(700, 11); ctx.fillStyle = 'rgba(232,246,244,.85)';
+    const bagTxt = s.bag.length ? `Bag ${s.bag.length} · ${fmt(bagValue(s, false))} (+${fmt(bagValue(s, true) - bagValue(s, false))} at season end)` : 'Bag empty';
+    ctx.fillText(s.isBot ? bagTxt : `${bagTxt} · Button 2: market`, 0, -ph - 64 * S, pw * 1.3);
+    return;
+  }
+  const w = Math.min(Math.max(pw * 1.3, 230 * S), 320 * S), h = 104 * S, x = -w / 2, y = -ph - h - 10 * S;
+  ctx.fillStyle = 'rgba(3,18,26,.94)'; rr(x, y, w, h, 12 * S); ctx.fill(); ctx.strokeStyle = s.color; ctx.lineWidth = 2; ctx.stroke();
+  ctx.textAlign = 'left'; ctx.fillStyle = '#ffc94a'; ctx.font = font(800, 12); ctx.fillText('MARKET', x + 10 * S, y + 13 * S);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#93b9b8'; ctx.font = font(700, 11); const wl = wavesToClose();
+  ctx.fillText(`closes in ${wl} wave${wl > 1 ? 's' : ''}`, x + w - 10 * S, y + 13 * S);
+  MK_TABS.forEach((t, k) => { const tx = x + 10 * S + k * 62 * S; ctx.textAlign = 'left'; ctx.font = font(k === s.mk.tab ? 800 : 700, 12); ctx.fillStyle = k === s.mk.tab ? '#fff' : 'rgba(255,255,255,.45)'; ctx.fillText(k === s.mk.tab ? `[${t}]` : ` ${t} `, tx, y + 32 * S); });
+  const list = mkList(s), it = list[s.mk.i];
+  let main = '', sub = '', hint = '';
+  if (s.mk.tab === 0) {
+    const B = BAITS[it]; main = `${B.name}   ${B.cost}   · have ${s.baits[it] || 0}`;
+    sub = Object.keys(B.fish).map(id => SP[id].name).join(', '); hint = 'Button 1 buy (hold = more) · E / double forward: next tab';
+  } else if (s.mk.tab === 1) {
+    if (!it) { main = 'Nothing in the bag yet'; hint = 'Catch fish with the pole'; }
+    else { main = `${it.mood ? it.mood + ' ' : ''}${it.name} ${it.lb} lb   sell now ${fmt(it.value)}`; sub = `keep to season end: ${fmt(it.value)} + ${fmt(fishBonus(it))} lb bonus`; hint = `Button 1 sell · hold = sell all (${fmt(bagValue(s, false))})`; }
+  } else {
+    const held = Object.entries(s.baits).filter(([, n]) => n > 0).map(([k, n]) => `${BAITS[k].name} ×${n}`);
+    main = `${s.bag.length} fish · now ${fmt(bagValue(s, false))} · season end ${fmt(bagValue(s, true))}`; sub = held.length ? held.join(' · ') : 'No bait in stock'; hint = 'Button 2 closes · Button 3 back to the gun';
+  }
+  ctx.textAlign = 'center';
+  if (list.length > 1) { ctx.fillStyle = s.color; ctx.font = font(800, 16); ctx.fillText('◀', x + 14 * S, y + 54 * S); ctx.fillText('▶', x + w - 14 * S, y + 54 * S); }
+  ctx.fillStyle = '#fff'; ctx.font = font(800, 13); ctx.fillText(main, 0, y + 54 * S, w - 50 * S);
+  ctx.fillStyle = '#cfe7e4'; ctx.font = font(700, 11); ctx.fillText(sub, 0, y + 72 * S, w - 30 * S);
+  ctx.fillStyle = '#93b9b8'; ctx.font = font(700, 10); ctx.fillText(hint, 0, y + 92 * S, w - 20 * S);
 }
 function drawBobber(bb) {
   const s = bb.seat, p = pivot(s), a = s.normal + s.off, tip = {x: p.x + Math.cos(a) * 64 * S, y: p.y + Math.sin(a) * 64 * S};
@@ -1953,6 +2338,8 @@ function drawScene() {
   if (director.scene && director.scene.dark) { const k = clamp(Math.min(director.sceneT, director.sceneDur - director.sceneT) / 3, 0, 1); ctx.fillStyle = `rgba(0,8,20,${0.45 * k})`; ctx.fillRect(0, 0, W, H); }
   ctx.strokeStyle = 'rgba(210,250,245,.35)'; ctx.lineWidth = 1;
   for (const b of bubbles) { ell(b.x, b.y, b.r, b.r); ctx.stroke(); }
+  for (const b of diveFx) { ctx.globalAlpha = 1 - b.t / b.life; ell(b.x, b.y, b.r, b.r); ctx.stroke(); } ctx.globalAlpha = 1;
+  for (const u of under) if (u.deep && !u.boss) drawDeepShadow(u);
   for (const bb of bobbers) drawBobber(bb);
   for (const k of inks) { const q = k.t / 1.6; ctx.fillStyle = `rgba(20,12,30,${0.55 * (1 - q)})`; ell(k.x, k.y, k.r * (0.6 + q), k.r * (0.6 + q) * 0.8); ctx.fill(); ell(k.x + k.r * 0.4, k.y - k.r * 0.2, k.r * (0.3 + q * 0.6), k.r * (0.3 + q * 0.6)); ctx.fill(); }
   for (const f of fish) drawFish(f);
@@ -2011,9 +2398,10 @@ function drawPanel() {
   const x = 12, y = 60 * S + 12, lh = 16, lines = [];
   const pct = (p, w) => w > 0 ? (p / w * 100).toFixed(1) + '%' : '—';
   lines.push(`Wave ${director.wave} · ${director.shape || '-'} · ${director.scene ? director.scene.name : '-'} (${Math.max(0, director.sceneDur - director.sceneT).toFixed(0)}s)`);
-  lines.push(`Target ${(TARGET[settings.diff] * 100).toFixed(1)}% · rolling ${(rollingPB() * 100).toFixed(1)}%`);
+  lines.push(`Target ${(TARGET[settings.diff] * 100).toFixed(1)}% · rolling table ${(rollingPB() * 100).toFixed(1)}% · Koi ${koi.open ? 'in the water' : 'away'}`);
   lines.push(`Gun ${pct(ledger.gunP, ledger.gunW)} of ${fmt(ledger.gunW)} · Pole ${pct(ledger.poleP, ledger.poleW)} of ${fmt(ledger.poleW)}`);
-  lines.push(`Total ${pct(ledger.totP, ledger.totW)} · bank ${ledger.totW - ledger.totP >= 0 ? '+' : ''}${fmt(ledger.totW - ledger.totP)}`);
+  const sg = n => (n >= 0 ? '+' : '') + fmt(n);
+  lines.push(`Banks · gun ${sg(bank('gun'))} (rolling ${(rollingPB('gun') * 100).toFixed(1)}%) · pole ${sg(bank('pole'))} (rolling ${(rollingPB('pole') * 100).toFixed(1)}%)${ledger.reserved ? ` · owed in bags ${fmt(ledger.reserved)}` : ''} · total ${sg(bank('gun') + bank('pole'))}`);
   lines.push(`Moods ${Object.entries(gunMood).map(([g, m]) => g[0].toUpperCase() + (m === 'stable' ? 's' : 'S')).join(' ')} · seesaw ${seesaw.state}`);
   lines.push(`Pole ${Object.keys(POLE_MOODS).map(k => k + ':' + POLE_MOODS[k].moods[poleMood[k]].n).join(' ')}`);
   lines.push(`Golden pocket ${fmt(goldPocket)}`);
@@ -2140,7 +2528,7 @@ function start(data) {
   for (let i = 0; i < 10; i++) spawnTick(1);
   requestAnimationFrame(t => { last = t; frame(t); });
 }
-window.__reef = {GAME_VERSION, LIB, LAW, season, hooks, liveDispatches, doneDispatches, playLog, playState, PLAYS, effects, spawnSchool, medStats, medExposure, big, bigStats, bigExposure, update, drawScene, ledger, director, seats: () => seats, fish: () => fish, settings, startGame, addCredits, BAITS, POLE_MOODS, SP, GROUPS, avgMult, moodEV, payAvg, FIGHT_AVG};
+window.__reef = {GAME_VERSION, deep, DEEP, deepInWater, dive, DIVE, under: () => under, underStats, UNDER, NO_CAST, koi, market, MARKET, sellBag, cashOutBag, buyBait, marketClose, syncReserved, availableBaits, toggleMarket, LIB, LAW, season, hooks, liveDispatches, doneDispatches, playLog, playState, PLAYS, effects, spawnSchool, medStats, medExposure, big, bigStats, bigExposure, update, drawScene, ledger, director, seats: () => seats, fish: () => fish, settings, startGame, addCredits, BAITS, POLE_MOODS, SP, GROUPS, avgMult, moodEV, payAvg, FIGHT_AVG};
 window.claude?.hot?.snapshot?.(() => ({settings, points: seats.map(s => s.points), running}));
 addEventListener('resize', resize);
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
