@@ -13,6 +13,25 @@ Related: `docs/BAIT_MARKET.md` (today's baits), `docs/plans/PLAN_diving.md` (und
 - **At the end of every season, the fish sell automatically at the average price.**
 - **A player can sell early, but early sales get less.**
 
+## Owner's correction (2026-10-19): the season-end extra is a weight bonus
+
+- A caught fish goes into the bag with its **catch value** (what it's worth today, its normal pay).
+- **Sell any time → the catch value.** No penalty, no discount.
+- **Keep it until the season ends → catch value + a weight (lb) bonus.** Bigger fish of that kind get a bigger bonus.
+- So "selling early gets less" means **you give up the lb bonus**, not that the fish sells below its value.
+
+This replaces the "85% early price" draft below.
+
+**Where the bonus comes from (math).** Today's pays already average about what the pole should return. If the bonus
+is added on top, the pole pays more than now. Options:
+1. **Split today's pay into catch value + bonus:** e.g. catch value = 85-90% of today's average, and the lb bonus
+   averages the other 10-15% for someone who holds. Holders get today's return; sellers get a bit less, for their points now.
+2. **Bonus on top, funded by the pole bank:** pole payback rises by the bonus share for holders. It needs a lower base
+   elsewhere to stay on target.
+
+Recommended: option 1. Bonus = (fish's lb ÷ that kind's average lb) × bonus share × catch value, so an average-size fish
+gets the average bonus, a big one more, a small one less.
+
 ## How it would look (per seat, small panel above the seat plate)
 
 ```
@@ -24,8 +43,8 @@ Related: `docs/BAIT_MARKET.md` (today's baits), `docs/plans/PLAN_diving.md` (und
  └───────────────────────────────────────────┘
  ┌─ MARKET ──────────────────────────────────┐
  │   BUY   [ SELL ]   BAG                    │
- │  ◀  Turtle 31 lb   season-end 260  ▶      │
- │     sell now: 221  (85%)                  │
+ │  ◀  Turtle 31 lb   sell now 225     ▶     │
+ │     keep to season end: 225 + 38 lb bonus │
  │  Button 1 sell now · hold = sell all      │
  └───────────────────────────────────────────┘
 ```
@@ -71,9 +90,10 @@ Related: `docs/BAIT_MARKET.md` (today's baits), `docs/plans/PLAN_diving.md` (und
 
 ## Questions for the owner
 
-1. **Season-end price:** the plain average for that fish, or the average adjusted by its weight?
-2. **Early price:** a flat 85%, or rising through the season (70% → 95%)?
-3. **Player leaves mid-season:** sell at full season-end price, or at the early price?
+1. ~~Season-end price~~ Answered: catch value + lb bonus at season end.
+2. ~~Early price~~ Answered: selling early pays the catch value, without the bonus.
+3. **Player leaves mid-season:** the bag sells at catch value (no bonus), or they keep the bonus?
+3b. **Bonus size:** about 10-15% of a fish's value on average for an average-size fish? Split from today's pay (option 1) or added on top (option 2)?
 4. **Bait bought ahead:** keep it across seasons, or does it spoil at season end?
 5. **Market prices:** fixed, or can the director run "market days" (e.g. Tuna sells for +20% this season)? That
    would be the director moving pays, which ties back to the fixed-odds-or-tide question.
