@@ -76,7 +76,7 @@ The gun and the pole are separate worlds with separate banks.
 | Night Water | Winter season | 25% | 15 min |
 | Feeding Frenzy | right after a Bait Ball | 40% | – |
 
-- 8-14 minutes between any two rituals, so about 4-5 an hour. A ritual ends the current scene and its own scene plays next.
+- 8-14 minutes between any two rituals (a Feeding Frenzy can follow a Bait Ball right away), so about 5-6 an hour. A ritual ends the current scene and its own scene plays next.
 - Table: `RITUALS`, `RITUAL`.
 - Not built yet: Make Way (fish parting for the Shark) and routes for every fish that respect each ritual.
 
