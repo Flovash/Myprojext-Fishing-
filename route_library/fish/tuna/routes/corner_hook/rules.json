@@ -5,5 +5,9 @@
  "fast_crosser": 0,
  "split_safe": true,
  "seasons": {},
- "why": "Stays on one side, corner to corner. The Tuna option while a Shark splits the screen."
+ "why": "Stays on one side, corner to corner. The Tuna option while a Shark splits the screen.",
+ "dive": [
+  0.26,
+  0.7
+ ]
 }

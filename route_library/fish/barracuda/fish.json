@@ -19,5 +19,8 @@
   "ambush",
   "zigzag",
   "strikeRetreat"
- ]
+ ],
+ "pole": {
+  "bite": "strike"
+ }
 }

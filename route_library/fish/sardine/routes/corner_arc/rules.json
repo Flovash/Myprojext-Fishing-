@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "Up from a bottom corner and across the top."
+ "why": "Up from a bottom corner and across the top.",
+ "dive": [
+  0.24,
+  0.43
+ ]
 }

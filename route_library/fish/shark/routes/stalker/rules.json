@@ -5,5 +5,9 @@
  "attitude": "Curious",
  "meeting_ok": false,
  "seasons": {},
- "why": "Slow wavy pass through the lower middle: a long, easy target."
+ "why": "Slow wavy pass through the lower middle: a long, easy target.",
+ "dive": [
+  0.22,
+  0.74
+ ]
 }

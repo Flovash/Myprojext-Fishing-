@@ -6,5 +6,9 @@
   "Used when a Turtle or Puffer sits in the middle."
  ],
  "seasons": {},
- "why": "Splits into two halves that go around the middle and meet again."
+ "why": "Splits into two halves that go around the middle and meet again.",
+ "dive": [
+  0.21,
+  0.73
+ ]
 }

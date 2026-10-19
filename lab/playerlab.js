@@ -379,6 +379,8 @@ if (L.byFish) {
   if (R.ritual) banks.push('## Rituals', '', Object.keys(R.RITUALS).map(id => `${R.RITUALS[id].name} ${R.ritual.fired[id] || 0}`).join(' · ') + ` (in ${minutes} minutes)`, '');
   if (R.underStats) banks.push('## Underwater and diving', '',
     `Underwater fish spawned ${r0(R.underStats.spawned)} · came up from the deep to a quiet bait ${r0(R.underStats.arrivals)} · bites ${r0(R.underStats.bites)} (took the bait ${r0(R.underStats.took)})`,
+    ...(R.biteStats ? [`Bites: ${r0(R.biteStats.starts)} started · ${r0(R.biteStats.teases)} teases (sniffed or nibbled and swam off, bait kept) · ${r0(R.biteStats.takes)} took the bait (hooked) · ${r0(R.biteStats.losses)} bit and went away with it`] : []),
+    ...(R.feed ? [`Feeding windows opened: ${Object.entries(R.feed.opened).map(([k, v]) => k + ' ' + v).join(', ') || 'none'}`] : []),
     ...(R.deep ? [`Deep visitors sent ${R.deep.sent} (the director risked ${R.deep.risked} early, held back ${R.deep.held} checks for the pole bank) · caught ${R.deep.caught}`] : []),
     ...(R.dive ? [`Dives started ${R.dive.started} (${(R.dive.started / (minutes / 60)).toFixed(1)} per hour) · never came back ${R.dive.gone} · skipped by the budget ${R.dive.skipped} · bites from a fish while it was down ${R.dive.bites}`] : []), '');
   fs.writeFileSync(path.join(outDir, 'banks.md'), banks.join('\n'));

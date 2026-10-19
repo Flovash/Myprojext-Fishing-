@@ -5,5 +5,9 @@
  "fast_crosser": 2,
  "split_safe": false,
  "seasons": {},
- "why": "Two schools at once, mirrored, crossing in an X. Best used as the release right after a Shark leaves."
+ "why": "Two schools at once, mirrored, crossing in an X. Best used as the release right after a Shark leaves.",
+ "dive": [
+  0.25,
+  0.71
+ ]
 }

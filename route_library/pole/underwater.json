@@ -1,0 +1,15 @@
+{
+ "about": "The pole's own world under the water, and the middle box that is too deep to fish.",
+ "under": {
+  "size": 24,
+  "speed": 0.9,
+  "smell": 4,
+  "arriveIdle": 2.5
+ },
+ "noCast": {
+  "x0": 0.3,
+  "x1": 0.7,
+  "y0": 0.35,
+  "y1": 0.65
+ }
+}

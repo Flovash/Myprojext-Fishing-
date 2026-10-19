@@ -1,0 +1,9 @@
+{
+ "id": "baitball",
+ "name": "Bait Ball",
+ "scene": "baitball",
+ "chance": 0.35,
+ "cooldown": 10,
+ "why": "two small-fish schools meet near the middle",
+ "green_light": "baitball_meet"
+}

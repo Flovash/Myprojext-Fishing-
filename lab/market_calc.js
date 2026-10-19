@@ -1,7 +1,7 @@
 // Market calculator: works out the pole's numbers on paper before the lab plays them.
 // For every bait and every fish it eats: catch chance, average catch value, average weight, the season-end weight bonus,
 // and the return per point of bait for a player who sells right away vs one who holds to the season end.
-// Reads the bait, mood, fish and market tables straight out of the game file. Nothing in the game changes.
+// Reads the bait, mood and fish tables out of the game file, and the market from route_library/pole/market.json. Nothing changes.
 // usage: node lab/market_calc.js [game.html] [--bonus tiny=12,small=6,medium=0.5,big=0.08,boss=0.02] [--share 0.06] [--out file.md]
 //   --bonus  try other lb bonus rates (points per lb, per group) without editing the game
 //   --share  print the per-group rates that would make the bonus worth this share of a fish's value on average
@@ -17,6 +17,9 @@ const hasMarket = html.includes('const MARKET = ');
 const market = hasMarket ? cut('const MARKET = ', '\n// end MARKET') : 'const MARKET = {bonusPerLb: {}};';
 const T = new Function(`${species}; const SP = Object.fromEntries(SPECIES.map(s => [s.id, s])); ${pole}; ${market}; return {SP, BAITS, POLE_MOODS, FIGHT_AVG, payAvg, MARKET};`)();
 const {SP, BAITS, POLE_MOODS, FIGHT_AVG, payAvg, MARKET} = T;
+// the route library's market file wins over the game's defaults, like in the game
+const libMarket = path.join(__dirname, '..', 'route_library', 'pole', 'market.json');
+if (fs.existsSync(libMarket)) { const m = JSON.parse(fs.readFileSync(libMarket, 'utf8')); delete m.about; Object.assign(MARKET, m); }
 
 const rates = Object.assign({}, MARKET.bonusPerLb);
 if (opt('--bonus')) for (const kv of opt('--bonus').split(',')) { const [g, v] = kv.split('='); rates[g] = +v; }

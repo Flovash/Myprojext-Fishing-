@@ -19,5 +19,11 @@
   "seatCrawl",
   "edgeHops",
   "riseSink"
- ]
+ ],
+ "pole": {
+  "bite": "wrap"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

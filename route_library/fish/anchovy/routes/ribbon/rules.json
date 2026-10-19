@@ -6,5 +6,9 @@
   "Use when the middle band is empty."
  ],
  "seasons": {},
- "why": "A long silver wave through the middle band."
+ "why": "A long silver wave through the middle band.",
+ "dive": [
+  0.2,
+  0.74
+ ]
 }

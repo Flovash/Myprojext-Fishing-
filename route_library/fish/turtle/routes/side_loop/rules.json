@@ -5,5 +5,9 @@
  "fast_crosser": 0,
  "split_safe": true,
  "seasons": {},
- "why": "Loops on one side. The Turtle option while a Shark splits the screen."
+ "why": "Loops on one side. The Turtle option while a Shark splits the screen.",
+ "dive": [
+  0.54,
+  0.74
+ ]
 }

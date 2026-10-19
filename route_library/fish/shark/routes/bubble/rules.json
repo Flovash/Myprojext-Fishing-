@@ -5,5 +5,9 @@
  "attitude": "Curious",
  "meeting_ok": false,
  "seasons": {},
- "why": "Lingers near the center with small turns."
+ "why": "Lingers near the center with small turns.",
+ "dive": [
+  0.22,
+  0.74
+ ]
 }

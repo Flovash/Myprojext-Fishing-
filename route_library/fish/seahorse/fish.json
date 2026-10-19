@@ -5,7 +5,7 @@
  "role": "The little treat. Slow, rare and worth a bit more.",
  "home": "Seat corners; moves up and down rather than across",
  "habit": "Alone or a pair. Very slow, upright, bobbing.",
- "status": "designed, not in game yet",
+ "status": "in game (v9)",
  "rules": [
   "At most 1 Seahorse visit per seat corner every 2 minutes."
  ],
@@ -23,5 +23,8 @@
   "cornerBob",
   "pairDance"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "nibble"
+ }
 }

@@ -1,6 +1,7 @@
 // Build everything that is made from the route library folders.
 // usage (from the Fish Game Table folder): node route_library/tools/build_library.js
 //   - ROUTES.md (readable index) and one sketch.svg per route
+//   - CATALOG.html: one scrollable, searchable page of every fish, route, formation, pole setting, ritual and law
 //   - the generated data block inside game/peacock_reef.html (routes, formations, laws, seasons, plays)
 // Edit the JSON files in fish/ and director/, then run this. Never edit the generated parts by hand.
 const fs = require('fs'), path = require('path');
@@ -26,6 +27,12 @@ function loadFish(id) {
   f.routes = f.route_order.map(r => routes[r]);
   return f;
 }
+const optJ = p => fs.existsSync(p) ? J(p) : null;
+function loadRituals() {
+  const dir = path.join(LIB, 'rituals'); if (!fs.existsSync(dir)) return null;
+  const shared = optJ(path.join(dir, 'rituals.json')) || {}, list = loadDir(dir).filter(r => r.id);
+  return {shared, list: Object.fromEntries(list.map(r => [r.id, r]))};
+}
 function loadDir(dir) { return fs.existsSync(dir) ? fs.readdirSync(dir).filter(n => n.endsWith('.json')).sort().map(n => J(path.join(dir, n))) : []; }
 function loadLibrary() {
   const ids = fs.readdirSync(path.join(LIB, 'fish')).filter(n => fs.statSync(path.join(LIB, 'fish', n)).isDirectory());
@@ -37,6 +44,10 @@ function loadLibrary() {
     laws: J(path.join(director, 'laws.json')),
     seasons: fs.existsSync(path.join(director, 'seasons.json')) ? J(path.join(director, 'seasons.json')) : null,
     plays: loadDir(path.join(director, 'plays')),
+    show: optJ(path.join(director, 'show.json')),
+    diving: optJ(path.join(director, 'diving.json')),
+    pole: Object.fromEntries(['bite_styles', 'feeding', 'underwater', 'deep_visitors', 'market'].map(k => [k, optJ(path.join(LIB, 'pole', k + '.json'))]).filter(e => e[1])),
+    rituals: loadRituals(),
     notDesigned: fs.existsSync(path.join(LIB, 'fish', '_not_designed_yet.json')) ? J(path.join(LIB, 'fish', '_not_designed_yet.json')).not_designed_yet : {},
   };
 }
@@ -113,10 +124,15 @@ function gameData(L) {
   for (const f of Object.values(L.fish)) {
     fish[f.game_id] = {lib: f.id, group: f.group, sizes: f.group_sizes, formations: Object.fromEntries(f.formations_allowed.map(k => [k, f.formations[k]])), allFormations: f.formations,
       routes: Object.fromEntries(f.routes.map(({route, rules}) => [route.id, Object.assign({}, route, {rules})]))};
+    if (f.pole) fish[f.game_id].pole = f.pole;
+    if (f.dive) fish[f.game_id].dive = f.dive;
   }
+  // fish that are in the game but not in the library keep their game defaults; strip the "about" notes from settings files
+  const bare = o => { if (!o) return o; const c = Object.assign({}, o); delete c.about; return c; };
   const laws = {};
   for (const sect of ['big_fish', 'medium_fish', 'director']) for (const l of L.laws[sect] || []) laws[l.id] = l.value;
-  return {fish, laws, seasons: L.seasons, plays: L.plays};
+  return {fish, laws, seasons: L.seasons, plays: L.plays, show: bare(L.show), diving: bare(L.diving),
+    pole: Object.fromEntries(Object.entries(L.pole || {}).map(([k, v]) => [k, bare(v)])), rituals: L.rituals ? {shared: bare(L.rituals.shared), list: L.rituals.list} : null};
 }
 function writeGame(L) {
   const file = path.join(ROOT, 'game', 'peacock_reef.html');
@@ -134,6 +150,8 @@ if (require.main === module) {
   let n = 0;
   for (const f of Object.values(L.fish)) for (const r of f.routes) { fs.writeFileSync(path.join(LIB, r.folder, 'sketch.svg'), routeSvg(f, r.route)); n++; }
   console.log(`ROUTES.md + ${n} route sketches written`);
+  fs.writeFileSync(path.join(LIB, 'CATALOG.html'), require('./catalog.js').catalogHtml(L, routeSvg, COLOR));
+  console.log('CATALOG.html written');
   if (!process.argv.includes('--no-game')) writeGame(L);
 }
 module.exports = {loadLibrary, gameData, LIB, ROOT};

@@ -100,5 +100,11 @@
   "charge",
   "thrash",
   "rush"
- ]
+ ],
+ "pole": {
+  "bite": "circle"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

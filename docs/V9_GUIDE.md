@@ -1,7 +1,10 @@
 # Peacock Reef v9: what's new and what you can tweak
 
-Built 2026-10-19 by Claude Code from `docs/plans/BUILD_LIST.md` (steps 1-10). Everything is in `game/peacock_reef.html`.
-Every number below sits in one table at the top of its section in the game file, so it can be changed in one place.
+Built 2026-10-19 by Claude Code from `docs/plans/BUILD_LIST.md` (steps 1-10). The game is `game/peacock_reef.html`.
+**Where the numbers live:** the pole world, rituals, show tools and dive settings are files in the route library
+(`route_library/pole/`, `route_library/rituals/`, `route_library/director/`), and each fish's bite style and dive chance is in
+its `fish.json`. Edit the file, run `node route_library/tools/build_library.js`, and the game picks it up. Browse
+everything in `route_library/CATALOG.html`. The bait tables (prices, catch %, pays) stay in the game: they're game math.
 
 ## The rule
 The director controls the show, never the odds. Banks decide **when** things may happen, never **how likely** a catch is.
@@ -46,10 +49,38 @@ The gun and the pole are separate worlds with separate banks.
 - **No-cast box:** the middle 40% × 30% (`NO_CAST`). A cast aimed there lands at its edge ("Too deep in the middle").
   The box only shows while aiming.
 
+## 4b. Bites (how each fish bites)
+- Players land almost every tap fight, so the house odds sit in the bite. The fight's landing rate is set to 97%
+  (`FIGHT_AVG`), and the take chance is the bait table's catch % ÷ 0.97.
+- Each fish has a bite style (`route_library/pole/bite_styles.json`, chosen in each `fish.json`):
+
+| Style | Fish | What the player sees |
+|---|---|---|
+| peck | Sardine, Anchovy, Minnow | 2-4 quick pecks |
+| nibble | Clownfish, Angelfish, Butterflyfish, Seahorse, Lionfish | 1-3 gentle nibbles |
+| puff | Pufferfish | 2-5 slow pokes |
+| strike | Tuna, Barracuda | hits at once |
+| munch | Turtle | 3-5 slow bites |
+| slash | Swordfish, Marlin | 1-2 slashes |
+| wrap | Octopus | one long pull |
+| circle | Shark, Hammerhead, Manta | circles the bait 2-4 s first ("Something circles the bait…") |
+| deep | Megalodon, Giant Squid, Kraken, Healer | circles far below 4-6 s |
+
+- **Teases:** some fish only sniff or nibble and swim off. The bait stays and the cast goes on (15-50% by style,
+  halving after each tease). A teased fish won't come straight back.
+- **When a fish commits**, the cast's one roll is made: it takes the bait (hooked, then the fight) or it bites and goes
+  away with the bait ("hit it and ran", "stole the bait", "circled… and left with the bait").
+- **Feeding times** (`route_library/pole/feeding.json`): Sharks, Hammerheads, Mantas and Marlins are only really around
+  the bottom during their feeding window (60-150 s, every 3-5 min when the pole bank is healthy, 5-9 otherwise, with a
+  "Sharks are feeding below" tag). Outside it they're rare, and a big bait waits 3× longer for a visitor. One small kind of
+  fish also gets a feeding spell every few minutes. This decides who is near; the bite tables never change.
+
 ## 5. Diving fish
 - Divers: Turtle, Manta, Octopus, Tuna, Swordfish, Marlin, Hammerhead, Shark (1 trip in 6), and whole Sardine,
-  Minnow and Anchovy schools (1 in 15).
-- The dive point is picked when the trip starts (25-70% along the route), before anyone aims.
+  Minnow and Anchovy schools (1 in 15). Each fish's chance is in its `fish.json`.
+- The dive point is picked when the trip starts, before anyone aims, inside that route's dive window (`rules.json`
+  `dive`, picked by `route_library/tools/dive_spots.js` where the route runs through open water; 46 routes can dive, 13
+  edge-hugging ones can't).
 - A diving fish sinks (1 s), swims as a shadow 3-8 s, then rises further along the same route. The gun can't hit it
   while it's down, but it can bite a bait its route crosses.
 - About 1 dive in 4 from the later part of a route never comes back: the fish joins the underwater world.
@@ -83,5 +114,8 @@ The gun and the pole are separate worlds with separate banks.
 ## Lab
 - `node lab/playerlab.js ...` as before; see `banks.md` in each run folder.
 - Lab players shop: Fisher holds fish for the bonus (sells when short), Casual sells every 3 fish, Newbie sells right away.
+  Fight skill (v9): Fisher lands 97% of fights, Casual 93%, Newbie 85%.
+- The 7 small reef fish (Anchovy, Clownfish, Butterflyfish, Minnow, Pufferfish, Lionfish, Seahorse) now swim their designed
+  library routes and formations. Routes that follow another fish (Wake rider) still need their own code.
   Fishers try the boss bait when a deep visitor shows up.
 - `node lab/pole_audit.js` (pole rolls vs tables) and `node lab/market_calc.js` (market math) read the game file.

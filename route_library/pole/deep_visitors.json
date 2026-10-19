@@ -1,0 +1,21 @@
+{
+ "about": "Boss shadows that cross the deep. Only when the pole bank can cover a boss pay (the director may risk one early). The boss bait is on sale while one is in the water.",
+ "ids": [
+  "megalodon",
+  "gsquid",
+  "kraken",
+  "healer"
+ ],
+ "gap": [
+  12,
+  25
+ ],
+ "cross": [
+  28,
+  40
+ ],
+ "safeBank": 15000,
+ "riskBank": 9000,
+ "riskTake": 0.3,
+ "check": 30
+}

@@ -22,5 +22,8 @@
   "vertical",
   "hook",
   "arch"
- ]
+ ],
+ "pole": {
+  "bite": "nibble"
+ }
 }

@@ -5,5 +5,9 @@
  "fast_crosser": 0,
  "split_safe": false,
  "seasons": {},
- "why": "Dips to a seat and rests there."
+ "why": "Dips to a seat and rests there.",
+ "dive": [
+  0.2,
+  0.41
+ ]
 }

@@ -20,5 +20,11 @@
   "slowCircle",
   "seatVisit",
   "sideLoop"
- ]
+ ],
+ "pole": {
+  "bite": "munch"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

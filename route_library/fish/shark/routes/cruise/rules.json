@@ -5,5 +5,9 @@
  "attitude": "King",
  "meeting_ok": true,
  "seasons": {},
- "why": "The calm default: owns one horizontal lane at one of four heights. Allowed during Manta meetings."
+ "why": "The calm default: owns one horizontal lane at one of four heights. Allowed during Manta meetings.",
+ "dive": [
+  0.23,
+  0.73
+ ]
 }

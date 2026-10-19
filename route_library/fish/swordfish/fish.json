@@ -19,5 +19,11 @@
   "spear",
   "ricochet",
   "lowSlash"
- ]
+ ],
+ "pole": {
+  "bite": "slash"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

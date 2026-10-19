@@ -5,5 +5,9 @@
  "fast_crosser": 0,
  "split_safe": true,
  "seasons": {},
- "why": "Comes up from under a seat, rests, sinks back."
+ "why": "Comes up from under a seat, rests, sinks back.",
+ "dive": [
+  0.38,
+  0.65
+ ]
 }

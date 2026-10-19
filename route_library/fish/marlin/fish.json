@@ -22,5 +22,11 @@
   "cut",
   "burst",
   "slash"
- ]
+ ],
+ "pole": {
+  "bite": "slash"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

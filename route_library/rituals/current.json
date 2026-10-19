@@ -1,0 +1,9 @@
+{
+ "id": "current",
+ "name": "The Current",
+ "scene": "current",
+ "chance": 0.25,
+ "cooldown": 15,
+ "why": "Monsoon season",
+ "green_light": "season:Monsoon"
+}

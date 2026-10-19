@@ -5,7 +5,7 @@
  "role": "The friendly one. Stays close to a seat so beginners get easy, steady catches.",
  "home": "Right in front of the seats (one \"home spot\" per seat)",
  "habit": "Small groups of 3-6 that dart out from a seat and back. Slow, short trips.",
- "status": "designed, not in game yet",
+ "status": "in game (v9)",
  "rules": [
   "Visits are shared out by the seat fairness memory, so every seat gets its turn.",
   "A seat with a dry spell over 30 s gets the next Clownfish visit (show only, odds unchanged)."
@@ -24,5 +24,8 @@
   "hopAlong",
   "peek"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "nibble"
+ }
 }

@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "Straight glide in the top or bottom half; leaves the other half free."
+ "why": "Straight glide in the top or bottom half; leaves the other half free.",
+ "dive": [
+  0.22,
+  0.74
+ ]
 }
