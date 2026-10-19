@@ -37,7 +37,7 @@ rule is replaced by the underwater pool.
    visitor tonight is affordable".
 4. ChatGPT's ledger list fits: gun ledger, pole ledger, each bank's balance, and the total.
 
-Open: does the director's tide (if you keep it) move each bank's odds, or only decide *when* show events happen?
+Answered: odds are fixed. The director reads the banks and only decides the show (what comes, when, how many).
 
 ## How it works (first draft, before the correction)
 
@@ -100,4 +100,4 @@ Draft frequency: about **1 trip in 6** for divers. Deep visitors about **2-4 per
 1. Is about 1 trip in 6 the right amount for divers, and 2-4 deep visitors an hour?
 2. Boss bait any time, or deep visitors bite on Chum only?
 3. Should whole sardine/minnow schools dive sometimes?
-4. Still open from the findings: fixed odds or table-wide tide?
+4. ~~Fixed odds or table-wide tide?~~ Answered: fixed odds. The director controls the show only.
