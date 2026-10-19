@@ -5,8 +5,9 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 
 ## Owner decisions in this round
 
-- **The director balances the underwater fish using the fish odds.** The table-wide tide is in: the director may move
-  the pole's odds for the whole table to balance the pole bank. Never per player. This answers "fixed odds or tide".
+- **The director controls the show only. It never changes any odds** (corrected by the owner the same day). The fish
+  odds are fixed. The director reads the banks and uses the show (which fish, how many, where, when, diving, deep
+  visitors, pace) to shape the night. This answers "fixed odds or tide": **fixed odds.**
 - **A no-cast box in the middle of the screen.** Players can fish anywhere outside it, and can't cast inside it.
 - **Dive points per fish.** A timer tracks where the fish would be on its route, and it comes back up there.
 - **Some dives never come back.** That needs its own rule.
@@ -16,8 +17,9 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 ## The list
 
 ### A. Foundations (needed by everything else)
-1. **Law update:** CLAUDE.md and laws.json say the director may balance odds **table-wide** (gun and pole), with
-   limits, never per player. Movement still never changes odds.
+1. **Fixed odds everywhere:** the game still has three bank-driven odds features (scene payback multipliers with
+   bank-driven shapes, Golden Koi chance from the pocket, Wild moods capped by jars). Make them fixed (owner to confirm
+   how). The laws stay as they are: the director controls the show, never the odds.
 2. **Two banks + one total:** gun bank and pole bank, each with balance, in/out, a target, and **reserved** (fish in
    bags not yet sold). The director reads both plus the total.
 3. **Tracking:** per fish (points spent on it, points paid), per bait, per seat, per bet size (incl. 1-token), per time
@@ -43,8 +45,8 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 13. **No-cast box:** an invisible box in the middle (draft: the middle 40% wide × 30% tall). Casts aimed inside get
     pushed to the nearest edge of the box, or blocked with a "Too deep here" message. Shown only as a faint outline
     while aiming the pole.
-14. **Director pole tools:** balance the pole bank with table-wide mood odds (Low/Normal/Wild), which fish are in the
-    pool, and deep visitors, inside set limits.
+14. **Director pole show tools:** which fish are in the underwater pool and how many, when deep visitors come, when
+    fish dive. Odds stay fixed.
 
 ### D. Diving fish (the bridge you can see)
 15. **Dive points per fish:** each diving fish's routes get 1-2 marked spots where a dive is allowed (`dive` in
@@ -63,7 +65,7 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 
 ### E. Director tools (after the market works)
 20. Wave recipes and formation decks with percentages.
-21. Payback tide (gun and pole), coming back to square in a set window.
+21. Show tide: calm stretches (small, steady fish) and wild stretches (big fish, deep visitors, rituals), not odds.
 22. Planned dry spells, soft/hard schools, risk check before big moments.
 23. Payout decks for repeated events, intensity pacing (high, then calm), pattern audit.
 24. The 6 rituals.
@@ -78,4 +80,4 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 4. No-cast box size, and whether a cast into it is moved to the edge or blocked.
 5. Boss bait outside boss waves (for deep visitors)?
 6. Season length: 3, 6 or 9 waves?
-7. Tide limits: how far the director may move odds (e.g. pole 85-110%), and over how long it must come back to square.
+7. The three bank-driven odds features in today's game: make them fixed now, or when the market is built?
