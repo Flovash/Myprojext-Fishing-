@@ -22,6 +22,11 @@ Related: `docs/BAIT_MARKET.md` (today's baits), `docs/plans/PLAN_diving.md` (und
 
 This replaces the "85% early price" draft below.
 
+**Every catch is its own fish (owner, 2026-10-19).** Two players can both catch a Tuna and get different amounts: one
+might be a Wild 110 lb Tuna, the other a Low-mood 25 lb one. Each fish in the bag keeps its own mood, weight and catch
+value, rolled from the same tables for everyone. The lb bonus scales with that fish's own weight, so a big Wild fish
+is worth more now *and* gets a bigger bonus at season end. Same chances for every player; different luck per catch.
+
 **Where the bonus comes from (math).** Today's pays already average about what the pole should return. If the bonus
 is added on top, the pole pays more than now. Options:
 1. **Split today's pay into catch value + bonus:** e.g. catch value = 85-90% of today's average, and the lb bonus
