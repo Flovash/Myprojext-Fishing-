@@ -14,6 +14,25 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 - **Keep it rare:** "just sometimes, sometimes", so the screen never feels busy.
 - **The marketplace is the main thing.**
 
+## Build order (agreed plan, 2026-10-19)
+
+Each step: branch → lab 12 h × 3 seeds before vs after → replay → pull request → CHANGES.md.
+
+1. **Split gun and pole:** two banks + total, separate ledgers, tracking per fish/bait/seat/bet size. (A2, A3)
+   Small. Everything after this is measured with it.
+2. **Fixed odds, banks decide when:** Koi only comes when its pocket is safe, Wild spells gated by jars, scene gun
+   multipliers removed, the gun's show reads only the gun bank. (A1) Small. A new lab baseline afterwards.
+3. **Math calculator:** bait prices, bite chances, lb bonus rates → returns. Settles the market numbers on paper. (A4)
+4. **Marketplace:** seat panel, bait stock, fish bag, sell now / hold for the lb bonus, season-end close, edge rules,
+   lab fishers that shop. (B5-B11) Built on today's pole, so it works before the underwater world exists.
+5. **Underwater world + no-cast box:** the pole's own fish pool; casts pick from it; the box in the middle; spawn
+   assist removed. Swaps only "what bites"; the market stays the same. (C12, C13)
+6. **Diving fish:** dive points per route, dive and return, dive and gone, joining/leaving the pool. Needs step 5. (D15-D17)
+7. **Deep visitors + rarity budget:** Megalodon and friends as shadows; dive limits and quiet stretches. (D18, D19)
+8. **Pole show tools for the director:** what's in the pool, when deep visitors and the Koi come. (C14)
+9. **Gun show tools:** wave recipes, formation decks, show tide, dry spells, risk check, intensity pacing. (E20-E23)
+10. **Rituals.** (E24) Last, because they use routes, diving and the director's tools.
+
 ## The list
 
 ### A. Foundations (needed by everything else)
