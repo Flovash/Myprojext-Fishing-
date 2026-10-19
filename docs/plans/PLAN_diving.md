@@ -9,7 +9,37 @@ Follows `FINDINGS_underwater_plan.md`.
 following. Not all of them, just sometimes, so it looks like there are fish going down underneath. When a player
 uses the fishing pole, it feels like "maybe I can catch the Megalodon or whatever".
 
-## How it works
+## Correction from the owner (2026-10-19, second answer)
+
+**The gun and the fishing pole are different algorithms, and the fish under the water are a different world from the
+fish on the screen.** So ChatGPT's "separate underwater population" is right after all:
+
+- **On screen = the gun's world.** Visible fish, gun math (group payback ÷ multiplier).
+- **Under water = the pole's world.** Its own population and its own math (bait tables, bites, fights).
+- **Diving is the bridge you can see.** A fish that dives leaves the gun's world and joins the underwater pool. When it
+  comes back up on its route, it's a gun fish again. Deep visitors (Megalodon…) live only underwater and show as shadows.
+- The pole rolls against the **underwater pool near the bobber**, with fixed published weights per bait (see
+  `docs/BAIT_MARKET.md`), not only the fish that happen to swim into the circle on screen.
+- **Bait market:** players pick bait from a shop screen. The underwater pool decides what's around; the bait decides
+  what can bite and at what odds.
+
+The sections below were written before this answer. The look of diving and the fairness rules still hold; the bite
+rule is replaced by the underwater pool.
+
+## Banks: one or two? (recommendation)
+
+**Two banks (gun bank and pole bank) plus one total the director reads.** Reasons:
+
+1. The two sides pay very differently. The gun pays lots of small wins and its long run is smooth. The pole pays
+   rarely and big (Marlin 2400, boss 15000 off a 700 bait), so it needs its own reserve to plan big moments.
+2. Each side keeps its own target (gun ~97.5%, pole TBD), so one side can't quietly pay for the other.
+3. The director still sees the whole table (total in, total out) to plan pacing: "the pole bank is full, a deep
+   visitor tonight is affordable".
+4. ChatGPT's ledger list fits: gun ledger, pole ledger, each bank's balance, and the total.
+
+Open: does the director's tide (if you keep it) move each bank's odds, or only decide *when* show events happen?
+
+## How it works (first draft, before the correction)
 
 1. **A dive is part of the route, not a new route.** A fish keeps moving along its route at the same speed while it's
    down. It sinks (shrinks a little, goes darker and bluer, a few bubbles), swims as a faint **shadow**, then rises back
