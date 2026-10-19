@@ -22,6 +22,11 @@ Related: `docs/BAIT_MARKET.md` (today's baits), `docs/plans/PLAN_diving.md` (und
 
 This replaces the "85% early price" draft below.
 
+**The bonus is weight only (owner, 2026-10-19).** Bonus = the fish's lb × a points-per-lb rate. Mood, value and
+anything else don't count. Open: one rate for every fish, or one rate per group? Fish weights run from 0.1 lb (Minnow)
+to 7,000 lb (Kraken), so at one flat rate (e.g. 0.5 per lb) small fish get almost nothing (Sardine 0.15) and big fish a
+lot (Manta 300 on a 600 fish, Kraken 3,000).
+
 **Every catch is its own fish (owner, 2026-10-19).** Two players can both catch a Tuna and get different amounts: one
 might be a Wild 110 lb Tuna, the other a Low-mood 25 lb one. Each fish in the bag keeps its own mood, weight and catch
 value, rolled from the same tables for everyone. The lb bonus scales with that fish's own weight, so a big Wild fish
@@ -34,8 +39,7 @@ is added on top, the pole pays more than now. Options:
 2. **Bonus on top, funded by the pole bank:** pole payback rises by the bonus share for holders. It needs a lower base
    elsewhere to stay on target.
 
-Recommended: option 1. Bonus = (fish's lb ÷ that kind's average lb) × bonus share × catch value, so an average-size fish
-gets the average bonus, a big one more, a small one less.
+(Superseded: the bonus is weight only, see below.)
 
 ## How it would look (per seat, small panel above the seat plate)
 
