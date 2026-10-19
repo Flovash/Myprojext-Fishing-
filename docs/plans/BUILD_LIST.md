@@ -14,6 +14,12 @@ Plans behind it: `PLAN_bait_market.md`, `PLAN_diving.md`, `PLAN_director_toolkit
 - **Keep it rare:** "just sometimes, sometimes", so the screen never feels busy.
 - **The marketplace is the main thing.**
 
+## Status (2026-10-19, v9 on branch `build/pole-market`)
+
+Steps 1-8 built. Step 9 partly (pacing and the boss risk check; the bank-driven choice of calm or wild runs already existed). Step 10 (rituals) first version. Guide: `docs/V9_GUIDE.md`. Not built yet: Make Way, routes for
+every fish that respect each ritual, wave recipes / formation decks with percentages, planned dry-spell types, and route.json
+`dive` spots (the generic dive window is used for now).
+
 ## Build order (agreed plan, 2026-10-19)
 
 Each step: branch → lab 12 h × 3 seeds before vs after → replay → pull request → CHANGES.md.

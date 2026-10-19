@@ -375,6 +375,8 @@ if (L.byFish) {
     ...bands.map(k => { const o = L.byBet[k]; return `| ${k} | ${r0(o.w)} | ${r0(o.p)} | ${pc(pct(o.p, o.w))} | ${r0(o.shots)} | ${r0(o.catches)} |`; }), '',
     `Check: pole paid by fish ${r0(fishPoleP)} vs pole bank out ${r0(L.poleP)} (${Math.abs(fishPoleP - L.poleP) < 1 ? 'match' : 'MISMATCH'}).`, '',
   ];
+  if (R.show) banks.push('## Gun show tools', '', `High runs followed by calm (pacing) ${R.show.paced} times · bosses held back by the risk check ${R.show.holds} times`, '');
+  if (R.ritual) banks.push('## Rituals', '', Object.keys(R.RITUALS).map(id => `${R.RITUALS[id].name} ${R.ritual.fired[id] || 0}`).join(' · ') + ` (in ${minutes} minutes)`, '');
   if (R.underStats) banks.push('## Underwater and diving', '',
     `Underwater fish spawned ${r0(R.underStats.spawned)} · came up from the deep to a quiet bait ${r0(R.underStats.arrivals)} · bites ${r0(R.underStats.bites)} (took the bait ${r0(R.underStats.took)})`,
     ...(R.deep ? [`Deep visitors sent ${R.deep.sent} (the director risked ${R.deep.risked} early, held back ${R.deep.held} checks for the pole bank) · caught ${R.deep.caught}`] : []),

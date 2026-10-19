@@ -2,6 +2,16 @@
 
 Newest first. One dated line per change, and say who made it (Claude Code, chat Claude, or you).
 
+- 2026-10-19 (Claude Code): **Game v9** (branch `build/pole-market`, guide `docs/V9_GUIDE.md`), built from the build list. Backup: `backups/2026-10-19_before_pole_market/`.
+  - Two banks (gun, pole) with rolling paybacks, deposits, owed-in-bags, and tracking by fish and by bet size; every lab run writes `banks.md`.
+  - Fixed odds: scene gun multipliers removed; Golden Koi chance fixed at 8.8%, the golden pocket only decides when a Koi may be in the water (the director may risk it early); the gun's show reads only the gun bank.
+  - `lab/market_calc.js`: returns per bait for selling now vs holding, and weight-bonus rates per group.
+  - Bait market at every fishing seat (Button 2 in pole mode): bait stock, a bag where every fish keeps its mood, weight and value, sell now for the catch value or hold to season end for a weight-only bonus (about 5% of value per group), season-end close every season change. Lab players shop (hold / batch / sell now).
+  - Underwater world: the pole's own fish; screen fish never bite. Middle no-cast box (casts land at its edge).
+  - Diving fish: dive points picked when a trip starts, dive-and-return on the same route, dive-and-gone, and a rarity budget (about 25-30 dives an hour).
+  - Deep visitors (boss shadows) every 12-25 min, only when the pole bank is safe (or the director risks it); the boss bait is on sale while one is in the water.
+  - Gun show tools: never two high-intensity runs in a row; bosses wait one round when the gun bank can't cover the table's bets.
+  - Rituals, first version: Bait Ball, Turtle Parade, The Current, Night Water triggered from the screen or the season with chances and cooldowns, Bait Ball can chain into Feeding Frenzy; 4-5 an hour.
 - 2026-10-19 (Claude Code): Build list item 1 refined with the owner: odds are fixed and the banks only decide when things may happen (the Golden Koi only comes when its pocket makes the bank safe, and the director may risk it a little early; Wild spells gated by jars; scene payback multipliers dropped); gun and pole are separate algorithms and banks that never affect each other.
 - 2026-10-19 (Claude Code): Corrected the build list: the owner confirmed the director controls the show only and never changes any odds (I had written that it could balance odds table-wide). Item 1 is now making today's three bank-driven odds features fixed.
 - 2026-10-19 (Claude Code): Build list (`docs/plans/BUILD_LIST.md`) from the owner's direction: the director balances the pole table-wide with fish odds (tide is in, never per player), a no-cast box in the middle, dive points per fish with dive-and-return and dive-and-gone rules, a rarity budget so dives stay occasional, and the marketplace as the main feature. 24 items in build order, plus open decisions. Nothing built.

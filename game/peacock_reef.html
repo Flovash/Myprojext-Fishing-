@@ -86,9 +86,9 @@ select{background:#0a222b;border:1px solid var(--line);border-radius:8px;padding
     <div class="card">
       <p class="eyebrow">Credit play · Points only · Gun and fishing pole</p>
       <h1>Peacock Reef</h1>
-      <p class="lede">A fish table for 1 to 10 players. Shoot with the gun, or switch to the fishing pole and cast bait. Every shot costs your bet and a catch pays the fish's multiplier times your bet. Every fish pays a range, and everyone plays the same odds. The ring around a fish shows its group. Each wave the ocean changes scene, and some waves end with a boss.</p>
+      <p class="lede">A fish table for 1 to 10 players. Shoot with the gun at the fish you see, or switch to the fishing pole: buy bait at your market and fish for what swims under the water. Every shot costs your bet and a catch pays the fish's multiplier times your bet. Caught fish go in your bag: sell them any time, or keep them to the season end for a weight bonus. Every fish pays a range, and everyone plays the same odds. The ring around a fish shows its group. Each wave the ocean changes scene, and some waves end with a boss.</p>
       <div class="howto">
-        <div><b>Joystick</b><span>Left / right aims. Double push forward locks on. Button 1 fires or casts. Button 2 sets the bet or bait. Button 3 switches gun / pole.</span></div>
+        <div><b>Joystick</b><span>Left / right aims. Double push forward locks on. Button 1 fires or casts. Button 2 sets the bet; with the pole it opens the bait market (lock = next tab). Button 3 switches gun / pole.</span></div>
         <div><b>Keyboard</b><span>P1 <kbd>A</kbd><kbd>D</kbd> aim <kbd>W</kbd> fire <kbd>S</kbd> bet <kbd>Q</kbd> gun/pole <kbd>E</kbd> lock<br>P2 <kbd>←</kbd><kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>R-Shift</kbd> <kbd>/</kbd><br>P3 <kbd>J</kbd><kbd>L</kbd> <kbd>I</kbd> <kbd>K</kbd> <kbd>U</kbd> <kbd>O</kbd></span></div>
         <div><b>Fishing</b><span>Hold fire to aim the cast, release to cast. When a fish bites, press on green and wait on yellow.</span></div>
       </div>
@@ -1340,6 +1340,14 @@ function medExposureTick(dt) {
 }
 
 // ================= DIRECTOR =================
+// Gun show tools (v9). The director picks the next run of scenes from the gun bank only, then two checks shape it:
+// - Pacing: after a high-intensity run (spike, roller, storm, giants) the next one is calm or medium, never two highs in a row.
+// - Risk check: a boss is a big moment. If the gun bank can't cover what the table is betting right now on a boss, the boss
+//   waits (a hunt plays instead), at most SHOW.maxHold times in a row so players still get their bosses.
+// Show only: which scenes come and when. Catch chances never change.
+const SHOW = {high: ['spike', 'roller', 'storm', 'giants'], afterHigh: [['calm', 0.6], ['tension', 0.4]], bossMult: 600, cover: 0.5, maxHold: 1};
+const show = {lastHigh: false, held: 0, holds: 0, paced: 0};
+const tableBossExposure = () => seats.reduce((a, s) => a + (seatActive(s) && s.mode === 'gun' ? Math.max(1, s.bet) : 0), 0) * SHOW.bossMult;
 function chooseShape() {
   const pb = rollingPB('gun'), tgt = TARGET[settings.diff], bossOn = !!settings.boss; // the gun's show reads only the gun bank
   let shape;
@@ -1347,8 +1355,12 @@ function chooseShape() {
   else if (pb > tgt + 0.03) shape = 'recover';                                       // players ahead: quiet recovery
   else if (pb < tgt - 0.03) shape = Math.random() < 0.6 ? 'spike' : 'roller';       // bank ahead: spend it on fun
   else shape = pickW([['spike', .4], ['calm', .25], ['roller', .15], ['tension', .2]], o => o[1])[0];
+  if (show.lastHigh && SHOW.high.includes(shape)) { shape = pickW(SHOW.afterHigh, o => o[1])[0]; show.paced++; }
+  show.lastHigh = SHOW.high.includes(shape);
   let q = SHAPES[shape].slice();
   if (!bossOn) q = q.map(k => k === 'boss' ? 'giants' : k);
+  if (q.includes('boss') && bank('gun') < tableBossExposure() * SHOW.cover && show.held < SHOW.maxHold) { q = q.map(k => k === 'boss' ? 'hunt' : k); show.held++; show.holds++; }
+  else if (q.includes('boss')) show.held = 0;
   director.shape = shape; director.queue = q; director.wave++;
   director.log.unshift({wave: director.wave, shape, pb: Math.round(pb * 1000) / 10}); director.log.length = Math.min(director.log.length, 8);
 }
@@ -1359,6 +1371,7 @@ function nextScene() {
   director.sceneKey = key; director.scene = sc; director.sceneT = 0; director.sceneDur = rand(sc.dur[0], sc.dur[1]);
   director.wildcard = Math.random() < 0.35; director.wildT = rand(4, director.sceneDur - 6);
   sceneTag = {text: sc.name, t: 0};
+  ritualScene(key);
   if (sc.boss) spawnBoss();
   if (key === 'giants') { big.events.push({kind: 'hammer', at: time + rand(2, 10), wave: big.wave, next: 0, born: time}); big.events.push({kind: 'marlin', at: time + rand(2, 14), wave: big.wave, next: 0, born: time}); }
   if (sc.current) for (const f of fish) if (!f.dead && !f.orbit && !f.leader && f.type.group !== 'boss') { f.base = rand(-0.2, 0.2); f.speed *= 1.3; }
@@ -1382,6 +1395,57 @@ function directorTick(dt) {
   const decay = Math.exp(-dt / 600); ledger.rW *= decay; ledger.rP *= decay; for (const k in ledger.r) { ledger.r[k].w *= decay; ledger.r[k].p *= decay; }
 }
 
+// ================= RITUALS (v9, first version) =================
+// Whole-ocean moments that grow out of what the fish are doing, instead of coming from the schedule. Each ritual has a
+// green light read from the screen (or the season), a chance roll, and its own cooldown, plus a shared cooldown so they stay
+// occasional. When one fires, the current scene ends and the ritual's scene plays next; a Bait Ball can roll into a Feeding
+// Frenzy. Show only: scenes never change catch chances.
+const RITUALS = {
+  baitball: {name: 'Bait Ball', scene: 'baitball', chance: 0.35, cooldown: 10, why: 'two small-fish schools meet near the middle'},
+  parade:   {name: 'Turtle Parade', scene: 'parade', chance: 0.3, cooldown: 15, why: 'a Turtle cruising with plenty of mediums around'},
+  current:  {name: 'The Current', scene: 'current', chance: 0.25, cooldown: 15, why: 'Monsoon season'},
+  night:    {name: 'Night Water', scene: 'night', chance: 0.25, cooldown: 15, why: 'Winter season'},
+  frenzy:   {name: 'Feeding Frenzy', scene: 'hunt', chance: 0.4, cooldown: 0, why: 'right after a Bait Ball', chainOnly: true},
+};
+const RITUAL = {check: 6, shared: [8, 14], middle: 0.3}; // seconds between checks, minutes between any two rituals, "near the middle" (share of the screen)
+const ritual = {t: 10, next: 5 * 60, last: {}, fired: {}, now: null, chain: null, log: []};
+function ritualGreen(id) {
+  const cx = W / 2, cy = H / 2, R = Math.min(W, H) * RITUAL.middle, live = fish.filter(f => !f.dead && !isDiving(f) && f.x > 0 && f.x < W && f.y > 0 && f.y < H);
+  if (id === 'baitball') { const near = new Set(live.filter(f => ['sardine', 'minnow', 'anchovy'].includes(f.type.id) && Math.hypot(f.x - cx, f.y - cy) < R).map(f => f.disp || f.type.id)); return near.size >= 2; }
+  if (id === 'parade') return live.some(f => f.type.id === 'turtle') && live.filter(f => f.type.group === 'medium').length >= 6;
+  if (id === 'current') return season.name === 'Monsoon';
+  if (id === 'night') return season.name === 'Winter';
+  return false;
+}
+function ritualTick(dt) {
+  if ((ritual.t -= dt) > 0) return; ritual.t = RITUAL.check;
+  if (!running || ritual.now || time < ritual.next || !director.scene || director.scene.boss || director.queue[0] === 'boss') return;
+  for (const [id, R] of Object.entries(RITUALS)) {
+    if (R.chainOnly || time < (ritual.last[id] ?? -1e9) + R.cooldown * 60 || !ritualGreen(id)) continue;
+    if (Math.random() < R.chance) { startRitual(id); return; }
+  }
+}
+function startRitual(id) {
+  const R = RITUALS[id];
+  ritual.now = id; ritual.last[id] = time; ritual.fired[id] = (ritual.fired[id] || 0) + 1;
+  ritual.next = time + rand(RITUAL.shared[0], RITUAL.shared[1]) * 60;
+  ritual.log.push({t: time, id, wave: director.wave});
+  director.queue.unshift(R.scene); director.ritualNext = id;
+  director.sceneDur = Math.min(director.sceneDur, director.sceneT + 1.5); // the current scene wraps up, the ritual plays next
+}
+// called by nextScene when a scene starts: name the ritual, and roll for a chain when one ends
+function ritualScene(key) {
+  if (director.ritualNext) { const id = director.ritualNext; director.ritualNext = null; sceneTag = {text: RITUALS[id].name + '!', t: 0}; return; }
+  if (ritual.now) {
+    const was = ritual.now; ritual.now = null;
+    if (was === 'baitball' && Math.random() < RITUALS.frenzy.chance) startRitualNow('frenzy');
+  }
+}
+function startRitualNow(id) { // a chained ritual replaces the scene that was about to start
+  const R = RITUALS[id]; ritual.now = id; ritual.fired[id] = (ritual.fired[id] || 0) + 1; ritual.log.push({t: time, id, wave: director.wave, chain: true});
+  const sc = SCENES[R.scene]; director.sceneKey = R.scene; director.scene = sc; director.sceneDur = rand(sc.dur[0], sc.dur[1]);
+  sceneTag = {text: R.name + '!', t: 0};
+}
 // ================= PLAYS =================
 // "If" rules from route_library/director/plays/. Every plays_check_seconds the director reads the table's signals and
 // checks each enabled play; when every condition holds (and its cooldown and per-wave limit allow) it sends the play's
@@ -1485,7 +1549,7 @@ function castAt(s, x, y) {
   if (s.bait === 'golden') bb.koiAt = rand(2, 6);
   sfx('cast');
 }
-function removeBobber(bb) { bobbers = bobbers.filter(o => o !== bb); if (bb.seat.bobber === bb) bb.seat.bobber = null; if (bb.fish && !bb.fish.dead) { bb.fish.hooked = null; bb.fish.base = rand(0, TAU); bb.fish.speed *= 1.6; if (bb.fish.underwater) { bb.fish.gone = true; underSpawn(bb.fish.type.id, {x: bb.fish.x, y: bb.fish.y}, bb.fish.base); } } }
+function removeBobber(bb) { bobbers = bobbers.filter(o => o !== bb); if (bb.seat.bobber === bb) bb.seat.bobber = null; if (bb.fish && !bb.fish.dead) { bb.fish.hooked = null; bb.fish.base = rand(0, TAU); bb.fish.speed *= 1.6; if (bb.fish.underwater) { const f = bb.fish; f.gone = true; const u = underSpawn(f.type.id, {x: f.x, y: f.y}, f.base); if (f.deepVisitor || f.deepBoss) { u.deep = true; u.boss = f.deepBoss; if (f.deepVisitor) u.sp = (W + 2 * u.len) / rand(DEEP.cross[0], DEEP.cross[1]); } } } }
 // Golden Koi: its catch chance is fixed. The golden pocket only decides WHEN a Koi may be in the water (and so whether the
 // Golden lure can be used): when the pocket can cover a full Koi pay, the bank is safe. Between KOI_RISK and KOI_SAFE the
 // director may take the risk and let it in early. Checked every KOI_CHECK seconds; a cast already made is never changed.
@@ -1579,10 +1643,10 @@ function underFree(f) { if (f.under) { f.under.link = null; f.under.h = f.under.
 // bobber's circle decides it, with the same roll, fight and pay as before. Species come in with fixed published weights
 // (each fish's w). The middle of the screen is too deep to fish: casts aimed there land at the box's edge.
 const UNDER = {
-  size: 18,         // underwater fish swimming at once
-  speed: 0.6,       // x their screen speed
+  size: 24,         // underwater fish swimming at once
+  speed: 0.9,       // x their screen speed
   smell: 4,         // a waiting bait pulls eaters from this many circle-widths away
-  arriveIdle: 5,    // seconds with no eater near a bait before one comes up from the deep toward it
+  arriveIdle: 2.5,  // seconds with no eater near a bait before one comes up from the deep toward it
 };
 const NO_CAST = {x0: 0.3, x1: 0.7, y0: 0.35, y1: 0.65}; // share of the screen
 let under = [];
@@ -1613,7 +1677,8 @@ function underTick(dt) {
     let pulled = false;
     for (const bb of bobbers) {
       if (bb.state !== 'wait' || !eatsBait(u.id, bb.bait)) continue;
-      if (Math.hypot(bb.x - u.x, bb.y - u.y) < bb.r * UNDER.smell) { u.base += clamp(wrap(Math.atan2(bb.y - u.y, bb.x - u.x) - u.base), -1.6 * dt, 1.6 * dt); pulled = true; break; }
+      // deep visitors and the boss smell their bait from anywhere on the screen, so a boss bait never waits for nothing
+      if (u.deep || Math.hypot(bb.x - u.x, bb.y - u.y) < bb.r * UNDER.smell) { u.base += clamp(wrap(Math.atan2(bb.y - u.y, bb.x - u.x) - u.base), -1.6 * dt, 1.6 * dt); pulled = true; break; }
     }
     if (!pulled && !u.deep) u.base += Math.sin(u.age * 0.5 + u.len) * 0.15 * dt;
     u.h += clamp(wrap(u.base - u.h), -2 * dt, 2 * dt);
@@ -1628,7 +1693,8 @@ function underTick(dt) {
 function underArrive(bb) {
   const ids = Object.keys(BAITS[bb.bait].fish).filter(id => UNDER_IDS.includes(id));
   if (!ids.length) return;
-  const id = pickUnderId(ids), e = entryPoint(SP[id].len * S);
+  // it rises from below a few circle-widths away (not from the screen edge), so a quiet bait gets a visitor in seconds
+  const id = pickUnderId(ids), a = rand(0, TAU), d = bb.r * rand(1.3, 2), e = {x: bb.x + Math.cos(a) * d, y: bb.y + Math.sin(a) * d};
   underSpawn(id, e, Math.atan2(bb.y - e.y, bb.x - e.x)); underStats.arrivals++;
 }
 // an underwater fish took the bait: it rises at the bobber for the fight as a pole-only fish the gun can't touch
@@ -1636,11 +1702,10 @@ function underBite(bb, u) {
   if (running && !bb.free) { const fs = fishStat(u.id); fs.poleW += BAITS[bb.bait].cost; fs.bites++; }
   underStats.bites++;
   const row = biteRow(u.id, bb.bait);
-  if (u.deep && !u.boss && row) deep.caught++;
   if (u.link && row) { const f = u.link; dive.bites++; f.gone = true; f.dv.phase = 'done'; diveDone(f.dv.plan); }
   if (row) {
     u.gone = true; under = under.filter(o => o !== u);
-    const f = addFish(SP[u.id], u.x, u.y, u.h, {underwater: true, entered: true});
+    const f = addFish(SP[u.id], u.x, u.y, u.h, {underwater: true, entered: true, deepVisitor: !!(u.deep && !u.boss), deepBoss: !!u.boss});
     startFight(bb, f, row);
   } else {
     underStats.took++; poleStat(bb.bait, 'took'); bb.seat.msg = {text: `${SP[u.id].name} took the bait`, t: 0};
@@ -1816,7 +1881,7 @@ function endFight(bb, landed) {
     if (pts > 0) {
       noteCatch(s, f);
       const lbs = r.lb || Math.round(rand(f.type.lb[0], f.type.lb[1]) * 10) / 10;
-      poleStat(bb.bait, 'landed'); if (running) fishStat(f.type.id).landed++;
+      poleStat(bb.bait, 'landed'); if (running) fishStat(f.type.id).landed++; if (f.deepVisitor) deep.caught++;
       bagFish(s, f, pts, lbs, bb.bait, row.mood);
       pops.push({x: f.x, y: f.y - 20 * S, text: `${fmt(pts)} in the bag`, color: s.color, t: 0, big: pts >= 500});
       pops.push({x: f.x, y: f.y + 16 * S, text: `${row.mood ? row.mood + ' ' : ''}${f.type.name} ${lbs} lb · bonus +${fmt(fishBonus({lb: lbs, group: f.type.group}))}`, color: '#e8f6f4', t: 0, small: true});
@@ -1839,7 +1904,7 @@ function bobberTick(bb, dt) {
     for (const u of under) {
       if (u.gone || !eatsBait(u.id, bb.bait)) continue;
       const d = Math.hypot(u.x - bb.x, u.y - bb.y), reach = SP[u.id].group === 'boss' ? bb.r + u.len * 0.3 : bb.r;
-      if (d < bb.r * UNDER.smell) near = true;
+      if (d < bb.r * UNDER.smell || u.deep) near = true;
       if (d < reach && bb.spook <= 0) { underBite(bb, u); return; }
     }
     // the Golden Koi is the one fish that swims up on screen, to its own lure
@@ -1963,6 +2028,7 @@ function update(dt) {
   pointer.dirty = false;
 
   directorTick(dt);
+  ritualTick(dt);
   underTick(dt);
   deepTick(dt);
   coverageTick(dt);
@@ -2528,7 +2594,7 @@ function start(data) {
   for (let i = 0; i < 10; i++) spawnTick(1);
   requestAnimationFrame(t => { last = t; frame(t); });
 }
-window.__reef = {GAME_VERSION, deep, DEEP, deepInWater, dive, DIVE, under: () => under, underStats, UNDER, NO_CAST, koi, market, MARKET, sellBag, cashOutBag, buyBait, marketClose, syncReserved, availableBaits, toggleMarket, LIB, LAW, season, hooks, liveDispatches, doneDispatches, playLog, playState, PLAYS, effects, spawnSchool, medStats, medExposure, big, bigStats, bigExposure, update, drawScene, ledger, director, seats: () => seats, fish: () => fish, settings, startGame, addCredits, BAITS, POLE_MOODS, SP, GROUPS, avgMult, moodEV, payAvg, FIGHT_AVG};
+window.__reef = {GAME_VERSION, ritual, RITUALS, show, SHOW, deep, DEEP, deepInWater, dive, DIVE, under: () => under, underStats, UNDER, NO_CAST, koi, market, MARKET, sellBag, cashOutBag, buyBait, marketClose, syncReserved, availableBaits, toggleMarket, LIB, LAW, season, hooks, liveDispatches, doneDispatches, playLog, playState, PLAYS, effects, spawnSchool, medStats, medExposure, big, bigStats, bigExposure, update, drawScene, ledger, director, seats: () => seats, fish: () => fish, settings, startGame, addCredits, BAITS, POLE_MOODS, SP, GROUPS, avgMult, moodEV, payAvg, FIGHT_AVG};
 window.claude?.hot?.snapshot?.(() => ({settings, points: seats.map(s => s.points), running}));
 addEventListener('resize', resize);
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
