@@ -159,8 +159,71 @@ route_library/fish/<fish>/rituals/
 
 ---
 
-## 4. Decisions for you
+## 4. Triggers and reach (added after your second message)
+
+Rituals affect the whole ocean, but they **grow out of what the fish are already doing**. Nobody announces them. A ritual needs a **spark** (a fish doing its normal thing), then a **green light** (another group joining in by chance), then it passes the **gates** (it's allowed right now and the chance roll says yes). Then it **grows** in stages until it reaches the whole ocean.
+
+```
+spark  →  green light  →  gates + chance roll  →  grows in stages  →  ends (sometimes chains into the next ritual)
+```
+
+### The Bait Ball, step by step
+1. **Spark:** a sardine school is circling (figure8, perimeter) in the middle of the table. This happens all the time.
+2. **Green light:** another tiny or small school (anchovy, minnow, butterfly, or the sardines' mirror twin) comes within about 150 px of it, and both stay in the middle for 2 s.
+3. **Gates:** no boss on screen, no ritual in the last few minutes, no Megalodon or Kraken coming in. Then a **chance roll** (say 1 in 3), so even when everything lines up it only sometimes happens.
+4. **Grows:**
+   - **Stage 1, gather (local):** the two schools merge into one spinning ball.
+   - **Stage 2, join (half the table):** other tiny and small schools nearby spiral in, and the ball gets bigger.
+   - **Stage 3, the whole ocean:** tuna circle and herd, the Shark circles slowly, a Marlin dashes through, and mediums and big fish keep a ring of space around it.
+5. **Ends:** the ball bursts and the schools scatter toward the seat rows.
+6. **Can fizzle:** if a predator crashes it during stage 1 (a Swordfish spears through), the schools just scatter and the ritual never happens. That keeps it feeling natural and rare.
+
+### How strongly a ritual moves each fish (reach)
+
+| Level | Name | What the fish does |
+|---|---|---|
+| 3 | **Full** | Leaves its route and takes its ritual role (join the ball, circle it) |
+| 2 | **Switch** | Finishes its current route, then its next route is a ritual one |
+| 1 | **Bend** | Keeps its route, bent to lean in or keep away |
+| 0 | **None** | Not affected |
+
+Each ritual sets a level for each kind of fish, and a **range**: near the ritual, half the table, or the whole ocean. A ritual starts local and its range grows with each stage.
+
+### Triggers, and who each ritual moves
+
+Tiny = sardine, anchovy, butterfly, clownfish. Small = angelfish, minnow, puffer, lionfish, seahorse. Medium = tuna, barracuda, octopus, swordfish, turtle. Big = shark, hammerhead, manta, marlin. Specials = bomb crab, eel. Bosses = megalodon, kraken, giant squid, healer.
+
+| Ritual | Spark | Green light | Tiny | Small | Medium | Big | Bosses | Specials |
+|---|---|---|---|---|---|---|---|---|
+| **Bait Ball** | Sardines circling in the middle | A second small school stays close for 2 s | 3 | 3 | 2 | 2 | not sent | 1 |
+| **Sardine Run** | A Bait Ball bursts | 2+ schools leave by the same edge | 3 | 3 | 2 | 2 | not sent | 1 |
+| **Feeding Frenzy** | Shark with hungry or aggressive attitude | It passes within 200 px of 2+ schools | 3 (scatter) | 3 (scatter) | 2 | 3 | not sent | 0 |
+| **Make Way** | A boss enters | Always; the boss itself is enough | 3 | 3 | 3 | 2 | the boss leads | 2 |
+| **Current** | Manta and Turtle both on screen | They travel the same direction for 5 s | 1 | 1 | 1 | 1 | 1 | 1 |
+| **Cleaning Station** | Turtle circling near the middle | 2+ clownfish or butterflies come to it, no Shark on screen | 3 | 2 | 1 | 1 | not sent | 0 |
+| **Coral Spawning** | Last wave of a season | The table is calm (no fast crossers for 10 s) | 3 | 3 | 1 | 0 | 0 | 2 (eel glows) |
+| **Courtship** | A seahorse pair dancing | A second pair or a butterfly pair on screen | 2 | 2 | 0 | 0 | 0 | 0 |
+| **Ink Storm** | Giant Squid or Octopus inks | Always, but local only | 3 near | 3 near | 1 | 0 | 0 | 0 |
+| **Glow Night** | Eel passes through a school | That school has 8+ fish | 1 | 1 | 1 | 1 | 1 | lead |
+
+The Current is gentle (level 1 for everyone) but reaches everyone; the Bait Ball is strong but mostly moves the little fish. **Rituals can chain:** Bait Ball → Feeding Frenzy (the Shark arrives during the ball) → Sardine Run (the ball bursts and runs).
+
+### Keeping it occasional
+- Every ritual has a **chance roll**, a **cooldown** and a **maximum per hour**.
+- The lab counts how often each spark, green light and ritual happens, so we tune the chances to a target (for example one ritual every 10-15 minutes, with the Bait Ball the most common).
+- The lab also measures how much each ritual moves the table: how many fish changed route, and whether every seat got its share.
+
+### Can the director help a ritual along?
+Two ways to do it:
+- **Natural only:** rituals happen only when the fish line up by chance. Rarest, and it feels the most alive.
+- **The director can set the stage:** sometimes it sends the second school toward circling sardines, so the green light comes more often. Still natural-looking, and easier to control how often rituals happen.
+
+Either way, the trigger is about the ocean (where the fish are), never about players' credits.
+
+## 5. Decisions for you
 1. **Which rituals?** Suggested first three: **Bait Ball** (your idea), **Make Way** (mostly built already) and **Current** (simple, and touches every fish).
 2. **How often?** For example one ritual every 2-3 big-fish waves, or tied to seasons (each season has its own ritual).
 3. **Do players get a warning?** For example a banner ("The sardines are gathering…") a few seconds before.
 4. **Show-only effects:** the glow for Coral Spawning and Glow Night, and the ink cloud. They don't change play; are they wanted?
+5. **Natural only, or may the director set the stage?** (see section 4)
+6. **The reach levels** in the table above: too strong or too weak anywhere?
