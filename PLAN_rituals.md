@@ -220,10 +220,63 @@ Two ways to do it:
 
 Either way, the trigger is about the ocean (where the fish are), never about players' credits.
 
-## 5. Decisions for you
-1. **Which rituals?** Suggested first three: **Bait Ball** (your idea), **Make Way** (mostly built already) and **Current** (simple, and touches every fish).
+## 5. A ritual for every fish (added after your third message)
+
+Every fish owns one ritual. It only happens when **certain routes line up**: the fish is swimming one of its routes, and the partner fish is swimming a matching route at the same time and in the same part of the water. Then the gates and the chance roll, and **boom**, the ritual starts. Route names are the real ones from the library.
+
+**Lined up** means both routes are running at once, and their paths come within about 150 px of each other for 2 s (or whatever the ritual says). The build tool can work out ahead of time which route pairs ever meet, so each route's page can list the rituals it can spark.
+
+### Rarity
+
+| Rarity | Roughly how often | How it gets that rare |
+|---|---|---|
+| **Common** | every 10-15 min | Routes that line up often, high chance roll |
+| **Uncommon** | about once an hour | Less common route pairs, or a lower chance roll |
+| **Rare** | once every 3-4 hours | Three things must line up, or a rare fish is involved |
+| **Legendary** | about once a night | A boss plus a rare alignment |
+
+The lab counts how often each alignment happens, so the chance rolls can be tuned until each ritual lands at its rarity.
+
+### The 24 rituals
+
+| Fish | Ritual | Routes that must line up | What happens to the ocean | Rarity |
+|---|---|---|---|---|
+| **Sardine** | Bait Ball | sardine `figure8` in the middle + anchovy `baitBall` | Small schools spiral in, tuna and Shark circle, Marlin dashes through, then it bursts | Common |
+| **Minnow** | Flash Storm | minnow `dartStop` crossing sardine `seatSweep` | Every tiny and small school flash-scatters in waves across the table | Common |
+| **Tuna** | The Herd | tuna `cornerSwing` + sardine `perimeter` | Tuna push the small schools to the middle; often grows into a Bait Ball | Common |
+| **Anchovy** | Wake Parade | anchovy `wakeRider` + manta `grandArc` | Tiny and small schools line up behind the Manta and follow its arc | Uncommon |
+| **Butterflyfish** | Butterfly Bloom | butterfly `pairFlutter` + seahorse `pairDance` | Pairs dance across the table; fast fish stay out | Uncommon |
+| **Clownfish** | Home Guard | clownfish `seatHome` at 3+ seats at once | Every seat's clowns guard their home; other smalls stay off the seat rows | Uncommon |
+| **Angelfish** | Reef Parade | angel `arch` + turtle `lazyS` | Small fish fall in behind and parade across with the Turtle | Uncommon |
+| **Lionfish** | Royal Escort | lionfish `escort` on a big fish + hammerhead `rail` | A procession: escorts flank the big fish, smalls line its path | Uncommon |
+| **Barracuda** | Ambush Line | barracuda `ambush` + shark `stalker` | Barracudas line up along one lane; small fish avoid that lane | Uncommon |
+| **Octopus** | Ink Storm | octopus `seatCrawl` + shark `patrol` on the same row | Ink cloud on that row; everyone steers around it | Uncommon |
+| **Swordfish** | Parting of the Sea | sword `spear` through a sardine `wDip` school | Schools split left and right into a gate; others swim through the gap | Uncommon |
+| **Turtle** | Cleaning Station | turtle `slowCircle` in the middle + clownfish `peek` or butterfly `loop` | Small fish circle the Turtle; predators pass slowly and leave it alone | Uncommon |
+| **Shark** | Feeding Frenzy | shark `feed` or `strike` + a Bait Ball or 2+ schools close together | Predators rush in and speed up; small fish flash-scatter; 10-15 s | Uncommon |
+| **Manta** | The Current | manta `grandArc` + turtle `sideLoop`, same direction | The whole ocean drifts one way and every route bends with it | Uncommon |
+| **Bomb Crab** | Stampede | crab `intoCrowd` while 3+ schools crowd that seat row | Schools stampede sideways along the row ahead of the crab | Uncommon |
+| **Pufferfish** | Puffer Standoff | puffer `linger` next to barracuda `ambush` | A still moment: everyone gives the two a wide berth | Rare |
+| **Seahorse** | Dawn Dance | seahorse `pairDance` + a second seahorse on `climb` | Courtship: pairs dance in the middle; the whole table slows down | Rare |
+| **Hammerhead** | Hammer Gate | hammerhead `rail` on both seat rows (pair patrol) + shark `cruise` | The middle lane is the only way across; every school funnels through it | Rare |
+| **Marlin** | Marlin Strike | marlin `slash` through an active Bait Ball | The ball explodes and turns into a Sardine Run: one river of fish | Rare |
+| **Lightning Eel** | Glow Night | eel `throughSchool` through a school of 8+ fish | Water dims; every fish leaves a light trail (looks only) | Rare |
+| **Healer Jellyfish** | Coral Spawning | healer `bloom` + the last wave of a season + a calm table | A glowing snowstorm rises; small fish swirl up to feed | Rare |
+| **Megalodon** | The Great Clearing | megalodon `circling` while a Shark is on screen | Even the Shark flees; the whole ocean clears to the edges | Legendary |
+| **Giant Squid** | Blackwater | gsquid `jet` + octopus `edgeHops` | Both ink at once and the water goes dark; fish leave by the shortest way | Legendary |
+| **Kraken** | The Deep Calls | kraken `slowSweep` + megalodon gone from the table this wave | The seat rows empty; every fish swims the middle lane while the tentacles sweep | Legendary |
+
+The other rituals from section 2 (Make Way when any boss enters, Sardine Run after a Bait Ball bursts) are kept as **shared rituals**. They can start from several fish's rituals, like Marlin Strike turning into a Sardine Run.
+
+### Every fish still needs a role in every ritual
+The rule from section 3 doesn't change: 24 rituals × 24 fish = **576 roles**, one in every cell, each with its route. Most cells are quick (a level 0 or 1 fish just keeps its route or bends away). The full and switch cells (levels 2-3) need real ritual routes, so the work is mostly there. The build tool checks the table is full before anything goes into the game.
+
+## 6. Decisions for you
+1. **Shared rituals:** keep Make Way and Sardine Run as rituals any fish's ritual can lead into?
 2. **How often?** For example one ritual every 2-3 big-fish waves, or tied to seasons (each season has its own ritual).
 3. **Do players get a warning?** For example a banner ("The sardines are gathering…") a few seconds before.
 4. **Show-only effects:** the glow for Coral Spawning and Glow Night, and the ink cloud. They don't change play; are they wanted?
 5. **Natural only, or may the director set the stage?** (see section 4)
 6. **The reach levels** in the table above: too strong or too weak anywhere?
+7. **The 24 rituals and their rarities** (section 5): keep, rename, swap, or change which routes have to line up.
+8. **Build order:** suggested: the 3 common ones first (Bait Ball, Flash Storm, The Herd), since they happen enough to test quickly, then the uncommon ones.
