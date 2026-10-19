@@ -152,15 +152,61 @@ Before the director sends a spike (a Bait Ball at 1.06, a golden moment), it che
 | Rituals started by routes lining up | New |
 
 ## 7. Suggested build order
-1. **Tracking** (Tool 6): see payback by bet size and time window first.
+1. **Tracking** (Tool 6) and **fish banks** (8c): see payback by fish, bet size and time window first.
 2. **Wave recipes and formation decks** (Tools 1-2): no risk to the bank.
 3. **Tide ledger** (Tool 4): measure it before steering with it.
 4. **Soft and hard schools** (Tool 3).
 5. **Dry spell types and the risk check** (Tools 5, 7).
 6. **The 6 rituals.**
 
-## 8. Decisions for you
+## 8. Round 2 (your next message): repeats, pacing, fish banks, no patterns
+
+### 8a. The same event, a different payout each time
+The same events come back several times a night (several Bait Balls, several Frenzies), but each time the director **draws its payout from a deck**, so nobody knows what this one will give.
+- Example Bait Ball deck: 0.92, 0.97, 1.00, 1.04, 1.08, 1.15. Each Bait Ball draws one card; the deck reshuffles when empty.
+- The deck's average is the event's planned share of the tide, so over the night it lands where it should.
+- Some Bait Balls are a let-down, most are fine, and now and then one is great. That's what keeps it interesting.
+- The tide ledger (Tool 4) can bend the draw: when the ledger has saved up, high cards come more often; when it's behind, low ones do.
+
+### 8b. Intensity pacing: high, then calm
+Every wave gets an **intensity score** (from how swingy it is, how many big fish, whether a ritual or boss is on). The director follows a **pacing rule**:
+- After a high moment (boss, Frenzy, big spike), the next wave is **medium or low**: a recovery wave.
+- No two high waves in a row; at most a few calm waves before something builds again.
+- Intensity shapes for the night: build-up → peak → cool-down, repeating with different lengths so the rhythm isn't predictable either.
+- The lab and the replay show an intensity line across the night next to payback, so you can see the rhythm.
+
+### 8c. A bank for every fish
+Every fish species keeps its own bank: **points shot at it** (credits players put in aiming at that fish) and **points it paid out**. Its payback is paid ÷ shot at.
+
+| Fish | Points shot at it | Points it paid | Its payback | Catches | Shots per catch |
+|---|---|---|---|---|---|
+| Tuna | 120,400 | 116,900 | 97.1% | 1,412 | 9.3 |
+| … | | | | | |
+(example layout)
+
+- Kept for the night, per wave, and per ritual (how did the Tuna do during Bait Balls?).
+- Also split by bet size, so you can see whether 1-token players are getting anything out of the big fish.
+- **Already there in part:** the game counts credits shot at and paid by each school the director sends, and by each group (tiny, small...). This makes it one bank per species, covering every fish, in every report and on the replay panel.
+- The fish banks are also an early warning: a fish running far above or below its designed payback for too long means something is off.
+
+### 8d. No patterns players can learn
+Players must never figure out "this formation means easy money" or "Bait Ball always pays". How to make sure:
+1. **Looks and payout are decided separately.** The formation, route and ritual a fish gets is drawn without looking at the tide or the soft/hard state, so no visible thing carries information about the payout.
+2. **Payout decks** (8a) mean even a ritual doesn't reliably pay well.
+3. **Every look appears in every state.** A tuna arc can be soft or hard, high tide or low, so seeing an arc tells a player nothing.
+4. **Pattern audit in the lab.** Over many nights the lab checks every visible thing (formation, route, ritual, season, scene, banner) against what it actually paid. If any visible thing pays noticeably better or worse than average, the report flags it, and we fix it before players could find it.
+
+### 8e. Time and short sessions
+In the lab, an average session is about **31-36 minutes**. Players don't see the whole night; each player sees a slice of it. That matters for the tide:
+- If a dry stretch lasted longer than a typical session, some players would only ever see dry water. That's a bad night for them even though the table's average is fine, and those players don't come back.
+- So I'd keep the tide's ups and downs **shorter than a session**: a cycle of roughly 15-25 minutes, so most players see at least one high moment and one calm stretch while they play.
+- Long sessions (6-7 hours) still come back to the target average.
+- The lab will measure what each player type saw: how many high moments per session, and the longest dry stretch per session.
+
+## 9. Decisions for you
 1. Cut to the 6 rituals in section 1?
 2. Tide window: how long should it take to come back to square (60 min? 90?), and how far may it swing (for example 88% to 112%)?
 3. Dry limit per seat: 60, 75 or 90 seconds without a win?
 4. Should 1-token players get a guaranteed minimum of easy fish within reach?
+5. Payout decks per event (8a): how wide? For example a Bait Ball between 0.90 and 1.15.
+6. Tide cycle length (8e): about 15-25 minutes, so most players see a high and a calm stretch?
