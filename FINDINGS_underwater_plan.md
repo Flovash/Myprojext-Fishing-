@@ -93,3 +93,10 @@ It's still a proposal, waiting on your answers below.
 6. Do you want **credits added** booked as deposits so the shared bank has a real balance?
 
 Nothing will be built until you answer.
+
+## Owner's answer (2026-10-19)
+
+Questions 2-4: "hidden" means some fish **look like they dive** and come back up on the **same route**, not all of them,
+just sometimes, so pole players feel "maybe I can catch the Megalodon". So: no separate underwater population. A diving
+fish is a shadow that can still bite a bobber under the existing "first fish into the circle" rule. Design:
+`docs/plans/PLAN_diving.md`.
