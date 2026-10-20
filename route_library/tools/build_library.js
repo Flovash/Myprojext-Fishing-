@@ -46,7 +46,7 @@ function loadLibrary() {
     plays: loadDir(path.join(director, 'plays')),
     show: optJ(path.join(director, 'show.json')),
     diving: optJ(path.join(director, 'diving.json')),
-    pole: Object.fromEntries(['bite_styles', 'feeding', 'underwater', 'deep_visitors', 'market'].map(k => [k, optJ(path.join(LIB, 'pole', k + '.json'))]).filter(e => e[1])),
+    pole: Object.fromEntries(['bite_styles', 'feeding', 'underwater', 'deep_visitors', 'market', 'golden_koi'].map(k => [k, optJ(path.join(LIB, 'pole', k + '.json'))]).filter(e => e[1])),
     rituals: loadRituals(),
     notDesigned: fs.existsSync(path.join(LIB, 'fish', '_not_designed_yet.json')) ? J(path.join(LIB, 'fish', '_not_designed_yet.json')).not_designed_yet : {},
   };

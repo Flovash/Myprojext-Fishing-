@@ -20,8 +20,12 @@ The gun and the pole are separate worlds with separate banks.
 ## 2. Fixed odds
 - Scenes no longer change gun catch chances (Bait Ball ×1.06 etc. are gone).
 - Golden Koi: fixed 8.8% catch chance. The golden pocket decides when a Koi is in the water: at 5,000+ (safe), or
-  4,000-5,000 when the director takes the risk (25% per check). The Golden lure is only on sale while a Koi is in.
-  Table: `KOI_*`.
+  4,000-5,000 when the director takes the risk (25% per check). The Golden lure is on sale any time: while the Koi
+  is in the water it always comes to the lure; before that, the chance it comes to one cast grows as the pocket fills
+  (4% at 2,000 or less, about 21% at 3,800, about 44% at 4,800). Decided at the cast. The market shows how close the Koi
+  is ("far away", "stirring", "getting close", "in the water"). Table: `KOI_*`, `KOI_NEAR` (`route_library/pole/golden_koi.json`).
+- Pole catches go into the bag, not the points. The seat plate shows the bag's worth next to the points ("+640 bag"),
+  flashing when a fish goes in. Points arrive when you sell or at season end.
 - Wild moods: unchanged. Each fish's jar decides when a Wild spell may start.
 
 ## 3. Bait market (pole mode only)
