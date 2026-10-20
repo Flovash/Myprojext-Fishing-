@@ -46,6 +46,7 @@ function loadLibrary() {
     plays: loadDir(path.join(director, 'plays')),
     show: optJ(path.join(director, 'show.json')),
     diving: optJ(path.join(director, 'diving.json')),
+    tempo: optJ(path.join(director, 'tempo.json')),
     pole: Object.fromEntries(['bite_styles', 'feeding', 'underwater', 'deep_visitors', 'market', 'golden_koi'].map(k => [k, optJ(path.join(LIB, 'pole', k + '.json'))]).filter(e => e[1])),
     rituals: loadRituals(),
     notDesigned: fs.existsSync(path.join(LIB, 'fish', '_not_designed_yet.json')) ? J(path.join(LIB, 'fish', '_not_designed_yet.json')).not_designed_yet : {},
@@ -131,7 +132,7 @@ function gameData(L) {
   const bare = o => { if (!o) return o; const c = Object.assign({}, o); delete c.about; return c; };
   const laws = {};
   for (const sect of ['big_fish', 'medium_fish', 'director']) for (const l of L.laws[sect] || []) laws[l.id] = l.value;
-  return {fish, laws, seasons: L.seasons, plays: L.plays, show: bare(L.show), diving: bare(L.diving),
+  return {fish, laws, seasons: L.seasons, plays: L.plays, show: bare(L.show), diving: bare(L.diving), tempo: bare(L.tempo),
     pole: Object.fromEntries(Object.entries(L.pole || {}).map(([k, v]) => [k, bare(v)])), rituals: L.rituals ? {shared: bare(L.rituals.shared), list: L.rituals.list} : null};
 }
 function writeGame(L) {

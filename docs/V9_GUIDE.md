@@ -28,16 +28,23 @@ The gun and the pole are separate worlds with separate banks.
   flashing when a fish goes in. Points arrive when you sell or at season end.
 - Wild moods: unchanged. Each fish's jar decides when a Wild spell may start.
 
-## 3. Bait market (pole mode only)
+## 3. Bait market: the Bait Shack (pole mode only)
+A small stall above the seat, about as wide as the seat plate, so it doesn't get in other players' way. Built for a joystick and two buttons.
+
 | Control | What it does |
 |---|---|
-| Button 2 (S / ↓ / K) in pole mode | Open / close the market |
-| Left / right | Scroll |
-| Button 1 | Buy one bait (hold = keep buying) · Sell the fish shown (hold = sell the whole bag) |
-| Lock (E for P1, / for P2, O for P3, or double push forward) | Next tab: BUY → SELL → BAG |
-| Button 3 | Back to the gun (closes the market) |
+| Button 3 to the pole | Opens the Bait Shack right away |
+| Enhance (Button 2: S / ↓ / K) | Open the Bait Shack · press again = back to fishing with the bait in the middle |
+| Joystick left / right | Step through the baskets; the one in the middle is the bait you'll fish with. The last stop is SELL |
+| Go (Button 1) | Buy one of the bait in the middle (hold = keep buying) · on SELL: sell the whole catch |
+| Lock (E, or double push forward) | Jump to SELL and back |
+| Taps (phone) | Tap ◀ ▶ or a side basket to step, tap BUY / SELL ALL / FISH |
+| Button 3 | Back to the gun (closes the shack) |
 
-- **Buying bait is the pole bet.** Each cast uses one bait from stock. With none left, a quick cast buys one at the counter.
+- Each basket shows the bait, its price tag and how many you have (×N). The top line shows your points and the bag (fish and worth).
+- **SELL stop** (end of the carousel): a cooler with how many fish and the total lb, "Sell now 226 · or keep for +14 lb bonus at season end", and one SELL ALL button. No selling one by one.
+- **Points only go down when you buy bait.** Each cast uses one bait from stock; the seat plate shows the bait and how many are left (×12), or BUY when out. A cast with none left doesn't go: "Out of Worms: buy bait" and the shack opens. Going back to fishing with none of the picked bait switches to a bait you have. (Demo seats and lab players still buy one per cast at the counter: same points either way.)
+- **Gun and pole never share numbers on screen.** In pole mode the seat shows bait left, never the gun's bet. The phone buttons relabel for the mode: gun = Pole · Bet + · Lock · Fire; pole = Gun · Market · Lock · Cast; shack open = Gun · Fish · Sell ▸ · Buy (Sell all on the SELL stop).
 - **Caught fish go into the bag**, each with its own mood, weight and catch value.
 - **Sell now** pays the catch value. **Hold to season end** pays the catch value + a weight bonus = lb × rate for its group.
 - **Season end** (every 6 big-fish waves, about 7 minutes): every bag sells with its bonus. Banner "Market closed".
@@ -45,14 +52,20 @@ The gun and the pole are separate worlds with separate banks.
 - Table: `MARKET` (`bonusPerLb` tiny 9 · small 6 · medium 0.2 · big 0.14 · boss 0.2, `bagMax` 20).
 - Check numbers before changing them: `node lab/market_calc.js --bonus tiny=12,small=8 --share 0.08`.
 
-## 4. Underwater world + the no-cast box
+## 3b. Fish tempo (show tool: speed, never the odds)
+`route_library/director/tempo.json`. Speed only changes the show; catch chances and pays never move (law zero).
+- **Lift:** slow fish get a lasting speed-up (Seahorse ×1.6, Puffer and Octopus ×1.4, Turtle and Lionfish ×1.35, Angelfish ×1.25, Butterflyfish ×1.2, Clownfish, Hammerhead and Shark ×1.15, Manta ×1.2, bosses ×1.15-1.3). Fast fish stay as they were.
+- **Attitude bursts:** every fish now and then bursts in its own style: Clownfish dart, Seahorse hop, Puffer puff-dash, Lionfish and Barracuda lunge, Octopus jet, Turtle paddle, Swordfish and Marlin slash, Sharks prowl, Manta wing-beat, bosses lunge or pulse. Each is [peak speed, seconds, wait between]. A school bursts together, so its formation holds.
+- **Table tempo:** calm 0.9 · cruise 1.0 · lively 1.2 · rush 1.4. Each director scene has its own (Bait Ball and The Current = rush, The Hunt = lively, Parade and Night = calm, Reef, Giants and Boss = cruise). The scene's shape nudges it a step (calm shape down; spike, roller and storm up), and 30% of scenes swing a step either way, so it never feels like a pattern. Changes ease in over 3 s. Bursts come more often when the tempo is up (×0.6 calm to ×1.8 rush).
+- **Director lever:** `tempoForce('rush', 40)` holds a tempo (also `__reef.tempoForce` for tests). `__reef.tempo.stats` shows time at each tempo and the number of bursts.
+
+## 4. Underwater world
 - The pole's own fish swim under the water (`UNDER.size` 24, at 0.9× their screen speed). Screen fish never bite and never steer to baits.
 - The first underwater fish that eats the bait and reaches the bobber decides the cast. The bite tables, fight and pay
   are the same as before.
 - No eater near a bait for 2.5 s → one rises from below, a couple of circle-widths away, and swims to it. Casts come about 40% slower than in v8, when every screen fish rushed the bait. `UNDER` sets the pace.
-- **No-cast box:** the middle 40% × 30% (`NO_CAST`). Invisible (`show: false` in `route_library/pole/underwater.json`). A cast aimed there lands at its edge ("Too deep in the middle").
+- **Fish anywhere:** the middle no-cast box is off (owner, 2026-10-20). It's still in `route_library/pole/underwater.json` as `noCast` with `on: false`; set `on: true` to bring it back.
 - **Gun speed:** default 6 shots a second (was 1.5; settings offer 1.5 / 3 / 4 / 6 / 9), bullets 1,050 px/s (was 760, `BULLET_SPEED`), up to 32 bullets per seat. Saved settings from older builds reset the fire rate once.
-  The box only shows while aiming.
 
 ## 4b. Bites (how each fish bites)
 - Players land almost every tap fight, so the house odds sit in the bite. The fight's landing rate is set to 97%
