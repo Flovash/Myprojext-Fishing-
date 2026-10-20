@@ -4,5 +4,9 @@
  "never_twice_in_a_row": true,
  "no_shark_on_screen": true,
  "seasons": {},
- "why": "Under the middle. Only when no Shark is on screen."
+ "why": "Under the middle. Only when no Shark is on screen.",
+ "dive": [
+  0.22,
+  0.74
+ ]
 }

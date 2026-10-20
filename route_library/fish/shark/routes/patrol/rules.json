@@ -5,5 +5,9 @@
  "attitude": "King",
  "meeting_ok": true,
  "seasons": {},
- "why": "Loops one side and leaves the way it came, handing the other half to the mediums. Allowed during meetings."
+ "why": "Loops one side and leaves the way it came, handing the other half to the mediums. Allowed during meetings.",
+ "dive": [
+  0.22,
+  0.73
+ ]
 }

@@ -4,5 +4,9 @@
  "never_twice_in_a_row": true,
  "if": [],
  "seasons": {},
- "why": "Darts in, freezes for a second, then bolts."
+ "why": "Darts in, freezes for a second, then bolts.",
+ "dive": [
+  0.38,
+  0.54
+ ]
 }

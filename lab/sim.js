@@ -13,11 +13,15 @@ function patchGame(html) {
   // hand the lab the game's internals, and let it drive every bot seat
   rep('// ================= BOTS =================\nfunction botControl(s, dt, inp) {',
     `globalThis.__labApi = {fish: () => fish, bobbers: () => bobbers, director, gunMood, reachableFrom, aimAt, inBubble, castAt, removeBobber, fightPress, eatsBait, avgMult, pivot, BAITS,
+    FIGHT_LAND: typeof startBite === 'function', // v9 bites: players land almost every fight
+    under: typeof under !== 'undefined' ? () => under : null, deepInWater: typeof deepInWater === 'function' ? deepInWater : null, inNoCast: typeof inNoCast === 'function' ? inNoCast : null,
+    sellBag: typeof sellBag === 'function' ? sellBag : null, cashOutBag: typeof cashOutBag === 'function' ? cashOutBag : null,
     W: () => W, H: () => H, S: () => S, time: () => time, running: () => running};
 function botControl(s, dt, inp) {
   if (globalThis.__lab) return globalThis.__lab.control(s, dt, inp);`);
   // money in and out, per seat
-  rep("s.points -= bet; if (!free) bookWager('gun', bet);", "s.points -= bet; if (!free) { bookWager('gun', bet); globalThis.__lab && globalThis.__lab.wager(s, bet, 'gun'); }");
+  if (script.includes("s.points -= bet; if (!free) bookWager('gun', bet);")) rep("s.points -= bet; if (!free) bookWager('gun', bet);", "s.points -= bet; if (!free) { bookWager('gun', bet); globalThis.__lab && globalThis.__lab.wager(s, bet, 'gun'); }");
+  else rep("s.points -= bet; if (!free) { bookWager('gun', bet);", "s.points -= bet; if (!free) { bookWager('gun', bet); globalThis.__lab && globalThis.__lab.wager(s, bet, 'gun');"); // v9+
   rep("bookWager('pole', B.cost);", "bookWager('pole', B.cost); globalThis.__lab && globalThis.__lab.wager(s, B.cost, 'pole');");
   rep("if (reward > 0) { seatPay(seat, reward, 'gun');", "if (reward > 0) { globalThis.__lab && globalThis.__lab.pay(seat, reward, 'gun', f.type.group, f.type.id); seatPay(seat, reward, 'gun');");
   rep("seatPay(s, pts, 'pole');", "globalThis.__lab && globalThis.__lab.pay(s, pts, 'pole', f.type.group, f.type.id); seatPay(s, pts, 'pole');");
@@ -59,9 +63,9 @@ function labPlayers(cfg) {
     chaser:  {name: 'Chaser',  buyIn: 2000,  maxMin: 60, about: 'Starts at bet 2, doubles after every 12 shots without a catch (cap 100), back to 2 after a catch.'},
     grinder: {name: 'Grinder', buyIn: 1000,  maxMin: 90, about: 'Steady bet 2, aims at mediums first, then smalls.'},
     whale:   {name: 'Whale',   buyIn: 20000, maxMin: 60, about: 'Bet 100 on bosses and Sharks, 50 on other big fish (lock-on), 10 on anything else.'},
-    fisher:  {name: 'Fisher',  buyIn: 2000,  maxMin: 90, about: 'About 85% of the time on the pole with base and medium baits; lands 90% of fights. Gun at bet 3 otherwise.'},
-    casual:  {name: 'Casual',  buyIn: 1000,  maxMin: 45, about: 'Bets 1-5 on random fish, takes pauses, sometimes fishes. Leaves when down 400.'},
-    newbie:  {name: 'Newbie',  buyIn: 500,   maxMin: 45, about: 'Slow aim, fires before lined up (misses a lot), slow fire, bets 1-3. Lands 60% of fights.'},
+    fisher:  {name: 'Fisher',  buyIn: 2000,  maxMin: 90, sell: 'hold', about: 'About 85% of the time on the pole with base and medium baits; lands 90% of fights (97% from v9, where the odds sit in the bite). Gun at bet 3 otherwise. Market: holds fish for the season-end bonus, sells only when short of points.'},
+    casual:  {name: 'Casual',  buyIn: 1000,  maxMin: 45, sell: 'batch', about: 'Bets 1-5 on random fish, takes pauses, sometimes fishes. Leaves when down 400. Market: sells the bag once it holds 3 fish.'},
+    newbie:  {name: 'Newbie',  buyIn: 500,   maxMin: 45, sell: 'now', about: 'Slow aim, fires before lined up (misses a lot), slow fire, bets 1-3. Lands 60% of fights (85% from v9). Market: sells every fish right away.'},
   };
   const ORDER = Object.keys(TYPES);
   const MIX = cfg.mix && cfg.mix.length ? cfg.mix : ORDER, SEATS = cfg.seats || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -107,10 +111,16 @@ function labPlayers(cfg) {
     }
     if (!bb) {
       const W = A.W(), H = A.H();
+      if (A.under) { // v9: the fish that bite live under the water and can't be seen, so cast somewhere in reach, outside the deep middle
+        const p = A.pivot(s); let x, y, k = 0;
+        do { const ang = s.normal + rnd(-1.1, 1.1), d = rnd(H * 0.25, H * 0.75); x = p.x + Math.cos(ang) * d; y = p.y + Math.sin(ang) * d; } while (A.inNoCast(x, y) && ++k < 8);
+        A.castAt(s, x, y);
+      } else {
       const cand = A.fish().filter(f => !f.dead && !f.hooked && A.eatsBait(f.type.id, s.bait) && f.x > 60 && f.x < W - 60 && f.y > 80 && f.y < H - 80);
       const f = cand[Math.floor(Math.random() * cand.length)];
       if (f) A.castAt(s, f.x + Math.cos(f.heading) * f.speed * 1.2, f.y + Math.sin(f.heading) * f.speed * 1.2);
       else A.castAt(s, rnd(W * 0.25, W * 0.75), rnd(H * 0.3, H * 0.7));
+      }
     } else { const a = Math.atan2(bb.y - A.pivot(s).y, bb.x - A.pivot(s).x); s.off += Math.max(-2 * dt, Math.min(2 * dt, wrap(a - s.normal) - s.off)); }
   }
   const wrap = a => ((a + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
@@ -159,7 +169,11 @@ function labPlayers(cfg) {
         if (Math.random() < 0.85 && goPole(s, {worms: 2, shrimp: 2, squid: 3, crab: 3, live: 2, c_ws: 2, c_sc: 2})) P.switchT = rnd(60, 150);
         else { goGun(s); P.switchT = rnd(15, 40); }
       }
-      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) { goGun(s); P.switchT = 30; } else return poleTurn(s, P, dt, 0.9); }
+      // v9: a deep visitor's shadow in the water: a fisher with points to spare tries the boss bait while it lasts
+      const deepNow = A.deepInWater && A.deepInWater();
+      if (deepNow && !P.deepTry && !s.bobber && s.points >= A.BAITS.c_cg.cost * 3) { P.deepTry = true; if (Math.random() < 0.6) { s.mode = 'pole'; s.lock = null; s.bait = 'c_cg'; P.switchT = 40; } }
+      if (!deepNow) { P.deepTry = false; if (s.bait === 'c_cg' && !s.bobber) s.bait = 'squid'; }
+      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) { goGun(s); P.switchT = 30; } else return poleTurn(s, P, dt, A.FIGHT_LAND ? 0.97 : 0.9); }
       s.bet = 3;
       freeAim(s, P, dt, inp, keepTarget(s, P, () => true, weighted), 3, 0.08, () => rnd(0.2, 0.4));
     },
@@ -170,7 +184,7 @@ function labPlayers(cfg) {
         if (!P.paused && !(Math.random() < 0.2 && goPole(s, {worms: 3, shrimp: 2, squid: 1}))) goGun(s);
       }
       if (P.paused && !(s.bobber && s.bobber.state === 'fight')) return;
-      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) goGun(s); else return poleTurn(s, P, dt, 0.8); }
+      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) goGun(s); else return poleTurn(s, P, dt, A.FIGHT_LAND ? 0.93 : 0.8); }
       P.betT = (P.betT ?? 0) - dt;
       if (P.betT <= 0) { s.bet = pick([1, 2, 3, 5], v => ({1: 3, 2: 3, 3: 2, 5: 1})[v]); P.betT = rnd(20, 60); }
       freeAim(s, P, dt, inp, keepTarget(s, P, () => true, weighted), 2.5, 0.1, () => rnd(0.3, 0.7));
@@ -178,7 +192,7 @@ function labPlayers(cfg) {
     newbie(s, P, dt, inp) {
       P.switchT = (P.switchT ?? rnd(60, 180)) - dt;
       if (P.switchT <= 0 && !s.bobber) { if (s.mode === 'gun' && Math.random() < 0.3 && goPole(s, {worms: 3, shrimp: 2, squid: 2, crab: 1})) P.switchT = rnd(30, 60); else { goGun(s); P.switchT = rnd(60, 180); } }
-      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) goGun(s); else return poleTurn(s, P, dt, 0.6); }
+      if (s.mode === 'pole') { if (!s.bobber && s.points < A.BAITS[s.bait].cost) goGun(s); else return poleTurn(s, P, dt, A.FIGHT_LAND ? 0.85 : 0.6); }
       P.betT = (P.betT ?? 0) - dt;
       if (P.betT <= 0) { s.bet = pick([1, 2, 3, 10], v => ({1: 5, 2: 3, 3: 2, 10: 0.5})[v]); P.betT = rnd(30, 90); }
       freeAim(s, P, dt, inp, keepTarget(s, P, () => true, weighted), 1.2, 0.35, () => rnd(0.7, 1.4));
@@ -206,6 +220,7 @@ function labPlayers(cfg) {
   }
   function leave(s, why, t) {
     const st = seatState[s.i], S = st.session;
+    if (A.cashOutBag && s.bag && s.bag.length) A.cashOutBag(s);
     S.end = t; S.why = why; S.left = s.points;
     if (s.bobber) A.removeBobber(s.bobber);
     s.lock = null; s.mode = 'gun';
@@ -231,6 +246,10 @@ function labPlayers(cfg) {
       const S = st.session, T = TYPES[st.type];
       S.low = Math.min(S.low, s.points); S.high = Math.max(S.high, s.points);
       const inFight = s.bobber && s.bobber.state === 'fight', waiting = s.bobber && s.bobber.state === 'wait';
+      if (A.sellBag && s.bag && s.bag.length) { // market (v9): each type's selling style; anyone short of points sells first
+        const style = T.sell || 'now', cheap = s.points < 3 * 15;
+        if (style === 'now' || cheap || (style === 'batch' && s.bag.length >= 3)) A.sellBag(s, false);
+      }
       if (!inFight && !waiting) {
         if (s.points < 1) return leave(s, 'bust', t);
         if (st.type === 'casual' && s.points <= T.buyIn - 400) return leave(s, 'quit', t);

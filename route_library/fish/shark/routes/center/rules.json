@@ -5,5 +5,9 @@
  "attitude": "King",
  "meeting_ok": true,
  "seasons": {},
- "why": "Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings."
+ "why": "Straight through the middle; splits the screen into top and bottom halves. Allowed during meetings.",
+ "dive": [
+  0.22,
+  0.71
+ ]
 }

@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "Slow entry, then a fast exit."
+ "why": "Slow entry, then a fast exit.",
+ "dive": [
+  0.22,
+  0.73
+ ]
 }

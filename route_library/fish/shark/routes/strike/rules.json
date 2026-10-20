@@ -5,5 +5,9 @@
  "attitude": "Hungry",
  "meeting_ok": false,
  "seasons": {},
- "why": "A short fast lunge through the middle."
+ "why": "A short fast lunge through the middle.",
+ "dive": [
+  0.23,
+  0.71
+ ]
 }

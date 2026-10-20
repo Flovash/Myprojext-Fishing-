@@ -3,5 +3,6 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "Sways side to side along a row."
+ "why": "Sways side to side along a row.",
+ "dive": false
 }

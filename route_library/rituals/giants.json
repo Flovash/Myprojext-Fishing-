@@ -1,0 +1,11 @@
+{
+ "id": "giants",
+ "name": "Giants' Pass",
+ "scene": "giants",
+ "chance": 0.35,
+ "cooldown": 12,
+ "why": "a Shark and a Manta in the water while the table is running cold",
+ "green_light": "shark_manta_cold",
+ "sendBig": ["hammer:pair", "marlin"],
+ "effect": "Big fish pass through together"
+}

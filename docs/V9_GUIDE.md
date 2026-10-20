@@ -1,0 +1,178 @@
+# Peacock Reef v9: what's new and what you can tweak
+
+Built 2026-10-19 by Claude Code from `docs/plans/BUILD_LIST.md` (steps 1-10). The game is `game/peacock_reef.html`.
+**Where the numbers live:** the pole world, rituals, show tools and dive settings are files in the route library
+(`route_library/pole/`, `route_library/rituals/`, `route_library/director/`), and each fish's bite style and dive chance is in
+its `fish.json`. Edit the file, run `node route_library/tools/build_library.js`, and the game picks it up. Browse
+everything in `route_library/CATALOG.html`. The bait tables (prices, catch %, pays) stay in the game: they're game math.
+
+## The rule
+The director controls the show, never the odds. Banks decide **when** things may happen, never **how likely** a catch is.
+The gun and the pole are separate worlds with separate banks.
+
+## 1. Two banks (gun and pole)
+- Each bank = points in − points out for that side. The director's gun show reads only the gun bank. The pole show
+  (Golden Koi, deep visitors) reads only the pole bank.
+- Fish waiting in bags count as **owed** points.
+- The settings panel line "Banks" shows both, plus the total.
+- Every lab run writes `banks.md`: both banks, points by fish and by bet size, the market, rituals, diving.
+
+## 2. Fixed odds
+- Scenes no longer change gun catch chances (Bait Ball ×1.06 etc. are gone).
+- Golden Koi: fixed 8.8% catch chance. The golden pocket decides when a Koi is in the water: at 5,000+ (safe), or
+  4,000-5,000 when the director takes the risk (25% per check). The Golden lure is on sale any time: while the Koi
+  is in the water it always comes to the lure; before that, the chance it comes to one cast grows as the pocket fills
+  (4% at 2,000 or less, about 21% at 3,800, about 44% at 4,800). Decided at the cast. The market shows how close the Koi
+  is ("far away", "stirring", "getting close", "in the water"). Table: `KOI_*`, `KOI_NEAR` (`route_library/pole/golden_koi.json`).
+- Pole catches go into the bag, not the points. The seat plate shows the bag's worth next to the points ("+640 bag"),
+  flashing when a fish goes in. Points arrive when you sell or at season end.
+- Wild moods: unchanged. Each fish's jar decides when a Wild spell may start.
+
+## 3. Bait market: the Bait Shack (pole mode only)
+A small stall above the seat, about as wide as the seat plate, so it doesn't get in other players' way. Built for a joystick and two buttons.
+
+| Control | What it does |
+|---|---|
+| Button 3 to the pole | Opens the Bait Shack right away |
+| Enhance (Button 2: S / ↓ / K) | Open the Bait Shack · press again = back to fishing with the bait in the middle |
+| Joystick left / right | Step through the baskets; the one in the middle is the bait you'll fish with. The last stop is SELL |
+| Go (Button 1) | Buy one of the bait in the middle (hold = keep buying) · on SELL: sell the whole catch |
+| Lock (E, or double push forward) | Jump to SELL and back |
+| Taps (phone) | Tap ◀ ▶ or a side basket to step, tap BUY / SELL ALL / FISH |
+| Button 3 | Back to the gun (closes the shack) |
+
+- Each basket shows the bait, its price tag and how many you have (×N). The top line shows your points and the bag (fish and worth).
+- **SELL stop** (end of the carousel): a cooler with how many fish and the total lb, "Sell now 226 · or keep for +14 lb bonus at season end", and one SELL ALL button. No selling one by one.
+- **Points only go down when you buy bait.** Each cast uses one bait from stock; the seat plate shows the bait and how many are left (×12), or BUY when out. A cast with none left doesn't go: "Out of Worms: buy bait" and the shack opens. Going back to fishing with none of the picked bait switches to a bait you have. (Demo seats and lab players still buy one per cast at the counter: same points either way.)
+- **Gun and pole never share numbers on screen.** In pole mode the seat shows bait left, never the gun's bet. The phone buttons relabel for the mode: gun = Pole · Bet + · Lock · Fire; pole = Gun · Market · Lock · Cast; shack open = Gun · Fish · Sell ▸ · Buy (Sell all on the SELL stop).
+- **Caught fish go into the bag**, each with its own mood, weight and catch value.
+- **Sell now** pays the catch value. **Hold to season end** pays the catch value + a weight bonus = lb × rate for its group.
+- **Season end** (every 6 big-fish waves, about 7 minutes): every bag sells with its bonus. Banner "Market closed".
+- A player who leaves or whose seat closes sells the bag at catch value (setting `leave`).
+- Table: `MARKET` (`bonusPerLb` tiny 9 · small 6 · medium 0.2 · big 0.14 · boss 0.2, `bagMax` 20).
+- Check numbers before changing them: `node lab/market_calc.js --bonus tiny=12,small=8 --share 0.08`.
+
+## 3b. Fish tempo (show tool: speed, never the odds)
+`route_library/director/tempo.json`. Speed only changes the show; catch chances and pays never move (law zero).
+- **Lift:** slow fish get a lasting speed-up (Seahorse ×1.6, Puffer and Octopus ×1.4, Turtle and Lionfish ×1.35, Angelfish ×1.25, Butterflyfish ×1.2, Clownfish, Hammerhead and Shark ×1.15, Manta ×1.2, bosses ×1.15-1.3). Fast fish stay as they were.
+- **Attitude bursts:** every fish now and then bursts in its own style: Clownfish dart, Seahorse hop, Puffer puff-dash, Lionfish and Barracuda lunge, Octopus jet, Turtle paddle, Swordfish and Marlin slash, Sharks prowl, Manta wing-beat, bosses lunge or pulse. Each is [peak speed, seconds, wait between]. A school bursts together, so its formation holds.
+- **Table tempo:** calm 0.9 · cruise 1.0 · lively 1.2 · rush 1.4. Each director scene has its own (Bait Ball and The Current = rush, The Hunt = lively, Parade and Night = calm, Reef, Giants and Boss = cruise). The scene's shape nudges it a step (calm shape down; spike, roller and storm up), and 30% of scenes swing a step either way, so it never feels like a pattern. Changes ease in over 3 s. Bursts come more often when the tempo is up (×0.6 calm to ×1.8 rush).
+- **Director lever:** `tempoForce('rush', 40)` holds a tempo (also `__reef.tempoForce` for tests). `__reef.tempo.stats` shows time at each tempo and the number of bursts.
+
+## 4. Underwater world
+- The pole's own fish swim under the water (`UNDER.size` 24, at 0.9× their screen speed). Screen fish never bite and never steer to baits.
+- The first underwater fish that eats the bait and reaches the bobber decides the cast. The bite tables, fight and pay
+  are the same as before.
+- No eater near a bait for 2.5 s → one rises from below, a couple of circle-widths away, and swims to it. Casts come about 40% slower than in v8, when every screen fish rushed the bait. `UNDER` sets the pace.
+- **Fish anywhere:** the middle no-cast box is off (owner, 2026-10-20). It's still in `route_library/pole/underwater.json` as `noCast` with `on: false`; set `on: true` to bring it back.
+- **Gun speed:** default 6 shots a second (was 1.5; settings offer 1.5 / 3 / 4 / 6 / 9), bullets 1,050 px/s (was 760, `BULLET_SPEED`), up to 32 bullets per seat. Saved settings from older builds reset the fire rate once.
+
+## 4b. Bites (how each fish bites)
+- Players land almost every tap fight, so the house odds sit in the bite. The fight's landing rate is set to 97%
+  (`FIGHT_AVG`), and the take chance is the bait table's catch % ÷ 0.97.
+- Each fish has a bite style (`route_library/pole/bite_styles.json`, chosen in each `fish.json`):
+
+| Style | Fish | What the player sees |
+|---|---|---|
+| peck | Sardine, Anchovy, Minnow | 2-4 quick pecks |
+| nibble | Clownfish, Angelfish, Butterflyfish, Seahorse, Lionfish | 1-3 gentle nibbles |
+| puff | Pufferfish | 2-5 slow pokes |
+| strike | Tuna, Barracuda | hits at once |
+| munch | Turtle | 3-5 slow bites |
+| slash | Swordfish, Marlin | 1-2 slashes |
+| wrap | Octopus | one long pull |
+| circle | Shark, Hammerhead, Manta | circles the bait 2-4 s first ("Something circles the bait…") |
+| deep | Megalodon, Giant Squid, Kraken, Healer | circles far below 4-6 s |
+
+- **Teases:** some fish only sniff or nibble and swim off. The bait stays and the cast goes on (15-50% by style,
+  halving after each tease). A teased fish won't come straight back.
+- **When a fish commits**, the cast's one roll is made: it takes the bait (hooked, then the fight) or it bites and goes
+  away with the bait ("hit it and ran", "stole the bait", "circled… and left with the bait").
+- **Feeding times** (`route_library/pole/feeding.json`): Sharks, Hammerheads, Mantas and Marlins are only really around
+  the bottom during their feeding window (60-150 s, every 3-5 min when the pole bank is healthy, 5-9 otherwise, with a
+  "Sharks are feeding below" tag). Outside it they're rare, and a big bait waits 3× longer for a visitor. One small kind of
+  fish also gets a feeding spell every few minutes. This decides who is near; the bite tables never change.
+
+## 5. Diving fish
+- Divers: Turtle, Manta, Octopus, Tuna, Swordfish, Marlin, Hammerhead, Shark (1 trip in 6), and whole Sardine,
+  Minnow and Anchovy schools (1 in 15). Each fish's chance is in its `fish.json`.
+- The dive point is picked when the trip starts, before anyone aims, inside that route's dive window (`rules.json`
+  `dive`, picked by `route_library/tools/dive_spots.js` where the route runs through open water; 46 routes can dive, 13
+  edge-hugging ones can't).
+- A diving fish sinks (1 s), swims as a shadow 3-8 s, then rises further along the same route. The gun can't hit it
+  while it's down, but it can bite a bait its route crosses.
+- About 1 dive in 4 from the later part of a route never comes back: the fish joins the underwater world.
+- **Rarity budget:** one dive at a time, 45-100 s between dives, sometimes 2-4 quiet minutes, no dives during a boss
+  intro or a banner. That's about 25-30 dives an hour.
+- Table: `DIVE`.
+
+## 6. Deep visitors
+- A Megalodon, Giant Squid, Kraken or Healer crosses as a huge shadow (28-40 s) every 12-25 minutes, and never surfaces.
+- While one is in the water, the boss bait (Chum + Golden, 700) is on sale, and the visitor smells it from anywhere on the screen.
+- Only comes when the pole bank is at 15,000+, or 9,000+ when the director takes the risk. Table: `DEEP`.
+
+## 7. Gun show tools
+- **Pacing:** never two high-intensity runs in a row (spike, roller, storm, giants). A calm or medium run comes next.
+- **Risk check:** a boss waits one round (a Hunt plays instead) if the gun bank can't cover half of what the table is
+  betting × 600. Table: `SHOW`.
+
+## 8. Rituals (v9.1: easier to see)
+| Ritual | Green light (the trigger) | Chance per check | Own cooldown | What the ocean does |
+|---|---|---|---|---|
+| Bait Ball | two small-fish schools near the middle | 35% | 10 min | Small fish ball up in the middle; a swirl shows in the water and every other fish swims around it (Make Way) |
+| Turtle Parade | a Turtle + 6 mediums on screen | 30% | 15 min | Turtles and mediums parade across |
+| The Current | Monsoon season | 25% | 15 min | The whole ocean flows left to right |
+| Night Water | Winter season | 25% | 15 min | Dark water; Angelfish and Seahorses come out |
+| Giants' Pass (new) | a Shark and a Manta on screen while the table is paying under target | 35% | 12 min | A Hammerhead pair and a Marlin join them (still max 3 big fish, one Shark) |
+| Feeding Frenzy | right after a Bait Ball | 40% | – | Hunters charge the bait ball |
+
+- **You can see them now.** When a ritual triggers, a card says "Bait Ball is forming…" and why (the trigger). When it starts, the card says what the ocean does.
+- **More often.** The first one can come after 2.5 minutes (was 5), and any two are 4-8 minutes apart (was 8-14), so about 8-12 an hour.
+- Files: `route_library/rituals/` (one file per ritual, with `effect` text; `rituals.json` has the gap). Tables: `RITUALS`, `RITUAL`, `RITUAL_EFFECT`.
+- Not built yet: ritual routes for every fish.
+
+## 9. Waves and seasons on screen (v9.1)
+- Every big-fish wave (60-75 s) shows a card near the top: "Wave 3 of 6 · Monsoon" and what's running under the water for the pole.
+- A new season gets a big banner with the season's name (and the catch sold at the market close).
+
+## 10. Pole runs (v9.1): the catch changes wave to wave
+Each wave the director picks what's running under the water. It changes **who swims below**, never a bite table.
+
+| Run | Below | Strays | Needs pole bank |
+|---|---|---|---|
+| Small fry run | small fish ×1.6, mediums ×0.5 | 10% | – |
+| Mixed bag | everyone ×1 | 25% | – |
+| Mid-water run | mediums ×2.2 | 60% | 1,500 |
+| Big water | big fish ×2.2, mediums ×1.2 | 40% | 5,000 |
+
+- **Strays:** now and then a bigger fish takes a smaller bait than its own: Tuna or Barracuda on Worms, Tuna or Turtle on Shrimp, Turtle, Barracuda or Octopus on Squid, Octopus or Barracuda on Crab, Hammerhead or Manta on Live bait. Each stray pays the fish's own table. Its take chance is set so it returns 97% of the bait's price, like the bait's other rows (Tuna on Worms: 7.3%). So a cheap bait can land a big fish sometimes, and the bait still pays the same overall.
+- **Balancing the bank:** every bait's rows return about the same, so payback holds whatever is running. The bank decides when: the bigger runs swing more, so they only come when the pole bank can carry them.
+- Seasons favor runs: Winter = mid-water, Monsoon = big water, Summer reef = small fry and mixed.
+- File: `route_library/pole/runs.json` (runs, strays, depth). Tables: `RUNS`, `STRAY`.
+
+## 11. Line depth (v9.1)
+- The line sits at **Shallow, Mid or Deep**. The **Lock** button in pole mode (touch pad: "Depth") moves it, even while the bait is in the water.
+- Each fish lives at a depth: small fish shallow; mediums, Pufferfish and Lionfish mid; big fish, bosses and the Octopus deep.
+- A bait draws the fish at its depth. 30% of fish one depth away will still come to it, and 5% from two depths away. Each bait starts at its own depth: base baits shallow, medium baits mid, big baits deep.
+- Deeper water is slower: a quiet bait waits 1.25× longer at Mid and 1.6× longer at Deep before a fish comes up to it.
+- **Depth plus strays:** Worms at Mid water get fewer small fish and more stray Tuna and Barracuda. It's a different way to play, but the return stays the same.
+- The seat plate shows "WORMS · MID", and the bobber shows its depth marks and name.
+
+## 12. School shapes (v9.1, gun side)
+- **Streams:** now and then small fish come one at a time instead of as one block:
+  - **ribbon:** one route
+  - **twin:** a route and its mirror, taking turns, so they cross in an X
+  - **wheel:** a loop through the middle
+  - **parallel:** the same route twice, side by side
+  - **scatter:** 4-6 fish, each on its own route at its own pace
+- **School sizes:** Sardine schools now come as 2-3, 4-5, 6-9 or 10-14 (was always 6-9), and a mirrored twin school comes 20% of the time (was 35%).
+- File: `route_library/director/streams.json`. Show only: every fish keeps its catch chance and pay.
+
+## Lab
+- `node lab/playerlab.js ...` as before; see `banks.md` in each run folder.
+- Lab players shop: Fisher holds fish for the bonus (sells when short), Casual sells every 3 fish, Newbie sells right away.
+  Fight skill (v9): Fisher lands 97% of fights, Casual 93%, Newbie 85%.
+- The 7 small reef fish (Anchovy, Clownfish, Butterflyfish, Minnow, Pufferfish, Lionfish, Seahorse) now swim their designed
+  library routes and formations. Routes that follow another fish (Wake rider) still need their own code.
+  Fishers try the boss bait when a deep visitor shows up.
+- `node lab/pole_audit.js` (pole rolls vs tables) and `node lab/market_calc.js` (market math) read the game file.

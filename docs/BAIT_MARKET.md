@@ -19,7 +19,7 @@ fish isn't counted).
 | Live bait | 120 | medium | Barracuda 60% · 170-210 · Swordfish 26% · 500-900 (20% thrash free) | 93-95% |
 | Mackerel | 160 | big | Hammerhead 15% · 900-1000 | 88% |
 | Chum | 200 | big | Shark (moody) · Manta 30% · 580-620 | 89% |
-| Golden lure | 500 | special | Golden Koi only, 5-11% (set by the golden pocket) · 5000 | varies |
+| Golden lure | 500 | special | Golden Koi only, 8.8% once it comes · 5000. On sale any time; the Koi always comes while it's in the water, otherwise 4-50% by how full the golden pocket is | varies |
 | Worms + Shrimp | 45 | base | Seahorse 30% · 140-160 · Angelfish 53% · 70-80 (+ golden) · Butterflyfish 38% · 110-130 | 99-100% |
 | Squid + Crab | 140 | medium | Octopus 28% · 460-500 · Lionfish 46% · 290 · Turtle 52% · 250-270 | 95-96% |
 | Shrimp + Crab | 110 | medium | Swordfish 23% · 500-900 (20% thrash free) | 94% |

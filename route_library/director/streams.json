@@ -1,0 +1,11 @@
+{
+ "about": "Streams and school sizes (gun side). Now and then small fish come as a stream instead of one block: one at a time along a route for several seconds. kinds: ribbon = one route, twin = a route and its mirror taking turns (a crossing X), wheel = a loop in the middle. chance = per spawn decision for that group once the gap has passed; gap = seconds between streams; every = seconds between fish; dur = how long a stream runs. schoolDeck = Sardine school sizes [[min, max], weight] so schools come in many sizes, not always 6-9. twinChance = chance a Sardine school gets a mirrored twin. Show only: each fish keeps its own catch chance and pay.",
+ "chance": {"tiny": 0.22, "small": 0.15},
+ "ids": ["sardine", "anchovy", "minnow", "butterfly", "clown"],
+ "every": [0.35, 0.7],
+ "dur": [7, 13],
+ "kinds": {"ribbon": 3, "twin": 3, "wheel": 2},
+ "gap": [20, 45],
+ "schoolDeck": [[[2, 3], 2], [[4, 5], 3], [[6, 9], 3], [[10, 14], 1]],
+ "twinChance": 0.2
+}

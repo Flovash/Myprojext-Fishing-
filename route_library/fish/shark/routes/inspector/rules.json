@@ -5,5 +5,9 @@
  "attitude": "Curious",
  "meeting_ok": false,
  "seasons": {},
- "why": "Drops in to look at one seat and climbs back out; that seat feels watched."
+ "why": "Drops in to look at one seat and climbs back out; that seat feels watched.",
+ "dive": [
+  0.21,
+  0.73
+ ]
 }

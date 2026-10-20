@@ -1,0 +1,35 @@
+{
+ "about": "Feeding times, the director's pole show: big fish are only really around the bottom during their window; one small kind of fish gets a feeding spell now and then. Changes who is near, never the bite tables.",
+ "big": [
+  "shark",
+  "hammer",
+  "manta",
+  "marlin"
+ ],
+ "bigEvery": [
+  [
+   3,
+   5
+  ],
+  [
+   5,
+   9
+  ]
+ ],
+ "bigHealthy": 5000,
+ "bigDur": [
+  60,
+  150
+ ],
+ "smallEvery": [
+  2,
+  4
+ ],
+ "smallDur": [
+  40,
+  90
+ ],
+ "boost": 4,
+ "offWeight": 0.15,
+ "offWait": 3
+}

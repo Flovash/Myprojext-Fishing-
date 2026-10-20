@@ -1,0 +1,9 @@
+{
+ "about": "Shared ritual settings: seconds between checks, minutes between any two rituals (v9.1: 4-8, was 8-14), and how close to the middle counts as 'near the middle' (share of the screen). One file per ritual sits next to this one.",
+ "check": 6,
+ "shared": [
+  4,
+  8
+ ],
+ "middle": 0.3
+}

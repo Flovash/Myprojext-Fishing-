@@ -5,5 +5,9 @@
  "attitude": "Aggressive",
  "meeting_ok": false,
  "seasons": {},
- "why": "Fast straight run across in 6-8 s: a jolt."
+ "why": "Fast straight run across in 6-8 s: a jolt.",
+ "dive": [
+  0.22,
+  0.71
+ ]
 }

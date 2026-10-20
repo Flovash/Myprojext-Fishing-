@@ -7,5 +7,9 @@
   "Best right before a Marlin slash (gives it something to cut through)."
  ],
  "seasons": {},
- "why": "Rolls into a tight ball for 3 s, then streams away. A small crowd target."
+ "why": "Rolls into a tight ball for 3 s, then streams away. A small crowd target.",
+ "dive": [
+  0.21,
+  0.72
+ ]
 }

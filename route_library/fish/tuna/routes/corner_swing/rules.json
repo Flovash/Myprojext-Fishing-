@@ -5,5 +5,9 @@
  "fast_crosser": 1,
  "split_safe": false,
  "seasons": {},
- "why": "Corner to the neighbouring corner in an arch; flips to open up or down away from the Shark."
+ "why": "Corner to the neighbouring corner in an arch; flips to open up or down away from the Shark.",
+ "dive": [
+  0.28,
+  0.68
+ ]
 }

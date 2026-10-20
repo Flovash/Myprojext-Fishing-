@@ -1,6 +1,9 @@
 # Peacock Reef fish route library
 
 One folder for every fish route, the rules the director follows, the plays it can call, and what happened every time it sent a school.
+Since v9 it also holds the pole world (bites, feeding times, the underwater world, deep visitors, the market), the rituals,
+and the director's show settings. **To browse it all, open `CATALOG.html`**: one scrollable, searchable page with tabs for
+Fish, Routes, Formations, Pole, Rituals and Director.
 The director loads these files (copied into the game by `tools/build_library.js`), and the player lab writes its results back into them.
 
 Law zero: movement never changes catch chances or pays. Routes, formations, seasons and plays decide what is sent and when, never the odds.
@@ -11,13 +14,15 @@ Law zero: movement never changes catch chances or pays. Routes, formations, seas
 route_library/
   fish/
     tuna/
-      fish.json            role, home, habit, school sizes allowed, formations allowed, route order
+      fish.json            role, home, habit, school sizes allowed, formations allowed, route order,
+                           "pole": {"bite": style} (how it bites, see pole/bite_styles.json), "dive": {"chance": ...}
       formations.json      arc, echelon, line, ball ...: spacing and size limits
       sketch.svg           all of this fish's routes in one picture
       routes/
         corner_run/
           route.json       points, duration, pauses, crosser flag, allowed flips
-          rules.json       the "ifs": weight, attitude, fast-crosser count, split-safe, season weights
+          rules.json       the "ifs": weight, attitude, fast-crosser count, split-safe, season weights,
+                           "dive": [from, to] where on the route a dive may start, or false (tools/dive_spots.js)
           stats.csv        tracked results, one row per formation and size, added after every lab run
           sketch.svg
         crisscross/ ...
@@ -26,14 +31,28 @@ route_library/
     laws.json              the director's rules, their values, and whether each is in the game
     seasons.json           the seasons: which routes and formations are in favor, background tint
     plays/                 one file per play ("if this, then send that")
+    show.json              gun show tools: pacing and the boss risk check
+    diving.json            the table-wide dive budget (one at a time, waits, quiet stretches)
+  pole/                    the fishing pole's world (show only; bite tables stay in the game)
+    bite_styles.json       peck, nibble, puff, strike, munch, slash, wrap, circle, deep: nibbles, teases, messages
+    feeding.json           feeding times: when big fish (and one small kind) are around the bottom
+    underwater.json        the underwater population and the middle no-cast box
+    deep_visitors.json     boss shadows: how often, and when the pole bank is safe enough
+    market.json            the bait market: weight bonus per lb, bag size, what happens when a player leaves
+  rituals/
+    rituals.json           shared: how often rituals are checked, minutes between any two
+    baitball.json ...      one file per ritual: green light, chance, cooldown, scene, chains
   data/
     dispatch_log.csv       every school sent in every lab run
     route_scoreboard.csv   one row per fish + route + formation + size, with averages over all runs
   waves/                   waves 8-16: the plan, each wave in full, and their sketches (waves.html)
   tools/
-    build_library.js       rebuilds ROUTES.md, the route sketches and the game's copy of the library
+    build_library.js       rebuilds ROUTES.md, CATALOG.html, the route sketches and the game's copy of the library
+    catalog.js             the catalog page (used by build_library.js)
+    dive_spots.js          picks each diving fish's dive window on every route (hand-set windows: "dive_hand": true)
     sketch_waves.py        rebuilds the waves from the plan and the laws
   ROUTES.md                readable index of every fish and route (made by build_library.js)
+  CATALOG.html             everything above as one scrollable, searchable page (made by build_library.js)
   OPEN_ME.html             the library as one illustrated page (a snapshot from before the folder split; the data in it has not changed)
 ```
 

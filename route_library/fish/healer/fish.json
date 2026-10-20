@@ -31,5 +31,9 @@
   "bloom",
   "lantern"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "deep",
+  "deep_visitor": true
+ }
 }

@@ -206,7 +206,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The sparkle. Fast flashes of silver that make the water feel alive.  
 **Home:** Open water, and the wake behind big fish  
 **Habit:** Flocks of 5-8 that split around obstacles and rejoin. They scatter when a big fish comes within 200 px and re-form 2 s later.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 5-8 · **Formations:** school  
 **Rules:** Never more than 2 Anchovy flocks on screen. Scatter (show only) when a Shark, Marlin or Megalodon is within 200 px.  
 **Sketch:** `fish/anchovy/sketch.svg`
@@ -223,7 +223,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The friendly one. Stays close to a seat so beginners get easy, steady catches.  
 **Home:** Right in front of the seats (one "home spot" per seat)  
 **Habit:** Small groups of 3-6 that dart out from a seat and back. Slow, short trips.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 3-6 · **Formations:** school  
 **Rules:** Visits are shared out by the seat fairness memory, so every seat gets its turn. A seat with a dry spell over 30 s gets the next Clownfish visit (show only, odds unchanged).  
 **Sketch:** `fish/clownfish/sketch.svg`
@@ -239,7 +239,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** Color and calm. Gentle movers that fill the quiet parts of a wave.  
 **Home:** Upper middle of the screen  
 **Habit:** Travel in pairs inside a group of 3-6, fluttering up and down as they go.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 3-6 · **Formations:** school  
 **Rules:** Used most in calm scenes; fewer during hunts.  
 **Sketch:** `fish/butterflyfish/sketch.svg`
@@ -255,7 +255,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The Sardine's rival in the see-saw. Quick and twitchy, good for fast shooters.  
 **Home:** Wherever the Sardines are not (the see-saw decides)  
 **Habit:** Schools of 3-6 that zigzag with sharp turns and sudden stops.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 3-6 · **Formations:** loose  
 **Rules:** See-saw: when Sardines are up, Minnows are down, and the other way round (already in game).  
 **Sketch:** `fish/minnow/sketch.svg`
@@ -271,7 +271,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The easy, funny target. Slow and round; puffs up when hit a lot.  
 **Home:** Low middle, close to the bottom seats  
 **Habit:** Alone or 2-3. Bobs slowly. After 6 hits in 3 s it puffs up for 2 s and slows down (show only).  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 1-3 · **Formations:** loose  
 **Rules:** Puff never changes catch chance or pay.  
 **Sketch:** `fish/pufferfish/sketch.svg`
@@ -289,7 +289,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The escort. Rides with big fish so the big moments have small catches around them.  
 **Home:** Beside big fish, or along the side edges  
 **Habit:** 40% of big fish come with 2-3 Lionfish escorts (in game). Alone, it hovers and fans its fins.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 1-3 · **Formations:** loose  
 **Rules:** Escorts leave with their big fish. Never escort the Shark during a Manta meeting (too crowded).  
 **Sketch:** `fish/lionfish/sketch.svg`
@@ -305,7 +305,7 @@ _Made by `tools/build_library.js` from the folders. Edit the JSON files, not thi
 **Role:** The little treat. Slow, rare and worth a bit more.  
 **Home:** Seat corners; moves up and down rather than across  
 **Habit:** Alone or a pair. Very slow, upright, bobbing.  
-**Status:** designed, not in game yet  
+**Status:** in game (v9)  
 **School size:** 1-2 · **Formations:** loose  
 **Rules:** At most 1 Seahorse visit per seat corner every 2 minutes.  
 **Sketch:** `fish/seahorse/sketch.svg`

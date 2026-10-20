@@ -5,7 +5,7 @@
  "role": "The Sardine's rival in the see-saw. Quick and twitchy, good for fast shooters.",
  "home": "Wherever the Sardines are not (the see-saw decides)",
  "habit": "Schools of 3-6 that zigzag with sharp turns and sudden stops.",
- "status": "designed, not in game yet",
+ "status": "in game (v9)",
  "rules": [
   "See-saw: when Sardines are up, Minnows are down, and the other way round (already in game)."
  ],
@@ -23,5 +23,11 @@
   "dartStop",
   "switchback"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "peck"
+ },
+ "dive": {
+  "chance": 0.0667
+ }
 }

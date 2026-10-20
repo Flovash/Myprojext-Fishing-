@@ -5,5 +5,9 @@
  "attitude": "Aggressive",
  "meeting_ok": false,
  "seasons": {},
- "why": "Fast zigzag; looks angry and is hard to track."
+ "why": "Fast zigzag; looks angry and is hard to track.",
+ "dive": [
+  0.21,
+  0.73
+ ]
 }

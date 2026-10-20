@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "In and out on the same side."
+ "why": "In and out on the same side.",
+ "dive": [
+  0.34,
+  0.62
+ ]
 }

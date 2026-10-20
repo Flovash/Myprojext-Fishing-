@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "Cuts through a school, which scatters and regroups."
+ "why": "Cuts through a school, which scatters and regroups.",
+ "dive": [
+  0.23,
+  0.73
+ ]
 }

@@ -5,5 +5,6 @@
  "fast_crosser": 0,
  "split_safe": false,
  "seasons": {},
- "why": "Crawls along a seat row and rests twice."
+ "why": "Crawls along a seat row and rests twice.",
+ "dive": false
 }

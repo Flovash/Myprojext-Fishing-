@@ -3,5 +3,9 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "One hard angle."
+ "why": "One hard angle.",
+ "dive": [
+  0.23,
+  0.72
+ ]
 }

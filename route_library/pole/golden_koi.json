@@ -1,0 +1,6 @@
+{
+ "about": "When the Golden Koi comes to a Golden lure. The lure is on sale any time. While the Koi is in the water (golden pocket full) it always comes. Before that, the chance it comes to one cast grows from 'rare' (pocket at or below 'far') to 'close' (pocket just under full), on a curve, so casting early is a long shot. Decided once at the cast. The Koi's catch chance (8.8%) never changes.",
+ "far": 2000,
+ "rare": 0.04,
+ "close": 0.5
+}

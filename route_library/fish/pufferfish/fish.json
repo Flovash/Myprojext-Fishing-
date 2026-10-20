@@ -5,7 +5,7 @@
  "role": "The easy, funny target. Slow and round; puffs up when hit a lot.",
  "home": "Low middle, close to the bottom seats",
  "habit": "Alone or 2-3. Bobs slowly. After 6 hits in 3 s it puffs up for 2 s and slows down (show only).",
- "status": "designed, not in game yet",
+ "status": "in game (v9)",
  "rules": [
   "Puff never changes catch chance or pay."
  ],
@@ -30,5 +30,8 @@
   "rise",
   "linger"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "puff"
+ }
 }

@@ -1,0 +1,130 @@
+{
+ "about": "How each kind of fish bites under the water (show only). nibbles: how many dips of the bobber; gap: seconds between them; circle: seconds a big fish circles first; tease: chance the fish only sniffs or nibbles and swims off (the bait stays, the cast goes on; halves after each tease); lose: what the player sees when the fish bites and goes away with the bait. The take/lose roll itself is the bait table's catch % / fight_land. The fight's landing rate (0.97, players land almost every fight) is game math and lives in the game (FIGHT_AVG).",
+ "styles": {
+  "peck": {
+   "nibbles": [
+    2,
+    4
+   ],
+   "gap": [
+    0.2,
+    0.45
+   ],
+   "tease": 0.3,
+   "lose": "stole the bait",
+   "teaseMsg": "pecked and darted off"
+  },
+  "nibble": {
+   "nibbles": [
+    1,
+    3
+   ],
+   "gap": [
+    0.4,
+    0.8
+   ],
+   "tease": 0.25,
+   "lose": "nibbled the bait away",
+   "teaseMsg": "sniffed and swam off"
+  },
+  "puff": {
+   "nibbles": [
+    2,
+    5
+   ],
+   "gap": [
+    0.5,
+    1.0
+   ],
+   "tease": 0.2,
+   "lose": "puffed up and spat it out",
+   "teaseMsg": "poked it and drifted off"
+  },
+  "strike": {
+   "nibbles": [
+    0,
+    1
+   ],
+   "gap": [
+    0.15,
+    0.3
+   ],
+   "tease": 0.15,
+   "lose": "hit it and ran",
+   "teaseMsg": "swirled past"
+  },
+  "munch": {
+   "nibbles": [
+    3,
+    5
+   ],
+   "gap": [
+    0.7,
+    1.1
+   ],
+   "tease": 0.2,
+   "lose": "munched the bait off",
+   "teaseMsg": "had a look and left"
+  },
+  "slash": {
+   "nibbles": [
+    1,
+    2
+   ],
+   "gap": [
+    0.3,
+    0.5
+   ],
+   "tease": 0.3,
+   "lose": "slashed the bait off",
+   "teaseMsg": "slashed past"
+  },
+  "wrap": {
+   "nibbles": [
+    1,
+    1
+   ],
+   "gap": [
+    1.2,
+    1.8
+   ],
+   "tease": 0.25,
+   "lose": "pulled the bait off",
+   "teaseMsg": "touched it and crept away"
+  },
+  "circle": {
+   "nibbles": [
+    1,
+    2
+   ],
+   "gap": [
+    0.4,
+    0.7
+   ],
+   "tease": 0.4,
+   "lose": "circled… and left with the bait",
+   "teaseMsg": "circled the bait and left",
+   "circle": [
+    2,
+    4
+   ]
+  },
+  "deep": {
+   "nibbles": [
+    1,
+    2
+   ],
+   "gap": [
+    0.6,
+    1.0
+   ],
+   "tease": 0.5,
+   "lose": "took the bait into the dark",
+   "teaseMsg": "circled far below and sank away",
+   "circle": [
+    4,
+    6
+   ]
+  }
+ }
+}

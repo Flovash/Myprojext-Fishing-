@@ -1,0 +1,25 @@
+{
+ "about": "The table-wide dive budget. Each fish's own dive chance is in its fish.json; a route can set its own dive window (rules.json dive: [a, b]) or forbid dives (dive: false).",
+ "window": [
+  0.25,
+  0.7
+ ],
+ "under": [
+  3,
+  8
+ ],
+ "sink": 1.0,
+ "rise": 1.0,
+ "gone": 0.25,
+ "goneFrom": 0.55,
+ "wait": [
+  45,
+  100
+ ],
+ "quietChance": 0.2,
+ "quiet": [
+  120,
+  240
+ ],
+ "maxAtOnce": 1
+}

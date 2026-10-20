@@ -5,5 +5,9 @@
  "attitude": "King",
  "meeting_ok": false,
  "seasons": {},
- "why": "Corner to corner; mediums take the two corners it leaves open."
+ "why": "Corner to corner; mediums take the two corners it leaves open.",
+ "dive": [
+  0.22,
+  0.71
+ ]
 }

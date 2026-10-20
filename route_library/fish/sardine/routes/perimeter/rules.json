@@ -3,5 +3,6 @@
  "weight": 1,
  "never_twice_in_a_row": true,
  "seasons": {},
- "why": "A lap around the whole table past every seat."
+ "why": "A lap around the whole table past every seat.",
+ "dive": false
 }

@@ -6,5 +6,9 @@
   "Only after a fast big fish; keeps 2 s behind it, never ahead."
  ],
  "seasons": {},
- "why": "Follows 2 s behind a Marlin or Shark through its wake."
+ "why": "Follows 2 s behind a Marlin or Shark through its wake.",
+ "dive": [
+  0.22,
+  0.71
+ ]
 }

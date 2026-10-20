@@ -1,0 +1,21 @@
+{
+ "about": "Fish speed as a director tool. Show only: speed never changes catch chances or pays (law zero). lift = a slow fish's lasting speed-up. levels = the table's tempo; each scene has its own tempo, the scene's shape nudges it a step, and sometimes it swings a step either way so it never feels like a pattern. moves = each fish's burst of attitude: [how much faster at the peak, seconds, wait between bursts in seconds]; bursts come more often when the tempo is up.",
+ "levels": {"calm": 0.9, "cruise": 1.0, "lively": 1.2, "rush": 1.4},
+ "scene": {"reef": "cruise", "hunt": "lively", "baitball": "rush", "parade": "calm", "night": "calm", "current": "rush", "giants": "cruise", "boss": "cruise"},
+ "shapeNudge": {"calm": -1, "spike": 1, "roller": 1, "storm": 1, "tension": 0, "recover": 0, "giants": 0},
+ "swing": 0.3,
+ "ramp": 3,
+ "burstScale": {"calm": 0.6, "cruise": 1.0, "lively": 1.4, "rush": 1.8},
+ "lift": {"seahorse": 1.6, "puffer": 1.4, "lion": 1.35, "octopus": 1.4, "turtle": 1.35, "angel": 1.25, "butterfly": 1.2, "clown": 1.15,
+  "manta": 1.2, "hammer": 1.15, "shark": 1.15, "healer": 1.3, "kraken": 1.3, "gsquid": 1.2, "megalodon": 1.15},
+ "moves": {
+  "sardine": ["dart", 1.8, 0.5, [6, 12]], "anchovy": ["dart", 1.8, 0.5, [6, 12]], "minnow": ["zip", 2.0, 0.4, [5, 10]],
+  "clown": ["dart", 2.2, 0.5, [4, 9]], "butterfly": ["flutter", 2.0, 0.6, [4, 9]], "angel": ["glide", 1.8, 0.9, [6, 12]],
+  "puffer": ["puff dash", 2.4, 0.4, [5, 10]], "lion": ["lunge", 2.6, 0.45, [6, 12]], "seahorse": ["hop", 2.4, 0.5, [4, 8]],
+  "tuna": ["surge", 1.9, 0.8, [6, 12]], "barracuda": ["lunge", 2.6, 0.5, [5, 10]], "octopus": ["jet", 2.8, 0.5, [5, 9]],
+  "sword": ["slash", 2.4, 0.7, [7, 14]], "turtle": ["paddle", 1.9, 1.0, [6, 11]],
+  "hammer": ["prowl", 1.7, 1.4, [8, 15]], "shark": ["prowl", 1.8, 1.2, [8, 14]], "marlin": ["slash", 2.3, 0.8, [8, 15]], "manta": ["wing beat", 1.8, 1.2, [7, 13]],
+  "healer": ["pulse", 1.5, 1.2, [12, 22]], "megalodon": ["lunge", 1.5, 1.2, [12, 22]], "gsquid": ["jet", 1.6, 1.0, [12, 22]], "kraken": ["lunge", 1.4, 1.4, [14, 24]],
+  "crab": ["scuttle", 2.0, 0.5, [4, 8]], "eel": ["zap", 2.4, 0.5, [5, 10]], "koi": ["glide", 1.6, 0.8, [6, 10]]
+ }
+}

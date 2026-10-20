@@ -5,5 +5,9 @@
  "attitude": "Aggressive",
  "meeting_ok": false,
  "seasons": {},
- "why": "Fast corner-to-corner run."
+ "why": "Fast corner-to-corner run.",
+ "dive": [
+  0.22,
+  0.71
+ ]
 }

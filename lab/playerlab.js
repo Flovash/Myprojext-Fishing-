@@ -351,6 +351,41 @@ const summary = [
 ];
 fs.writeFileSync(path.join(outDir, 'summary.md'), summary.join('\n'));
 
+// ---- banks.md: the gun bank and the pole bank, points by fish and by bet size (games from v9 on) ----
+if (L.byFish) {
+  const r0 = n => Math.round(n).toLocaleString('en-US'), sg = n => (n >= 0 ? '+' : '') + r0(n);
+  const fishRows = Object.entries(L.byFish).sort((a, b) => (b[1].gunW + b[1].poleW) - (a[1].gunW + a[1].poleW));
+  const bands = ['1', '2-9', '10-49', '50+'].filter(k => L.byBet[k]);
+  const fishPoleP = sum(fishRows, ([, o]) => o.poleP);
+  const banks = [
+    `# Banks: ${label} (seed ${seed})`, '',
+    'Each bank = points in − points out for that side (positive = the house is ahead). The gun and the pole never share money.', '',
+    '| Bank | In | Out | Balance | Payback |', '|---|---|---|---|---|',
+    `| Gun | ${r0(L.gunW)} | ${r0(L.gunP)} | ${sg(L.gunW - L.gunP)} | ${pc(pct(L.gunP, L.gunW))} |`,
+    `| Pole | ${r0(L.poleW)} | ${r0(L.poleP)} | ${sg(L.poleW - L.poleP)} | ${pc(pct(L.poleP, L.poleW))} |`,
+    `| Total | ${r0(L.totW)} | ${r0(L.totP)} | ${sg(L.totW - L.totP)} | ${pc(pct(L.totP, L.totW))} |`, '',
+    `Credits added at seats (deposits): ${r0(L.deposits || 0)} · owed in bags at the end: ${r0(L.reserved || 0)}`, '',
+    ...(R.market ? ['## Market', '', `Market closes (season ends): ${R.market.closes} · weight bonus paid: ${r0(L.bonusPaid || 0)} (${pc(pct(L.bonusPaid || 0, L.poleP))} of the pole's pay) · bonus rates per lb: ${Object.entries(R.MARKET.bonusPerLb).map(([g, v]) => g + ' ' + v).join(', ')}`, '',
+      '| Bait | Bought | Cast | Spoiled | Took the bait | Got away | Landed | Sold | Points in | Points out | Payback |', '|---|---|---|---|---|---|---|---|---|---|---|',
+      ...Object.entries(L.pole).map(([k, o]) => `| ${k} | ${o.bought || 0} | ${o.cast} | ${o.spoiled} | ${o.took} | ${o.lost} | ${o.landed} | ${o.sold || 0} | ${r0(o.w)} | ${r0(o.p)} | ${pc(pct(o.p, o.w))} |`), ''] : []),
+    '## By fish', '', 'Gun in = bets on hits. Pole in = bait cost when that fish reached the bobber.', '',
+    '| Fish | Gun in | Gun out | Gun payback | Hits | Caught | Pole in | Pole out | Pole payback | Bites | Landed |', '|---|---|---|---|---|---|---|---|---|---|---|',
+    ...fishRows.map(([id, o]) => `| ${id} | ${r0(o.gunW)} | ${r0(o.gunP)} | ${o.gunW ? pc(pct(o.gunP, o.gunW)) : '–'} | ${o.hits} | ${o.catches} | ${r0(o.poleW)} | ${r0(o.poleP)} | ${o.poleW ? pc(pct(o.poleP, o.poleW)) : '–'} | ${o.bites} | ${o.landed} |`), '',
+    '## Gun by bet size', '', '| Bet | Points in | Points out | Payback | Shots | Catches |', '|---|---|---|---|---|---|',
+    ...bands.map(k => { const o = L.byBet[k]; return `| ${k} | ${r0(o.w)} | ${r0(o.p)} | ${pc(pct(o.p, o.w))} | ${r0(o.shots)} | ${r0(o.catches)} |`; }), '',
+    `Check: pole paid by fish ${r0(fishPoleP)} vs pole bank out ${r0(L.poleP)} (${Math.abs(fishPoleP - L.poleP) < 1 ? 'match' : 'MISMATCH'}).`, '',
+  ];
+  if (R.show) banks.push('## Gun show tools', '', `High runs followed by calm (pacing) ${R.show.paced} times · bosses held back by the risk check ${R.show.holds} times`, '');
+  if (R.ritual) banks.push('## Rituals', '', Object.keys(R.RITUALS).map(id => `${R.RITUALS[id].name} ${R.ritual.fired[id] || 0}`).join(' · ') + ` (in ${minutes} minutes)`, '');
+  if (R.underStats) banks.push('## Underwater and diving', '',
+    `Underwater fish spawned ${r0(R.underStats.spawned)} · came up from the deep to a quiet bait ${r0(R.underStats.arrivals)} · bites ${r0(R.underStats.bites)} (took the bait ${r0(R.underStats.took)})`,
+    ...(R.biteStats ? [`Bites: ${r0(R.biteStats.starts)} started · ${r0(R.biteStats.teases)} teases (sniffed or nibbled and swam off, bait kept) · ${r0(R.biteStats.takes)} took the bait (hooked) · ${r0(R.biteStats.losses)} bit and went away with it`] : []),
+    ...(R.feed ? [`Feeding windows opened: ${Object.entries(R.feed.opened).map(([k, v]) => k + ' ' + v).join(', ') || 'none'}`] : []),
+    ...(R.deep ? [`Deep visitors sent ${R.deep.sent} (the director risked ${R.deep.risked} early, held back ${R.deep.held} checks for the pole bank) · caught ${R.deep.caught}`] : []),
+    ...(R.dive ? [`Dives started ${R.dive.started} (${(R.dive.started / (minutes / 60)).toFixed(1)} per hour) · never came back ${R.dive.gone} · skipped by the budget ${R.dive.skipped} · bites from a fish while it was down ${R.dive.bites}`] : []), '');
+  fs.writeFileSync(path.join(outDir, 'banks.md'), banks.join('\n'));
+}
+
 // ---- running log + index ----
 if (outArg) { console.log('trial run (--out): report only, LOG.csv and the library untouched'); }
 const logFile = path.join(outArg ? outDir : reportsDir, 'LOG.csv');

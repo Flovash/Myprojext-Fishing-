@@ -5,5 +5,9 @@
  "fast_crosser": 0,
  "split_safe": false,
  "seasons": {},
- "why": "A slow S through the center."
+ "why": "A slow S through the center.",
+ "dive": [
+  0.21,
+  0.71
+ ]
 }

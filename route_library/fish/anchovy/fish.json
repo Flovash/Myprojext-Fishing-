@@ -5,7 +5,7 @@
  "role": "The sparkle. Fast flashes of silver that make the water feel alive.",
  "home": "Open water, and the wake behind big fish",
  "habit": "Flocks of 5-8 that split around obstacles and rejoin. They scatter when a big fish comes within 200 px and re-form 2 s later.",
- "status": "designed, not in game yet",
+ "status": "in game (v9)",
  "rules": [
   "Never more than 2 Anchovy flocks on screen.",
   "Scatter (show only) when a Shark, Marlin or Megalodon is within 200 px."
@@ -25,5 +25,11 @@
   "splitRejoin",
   "wakeRider"
  ],
- "designed_by": "chat Claude (patterns part 2)"
+ "designed_by": "chat Claude (patterns part 2)",
+ "pole": {
+  "bite": "peck"
+ },
+ "dive": {
+  "chance": 0.0667
+ }
 }

@@ -1,0 +1,16 @@
+{
+ "about": "The bait market at every fishing seat. Sell now = catch value; hold to season end = catch value + lb x bonusPerLb[group]. Check changes with lab/market_calc.js.",
+ "bonusPerLb": {
+  "tiny": 9,
+  "small": 6,
+  "medium": 0.2,
+  "big": 0.14,
+  "boss": 0.2,
+  "special": 0
+ },
+ "bagMax": 20,
+ "closeEveryWaves": 6,
+ "leave": "value",
+ "buyRepeat": 0.22,
+ "sellAllHold": 1.0
+}

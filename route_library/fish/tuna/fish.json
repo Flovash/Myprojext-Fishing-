@@ -23,5 +23,11 @@
   "crisscross",
   "cornerSwing",
   "cornerHook"
- ]
+ ],
+ "pole": {
+  "bite": "strike"
+ },
+ "dive": {
+  "chance": 0.1667
+ }
 }

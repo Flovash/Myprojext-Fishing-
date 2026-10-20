@@ -1,0 +1,17 @@
+{
+ "about": "The pole's own world under the water. noCast is the old middle box that was too deep to fish; on: false = fish anywhere (owner, 2026-10-20). Set on: true to bring it back.",
+ "under": {
+  "size": 24,
+  "speed": 0.9,
+  "smell": 4,
+  "arriveIdle": 2.5
+ },
+ "noCast": {
+  "on": false,
+  "x0": 0.3,
+  "x1": 0.7,
+  "y0": 0.35,
+  "y1": 0.65,
+  "show": false
+ }
+}

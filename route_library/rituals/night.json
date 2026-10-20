@@ -1,0 +1,10 @@
+{
+ "id": "night",
+ "name": "Night Water",
+ "scene": "night",
+ "chance": 0.25,
+ "cooldown": 15,
+ "why": "Winter season",
+ "green_light": "season:Winter",
+ "effect": "Dark water · Angelfish and Seahorses come out"
+}
