@@ -1,5 +1,5 @@
 {
- "about": "The pole's own world under the water, and the middle box that is too deep to fish.",
+ "about": "The pole's own world under the water, and the middle box that is too deep to fish. noCast.show: false keeps the box invisible (casts into it still land at its edge).",
  "under": {
   "size": 24,
   "speed": 0.9,
@@ -10,6 +10,7 @@
   "x0": 0.3,
   "x1": 0.7,
   "y0": 0.35,
-  "y1": 0.65
+  "y1": 0.65,
+  "show": false
  }
 }

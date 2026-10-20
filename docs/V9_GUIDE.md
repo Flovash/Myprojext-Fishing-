@@ -50,7 +50,8 @@ The gun and the pole are separate worlds with separate banks.
 - The first underwater fish that eats the bait and reaches the bobber decides the cast. The bite tables, fight and pay
   are the same as before.
 - No eater near a bait for 2.5 s → one rises from below, a couple of circle-widths away, and swims to it. Casts come about 40% slower than in v8, when every screen fish rushed the bait. `UNDER` sets the pace.
-- **No-cast box:** the middle 40% × 30% (`NO_CAST`). A cast aimed there lands at its edge ("Too deep in the middle").
+- **No-cast box:** the middle 40% × 30% (`NO_CAST`). Invisible (`show: false` in `route_library/pole/underwater.json`). A cast aimed there lands at its edge ("Too deep in the middle").
+- **Gun speed:** default 6 shots a second (was 1.5; settings offer 1.5 / 3 / 4 / 6 / 9), bullets 1,050 px/s (was 760, `BULLET_SPEED`), up to 32 bullets per seat. Saved settings from older builds reset the fire rate once.
   The box only shows while aiming.
 
 ## 4b. Bites (how each fish bites)
