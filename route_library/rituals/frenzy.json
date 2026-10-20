@@ -6,5 +6,6 @@
  "cooldown": 0,
  "why": "right after a Bait Ball",
  "chainOnly": true,
- "chain_from": "baitball"
+ "chain_from": "baitball",
+ "effect": "Hunters charge the bait ball"
 }

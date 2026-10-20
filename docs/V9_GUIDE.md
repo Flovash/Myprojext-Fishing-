@@ -116,18 +116,57 @@ A small stall above the seat, about as wide as the seat plate, so it doesn't get
 - **Risk check:** a boss waits one round (a Hunt plays instead) if the gun bank can't cover half of what the table is
   betting × 600. Table: `SHOW`.
 
-## 8. Rituals (first version)
-| Ritual | Green light | Chance per check | Own cooldown |
-|---|---|---|---|
-| Bait Ball | two small-fish schools near the middle | 35% | 10 min |
-| Turtle Parade | a Turtle + 6 mediums on screen | 30% | 15 min |
-| The Current | Monsoon season | 25% | 15 min |
-| Night Water | Winter season | 25% | 15 min |
-| Feeding Frenzy | right after a Bait Ball | 40% | – |
+## 8. Rituals (v9.1: easier to see)
+| Ritual | Green light (the trigger) | Chance per check | Own cooldown | What the ocean does |
+|---|---|---|---|---|
+| Bait Ball | two small-fish schools near the middle | 35% | 10 min | Small fish ball up in the middle; a swirl shows in the water and every other fish swims around it (Make Way) |
+| Turtle Parade | a Turtle + 6 mediums on screen | 30% | 15 min | Turtles and mediums parade across |
+| The Current | Monsoon season | 25% | 15 min | The whole ocean flows left to right |
+| Night Water | Winter season | 25% | 15 min | Dark water; Angelfish and Seahorses come out |
+| Giants' Pass (new) | a Shark and a Manta on screen while the table is paying under target | 35% | 12 min | A Hammerhead pair and a Marlin join them (still max 3 big fish, one Shark) |
+| Feeding Frenzy | right after a Bait Ball | 40% | – | Hunters charge the bait ball |
 
-- 8-14 minutes between any two rituals (a Feeding Frenzy can follow a Bait Ball right away), so about 5-6 an hour. A ritual ends the current scene and its own scene plays next.
-- Table: `RITUALS`, `RITUAL`.
-- Not built yet: Make Way (fish parting for the Shark) and routes for every fish that respect each ritual.
+- **You can see them now.** When a ritual triggers, a card says "Bait Ball is forming…" and why (the trigger). When it starts, the card says what the ocean does.
+- **More often.** The first one can come after 2.5 minutes (was 5), and any two are 4-8 minutes apart (was 8-14), so about 8-12 an hour.
+- Files: `route_library/rituals/` (one file per ritual, with `effect` text; `rituals.json` has the gap). Tables: `RITUALS`, `RITUAL`, `RITUAL_EFFECT`.
+- Not built yet: ritual routes for every fish.
+
+## 9. Waves and seasons on screen (v9.1)
+- Every big-fish wave (60-75 s) shows a card near the top: "Wave 3 of 6 · Monsoon" and what's running under the water for the pole.
+- A new season gets a big banner with the season's name (and the catch sold at the market close).
+
+## 10. Pole runs (v9.1): the catch changes wave to wave
+Each wave the director picks what's running under the water. It changes **who swims below**, never a bite table.
+
+| Run | Below | Strays | Needs pole bank |
+|---|---|---|---|
+| Small fry run | small fish ×1.6, mediums ×0.5 | 10% | – |
+| Mixed bag | everyone ×1 | 25% | – |
+| Mid-water run | mediums ×2.2 | 60% | 1,500 |
+| Big water | big fish ×2.2, mediums ×1.2 | 40% | 5,000 |
+
+- **Strays:** now and then a bigger fish takes a smaller bait than its own: Tuna or Barracuda on Worms, Tuna or Turtle on Shrimp, Turtle, Barracuda or Octopus on Squid, Octopus or Barracuda on Crab, Hammerhead or Manta on Live bait. Each stray pays the fish's own table. Its take chance is set so it returns 97% of the bait's price, like the bait's other rows (Tuna on Worms: 7.3%). So a cheap bait can land a big fish sometimes, and the bait still pays the same overall.
+- **Balancing the bank:** every bait's rows return about the same, so payback holds whatever is running. The bank decides when: the bigger runs swing more, so they only come when the pole bank can carry them.
+- Seasons favor runs: Winter = mid-water, Monsoon = big water, Summer reef = small fry and mixed.
+- File: `route_library/pole/runs.json` (runs, strays, depth). Tables: `RUNS`, `STRAY`.
+
+## 11. Line depth (v9.1)
+- The line sits at **Shallow, Mid or Deep**. The **Lock** button in pole mode (touch pad: "Depth") moves it, even while the bait is in the water.
+- Each fish lives at a depth: small fish shallow; mediums, Pufferfish and Lionfish mid; big fish, bosses and the Octopus deep.
+- A bait draws the fish at its depth. 30% of fish one depth away will still come to it, and 5% from two depths away. Each bait starts at its own depth: base baits shallow, medium baits mid, big baits deep.
+- Deeper water is slower: a quiet bait waits 1.25× longer at Mid and 1.6× longer at Deep before a fish comes up to it.
+- **Depth plus strays:** Worms at Mid water get fewer small fish and more stray Tuna and Barracuda. It's a different way to play, but the return stays the same.
+- The seat plate shows "WORMS · MID", and the bobber shows its depth marks and name.
+
+## 12. School shapes (v9.1, gun side)
+- **Streams:** now and then small fish come one at a time instead of as one block:
+  - **ribbon:** one route
+  - **twin:** a route and its mirror, taking turns, so they cross in an X
+  - **wheel:** a loop through the middle
+  - **parallel:** the same route twice, side by side
+  - **scatter:** 4-6 fish, each on its own route at its own pace
+- **School sizes:** Sardine schools now come as 2-3, 4-5, 6-9 or 10-14 (was always 6-9), and a mirrored twin school comes 20% of the time (was 35%).
+- File: `route_library/director/streams.json`. Show only: every fish keeps its catch chance and pay.
 
 ## Lab
 - `node lab/playerlab.js ...` as before; see `banks.md` in each run folder.

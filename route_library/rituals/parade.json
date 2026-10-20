@@ -5,5 +5,6 @@
  "chance": 0.3,
  "cooldown": 15,
  "why": "a Turtle cruising with plenty of mediums around",
- "green_light": "turtle_and_mediums"
+ "green_light": "turtle_and_mediums",
+ "effect": "Turtles and mediums parade across"
 }

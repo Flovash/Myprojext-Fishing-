@@ -1,0 +1,25 @@
+{
+ "about": "Pole runs: each big-fish wave the director picks what is running under the water. mix = how common each fish group is below (x its normal weight). stray = share of medium and big fish that will also go for a smaller bait than their own (the stray rows in strays). bank = the pole bank this run needs before the director may pick it (the bigger runs swing more). w = how often it is picked; season = each season's favorites; repeat = weight for the same run twice in a row. Show only: every bite table stays fixed, and each bait's rows pay about the same, so payback holds while the catch changes.",
+ "list": {
+  "smallfry": {"name": "Small fry run", "tag": "Small fry are biting", "mix": {"tiny": 1.6, "small": 1.3, "medium": 0.5, "big": 0.6}, "stray": 0.1, "w": 3},
+  "mixed":    {"name": "Mixed bag", "tag": "A bit of everything below", "mix": {"tiny": 1, "small": 1, "medium": 1, "big": 1}, "stray": 0.25, "w": 3},
+  "midwater": {"name": "Mid-water run", "tag": "Tuna and Turtles are running", "mix": {"tiny": 0.6, "small": 0.8, "medium": 2.2, "big": 0.8}, "stray": 0.6, "w": 2, "bank": 1500},
+  "bigwater": {"name": "Big water", "tag": "Big fish are hungry", "mix": {"tiny": 0.7, "small": 0.8, "medium": 1.2, "big": 2.2}, "stray": 0.4, "w": 1, "bank": 5000}
+ },
+ "season": {"Winter": {"midwater": 1.6}, "Monsoon": {"bigwater": 1.6, "midwater": 1.2}, "Summer reef": {"smallfry": 1.4, "mixed": 1.3}},
+ "repeat": 0.3,
+ "strays": {
+  "about": "Which bigger fish can take a smaller bait. Each stray row pays the fish's own pay table; its take chance is set so the row returns target of the bait's price, like the bait's other rows.",
+  "target": 0.97,
+  "rows": {"worms": ["tuna", "barracuda"], "shrimp": ["tuna", "turtle"], "squid": ["turtle", "barracuda", "octopus"], "crab": ["octopus", "barracuda"], "live": ["hammer", "manta"]}
+ },
+ "depth": {
+  "about": "Line depth: Shallow, Mid, Deep. Each fish lives at a depth (by group, with per-fish exceptions). A bait at a depth draws the fish that live there; near[1] = share of fish one depth away that still come up or down to it, near[2] = two depths away. bait = where each bait tier sits until the player moves the line (Lock button in pole mode). wait = a quiet bait waits this many times longer before a visitor rises at each depth. Show only: which fish come, never the bite tables.",
+  "names": ["Shallow", "Mid", "Deep"],
+  "home": {"tiny": 0, "small": 0, "medium": 1, "big": 2, "boss": 2, "special": 1},
+  "fish": {"puffer": 1, "lion": 1, "octopus": 2, "seahorse": 0},
+  "bait": {"base": 0, "medium": 1, "big": 2, "boss": 2, "special": 1},
+  "near": [1, 0.3, 0.05],
+  "wait": [1, 1.25, 1.6]
+ }
+}
