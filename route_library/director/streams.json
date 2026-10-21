@@ -1,11 +1,111 @@
 {
- "about": "Streams and school sizes (gun side). Now and then small fish come as a stream instead of one block: one at a time along a route for several seconds. kinds: ribbon = one route, twin = a route and its mirror taking turns (a crossing X), wheel = a loop in the middle. chance = per spawn decision for that group once the gap has passed; gap = seconds between streams; every = seconds between fish; dur = how long a stream runs. schoolDeck = Sardine school sizes [[min, max], weight] so schools come in many sizes, not always 6-9. twinChance = chance a Sardine school gets a mirrored twin. Show only: each fish keeps its own catch chance and pay.",
- "chance": {"tiny": 0.22, "small": 0.15},
- "ids": ["sardine", "anchovy", "minnow", "butterfly", "clown"],
- "every": [0.35, 0.7],
- "dur": [7, 13],
- "kinds": {"ribbon": 3, "twin": 3, "wheel": 2},
- "gap": [20, 45],
- "schoolDeck": [[[2, 3], 2], [[4, 5], 3], [[6, 9], 3], [[10, 14], 1]],
- "twinChance": 0.2
+ "about": "Streams and school sizes (gun side). Now and then small fish come as a stream instead of one block: one at a time along a route for several seconds. kinds: ribbon = one route, twin = a route and its mirror taking turns (a crossing X), wheel = a loop in the middle, parallel = two side-by-side routes streaming together, scatter = 4-6 routes with fish at different speeds so they swim like individuals. chance = per spawn decision for that group once the gap has passed; gap = seconds between streams; every = seconds between fish; dur = how long a stream runs. schoolDeck = Sardine school sizes [[min, max], weight] so schools come in many sizes, not always 6-9. twinChance = chance a Sardine school gets a mirrored twin. Show only: each fish keeps its own catch chance and pay. quick (v9.2): tiny and small groups are smaller (deck) and faster (pace multiplier per group), and with chance dart a group of dartSize darts in from an edge, hooks through the play area and leaves the same edge (hook) or the top/bottom, on screen dartDur seconds.",
+ "chance": {
+  "tiny": 0.5,
+  "small": 0.4
+ },
+ "ids": [
+  "sardine",
+  "anchovy",
+  "minnow",
+  "butterfly",
+  "clown"
+ ],
+ "every": [
+  0.35,
+  0.7
+ ],
+ "dur": [
+  7,
+  13
+ ],
+ "kinds": {
+  "ribbon": 3,
+  "twin": 3,
+  "wheel": 2,
+  "parallel": 3,
+  "scatter": 3
+ },
+ "gap": [
+  10,
+  25
+ ],
+ "schoolDeck": [
+  [
+   [
+    2,
+    3
+   ],
+   3
+  ],
+  [
+   [
+    4,
+    5
+   ],
+   3
+  ],
+  [
+   [
+    6,
+    9
+   ],
+   1.5
+  ],
+  [
+   [
+    10,
+    14
+   ],
+   0.5
+  ]
+ ],
+ "twinChance": 0.2,
+ "quick": {
+  "pace": [
+   1,
+   1.3
+  ],
+  "deck": [
+   [
+    [
+     1,
+     2
+    ],
+    2
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    3
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    3
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    1
+   ]
+  ],
+  "dart": 0.35,
+  "dartSize": [
+   2,
+   4
+  ],
+  "dartDur": [
+   4.5,
+   7
+  ],
+  "hook": 0.6,
+  "maxX": 2
+ }
 }

@@ -64,11 +64,12 @@ function labPlayers(cfg) {
     grinder: {name: 'Grinder', buyIn: 1000,  maxMin: 90, about: 'Steady bet 2, aims at mediums first, then smalls.'},
     whale:   {name: 'Whale',   buyIn: 20000, maxMin: 60, about: 'Bet 100 on bosses and Sharks, 50 on other big fish (lock-on), 10 on anything else.'},
     fisher:  {name: 'Fisher',  buyIn: 2000,  maxMin: 90, sell: 'hold', about: 'About 85% of the time on the pole with base and medium baits; lands 90% of fights (97% from v9, where the odds sit in the bite). Gun at bet 3 otherwise. Market: holds fish for the season-end bonus, sells only when short of points.'},
+    angler:  {name: 'Angler',  buyIn: 2000,  maxMin: 90, sell: 'batch', about: 'Pole only, never the gun: base, medium and big baits, lands 93% of fights. Leaves when it cannot afford Worms. For gun-vs-pole separation tests.'},
     casual:  {name: 'Casual',  buyIn: 1000,  maxMin: 45, sell: 'batch', about: 'Bets 1-5 on random fish, takes pauses, sometimes fishes. Leaves when down 400. Market: sells the bag once it holds 3 fish.'},
     newbie:  {name: 'Newbie',  buyIn: 500,   maxMin: 45, sell: 'now', about: 'Slow aim, fires before lined up (misses a lot), slow fire, bets 1-3. Lands 60% of fights (85% from v9). Market: sells every fish right away.'},
   };
-  const ORDER = Object.keys(TYPES);
-  const MIX = cfg.mix && cfg.mix.length ? cfg.mix : ORDER, SEATS = cfg.seats || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const ORDER = Object.keys(TYPES); // the default mix leaves out Angler (pole only): use it with --mix or an env
+  const MIX = cfg.mix && cfg.mix.length ? cfg.mix : ORDER.filter(t => t !== 'angler'), SEATS = cfg.seats || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   for (const t of MIX) if (!TYPES[t]) throw new Error(`unknown player type ${t} (types: ${ORDER.join(', ')})`);
 
   let A; // game internals, set after the game loads
@@ -177,6 +178,12 @@ function labPlayers(cfg) {
       s.bet = 3;
       freeAim(s, P, dt, inp, keepTarget(s, P, () => true, weighted), 3, 0.08, () => rnd(0.2, 0.4));
     },
+    angler(s, P, dt, inp) {
+      P.switchT = (P.switchT ?? 0) - dt;
+      if (P.switchT <= 0 && !s.bobber) { goPole(s, {worms: 2, shrimp: 2, squid: 3, crab: 2, live: 2, c_ws: 1, c_sc: 1}); P.switchT = rnd(40, 120); }
+      if (s.mode === 'pole' && (s.bobber || s.points >= A.BAITS[s.bait].cost)) return poleTurn(s, P, dt, A.FIGHT_LAND ? 0.93 : 0.8);
+      if (!s.bobber && s.points >= A.BAITS.worms.cost) { s.mode = 'pole'; s.bait = 'worms'; s.lock = null; } // short on points: Worms; never fires
+    },
     casual(s, P, dt, inp) {
       P.phaseT = (P.phaseT ?? rnd(30, 90)) - dt;
       if (P.phaseT <= 0) {
@@ -205,7 +212,8 @@ function labPlayers(cfg) {
   const sessions = [], seatState = [];
   function newSession(i, type, t) {
     const T = TYPES[type];
-    const S = {seat: i, type, start: t, end: null, why: null, buyIn: T.buyIn, low: T.buyIn, high: T.buyIn, active: 0,
+    const B = cfg.buyIn || T.buyIn;
+    const S = {seat: i, type, start: t, end: null, why: null, buyIn: B, low: B, high: B, marks: {}, at: {}, active: 0,
       w: {gun: 0, pole: 0}, p: {gun: 0, pole: 0}, shots: 0, casts: 0, catches: [], byGroup: {}, best: {pts: 0, x: 0, fish: null}};
     sessions.push(S);
     return S;
@@ -216,7 +224,7 @@ function labPlayers(cfg) {
     st.session = newSession(s.i, st.type, t);
     st.P = {dt: 1 / 30, wait: 0, missStreak: 0};
     st.empty = 0;
-    s.points = TYPES[st.type].buyIn; s.bet = 1; s.mode = 'gun'; s.lock = null; s.off = 0;
+    s.points = cfg.buyIn || TYPES[st.type].buyIn; s.bet = 1; s.mode = 'gun'; s.lock = null; s.off = 0;
   }
   function leave(s, why, t) {
     const st = seatState[s.i], S = st.session;
@@ -244,7 +252,12 @@ function labPlayers(cfg) {
       const t = A.time();
       if (!st.P) { if ((st.empty -= dt) <= 0) sitDown(s, t); return; }
       const S = st.session, T = TYPES[st.type];
-      S.low = Math.min(S.low, s.points); S.high = Math.max(S.high, s.points);
+      // worth = points plus the bag's value (pole catches not sold yet)
+      const worth = s.points + (s.bag || []).reduce((a, b) => a + (b.value || 0), 0), el = t - S.start;
+      S.low = Math.min(S.low, worth); S.high = Math.max(S.high, worth);
+      // bankroll marks (bankroll study): first time this session reached each goal, and worth at fixed minutes
+      for (const [k, ok] of [['up', worth > S.buyIn], ['p500', worth >= S.buyIn + 500], ['x2', worth >= 2 * S.buyIn], ['x3', worth >= 3 * S.buyIn], ['k10', worth >= 10000]]) if (ok && S.marks[k] == null) S.marks[k] = el;
+      for (const m of [5, 15, 30, 60, 90]) if (el >= m * 60 && S.at[m] == null) S.at[m] = worth;
       const inFight = s.bobber && s.bobber.state === 'fight', waiting = s.bobber && s.bobber.state === 'wait';
       if (A.sellBag && s.bag && s.bag.length) { // market (v9): each type's selling style; anyone short of points sells first
         const style = T.sell || 'now', cheap = s.points < 3 * 15;
@@ -252,12 +265,14 @@ function labPlayers(cfg) {
       }
       if (!inFight && !waiting) {
         if (s.points < 1) return leave(s, 'bust', t);
-        if (st.type === 'casual' && s.points <= T.buyIn - 400) return leave(s, 'quit', t);
-        if ((t - S.start) / 60 >= T.maxMin) return leave(s, 'home', t);
+        if (st.type === 'angler' && !s.bobber && s.points < A.BAITS.worms.cost) return leave(s, 'bust', t);
+        if (st.type === 'casual' && !cfg.buyIn && s.points <= T.buyIn - 400) return leave(s, 'quit', t);
+        if ((t - S.start) / 60 >= (cfg.maxMin || T.maxMin)) return leave(s, 'home', t);
       }
       st.P.dt = dt;
       if (!(st.type === 'casual' && st.P.paused)) S.active += dt;
       BRAIN[st.type](s, st.P, dt, inp);
+      if (cfg.betCap) s.bet = Math.min(s.bet, cfg.betCap); // bankroll study: bets sized to the starting points
     },
     wager(s, n, kind) {
       const st = seatState[s.i], S = st && st.P && st.session; if (!S) return;

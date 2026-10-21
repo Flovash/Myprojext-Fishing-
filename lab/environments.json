@@ -1,12 +1,87 @@
 {
  "about": "Table setups for the player lab (node lab/playerlab.js --env <name>, or every one at once with lab/testbench.js). seats = how many seats get players (spread around the table); mix = who sits down, in turn (repeat a type to see more of it); settings = the game's own settings menu (diff easy|normal|hard, density few|normal|lots, speed slow|normal|fast, boss 1|0, fire 1.5|3|6). Leave a field out to keep the default: 10 seats, all 8 types, normal settings.",
  "environments": {
-  "full_house": {"about": "Every seat taken, all 8 player types in rotation. The setup every run before 2026-10-18 used.", "seats": 10},
-  "quiet_afternoon": {"about": "Three regulars playing small: casuals, newbies and a grinder.", "seats": 3, "mix": ["casual", "newbie", "grinder", "casual"]},
-  "high_rollers": {"about": "Six seats of big bettors chasing bosses and Sharks.", "seats": 6, "mix": ["whale", "sniper", "chaser", "whale", "sniper"]},
-  "fishing_club": {"about": "Mostly pole players, a couple of gunners.", "seats": 6, "mix": ["fisher", "fisher", "casual", "fisher", "grinder"]},
-  "beginners_night": {"about": "Full table of new and casual players.", "seats": 8, "mix": ["newbie", "casual", "newbie", "casual", "sprayer"]},
-  "pros": {"about": "Sharp players only: snipers, grinders and sprayers.", "seats": 10, "mix": ["sniper", "grinder", "sprayer", "chaser"]},
-  "busy_fast_table": {"about": "Full house on a table set to lots of fish, fast fish and 3 shots a second.", "seats": 10, "settings": {"density": "lots", "speed": "fast", "fire": 3}}
+  "full_house": {
+   "about": "Every seat taken, all 8 player types in rotation. The setup every run before 2026-10-18 used.",
+   "seats": 10
+  },
+  "quiet_afternoon": {
+   "about": "Three regulars playing small: casuals, newbies and a grinder.",
+   "seats": 3,
+   "mix": [
+    "casual",
+    "newbie",
+    "grinder",
+    "casual"
+   ]
+  },
+  "high_rollers": {
+   "about": "Six seats of big bettors chasing bosses and Sharks.",
+   "seats": 6,
+   "mix": [
+    "whale",
+    "sniper",
+    "chaser",
+    "whale",
+    "sniper"
+   ]
+  },
+  "fishing_club": {
+   "about": "Mostly pole players, a couple of gunners.",
+   "seats": 6,
+   "mix": [
+    "fisher",
+    "fisher",
+    "casual",
+    "fisher",
+    "grinder"
+   ]
+  },
+  "beginners_night": {
+   "about": "Full table of new and casual players.",
+   "seats": 8,
+   "mix": [
+    "newbie",
+    "casual",
+    "newbie",
+    "casual",
+    "sprayer"
+   ]
+  },
+  "pros": {
+   "about": "Sharp players only: snipers, grinders and sprayers.",
+   "seats": 10,
+   "mix": [
+    "sniper",
+    "grinder",
+    "sprayer",
+    "chaser"
+   ]
+  },
+  "busy_fast_table": {
+   "about": "Full house on a table set to lots of fish, fast fish and 3 shots a second.",
+   "seats": 10,
+   "settings": {
+    "density": "lots",
+    "speed": "fast",
+    "fire": 3
+   }
+  },
+  "half_and_half": {
+   "about": "Half the table on the pole only (Anglers), half on the gun only, alternating seats. Checks that gun and pole stay separate on a busy mixed table.",
+   "seats": 10,
+   "mix": [
+    "angler",
+    "grinder",
+    "angler",
+    "sprayer",
+    "angler",
+    "chaser",
+    "angler",
+    "whale",
+    "angler",
+    "sniper"
+   ]
+  }
  }
 }

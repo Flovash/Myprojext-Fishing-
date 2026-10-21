@@ -1,5 +1,7 @@
 # Peacock Reef: project overview
 
+> **Older (v8, 2026-10-18).** For where the project is now, read `STATUS_NOW.md` first.
+
 **Read this first.** It explains the whole project in one place, so any person or AI can understand it,
 review it and give advice without the earlier chat history.
 Written 2026-10-18 by chat Claude from the repo, the Drive folder and the game code.

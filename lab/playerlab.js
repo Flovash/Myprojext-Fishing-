@@ -4,6 +4,7 @@
 //          [--seats 4] [--mix whale,whale,casual] [--set density=lots] (the same by hand; these win over --env)
 //          [--law season_length_waves=3] (any law, repeatable; value is JSON)  [--plays on|off|only:a,b|except:a]
 //          [--fish tuna.group_sizes=[2,6]] (any fish.json field, repeatable)  [--no-library] (don't write route_library/data)
+//          [--buyin 100] [--maxmin 60] [--betcap 5] (bankroll study: every player starts with these points, plays at most this long, bets at most this)
 //          [--out some/folder] (a trial run: the report goes there; LOG.csv, index.html and the library are left alone)
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const {patchGame, labTweak, labPlayers, spreadSeats} = require('./sim.js');
@@ -73,7 +74,7 @@ global.Option = function () {};
 global.structuredClone = o => JSON.parse(JSON.stringify(o));
 
 // ================= PLAYERS (lab/sim.js) =================
-const lab = labPlayers({mix, seats: setup.seats});
+const lab = labPlayers({mix, seats: setup.seats, buyIn: +arg('buyin', 0) || null, maxMin: +arg('maxmin', 0) || null, betCap: +arg('betcap', 0) || null});
 const {TYPES, ORDER, sessions, seatState, leave} = lab;
 const GROUP_ORDER = ['tiny', 'small', 'medium', 'big', 'boss', 'special'];
 globalThis.__lab = lab;
@@ -350,6 +351,7 @@ const summary = [
   `Full page: report.html · numbers: numbers.csv · rerun: \`${settingsOut.rerun}\``, '',
 ];
 fs.writeFileSync(path.join(outDir, 'summary.md'), summary.join('\n'));
+fs.writeFileSync(path.join(outDir, 'sessions.json'), JSON.stringify(done.map(S => ({type: S.type, buyIn: S.buyIn, start: S.start, end: S.end, why: S.why, left: S.left, low: S.low, high: S.high, marks: S.marks, at: S.at, w: S.w, p: S.p}))));
 
 // ---- banks.md: the gun bank and the pole bank, points by fish and by bet size (games from v9 on) ----
 if (L.byFish) {

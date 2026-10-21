@@ -2,11 +2,11 @@
 
 Everything for the Peacock Reef fish table in one place.
 
-**Start with the Google Doc "Fish Game Table - Start Here" and the Google Sheet "Fish & Routes" in this folder.** They are the readable versions (phones and chat Claude can open them; .json/.csv/.md files here are for Claude Code). New fish designs go in `new_fish_inbox/`.
+**Where the project is now: read `STATUS_NOW.md` first (updated 2026-10-20).** Background:  "Fish Game Table - Start Here" and the Google Sheet "Fish & Routes" in this folder.** They are the readable versions (phones and chat Claude can open them; .json/.csv/.md files here are for Claude Code). New fish designs go in `new_fish_inbox/`.
 
 | Folder | What is in it |
 |---|---|
-| `game/` | The game itself, v8 (open `peacock_reef.html` in a browser) |
+| `game/` | The game itself, v9 (open `peacock_reef.html` in a browser) |
 | `route_library/` | Every fish's routes (one folder per route), the director's laws, seasons and plays, the dispatch log and route scoreboard, waves 8-16 (see its README) |
 | `design/` | The design spec and the wave sketches |
 | `lab/` | The director workbench (see `lab/WORKBENCH.md`): the player lab plays a night with 8 player types and writes a report and a replay you can watch; `lab/testbench.js` tests the current version in every table setup (`lab/environments.json`) |

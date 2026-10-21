@@ -163,10 +163,33 @@ Each wave the director picks what's running under the water. It changes **who sw
   - **ribbon:** one route
   - **twin:** a route and its mirror, taking turns, so they cross in an X
   - **wheel:** a loop through the middle
-  - **parallel:** the same route twice, side by side
+  - **parallel:** the same route twice, side by side (lanes held across the route, so they keep apart on turns)
   - **scatter:** 4-6 fish, each on its own route at its own pace
 - **School sizes:** Sardine schools now come as 2-3, 4-5, 6-9 or 10-14 (was always 6-9), and a mirrored twin school comes 20% of the time (was 35%).
 - File: `route_library/director/streams.json`. Show only: every fish keeps its catch chance and pay.
+
+## 13. Rush, King Puffer and fish sizes (v9.2, gun side)
+- **Rush:** once or twice a big-fish wave (first after 90 s, then every 30-60 s), one kind of fish rushes for about
+  8-12 s: 7-12 fish, one at a time, each from a different edge and angle in a straight fast dash (240-340 px/s, at most 3x the fish's normal speed).
+  A card says "Tuna Rush!". Picks: Tuna 3, Barracuda 2, Anchovy 2, Minnow 2, Sardine, Butterflyfish, Lionfish,
+  Swordfish 1 each. Never during a boss, a Bait Ball or while another card is showing. Harder to hit, never less likely
+  to catch: each fish keeps its own catch chance and pay.
+- **King Puffer:** a rare, oversized Pufferfish with a crown, one of the director's wildcards (with Bomb Crab and
+  Lightning Eel). Every 4-8 s it puffs up for 3-4.5 s: 1.6x bigger and glowing, with a "PUFFED!" pop.
+  Calm it pays 20-40x, puffed 40-150x (wildcard roll, low end most often). Each state sets its own catch chance from its
+  own range (special group 95%), so the return is the same calm or puffed: puffed is a bigger target with a bigger,
+  rarer pay.
+- **Fish sizes:** tiny, small and medium fish are drawn 0.88-1.1x their size, and about 1 in 8 is a big one (1.2-1.35x).
+  The hit area matches the drawing. Catch chance per hit never changes.
+- **Quick schools:** tiny and small groups are smaller and faster. Library schools for the small reef fish take a size from
+  1-2, 2-3, 3-5 or (rarely) 6-9, capped by the fish's own limits, and each group gets its own pace (1-1.3x). Sardine
+  schools: 2-3, 4-5, 6-9 or (rare) 10-14, also 1-1.3x pace.
+- **Darts:** 35% of tiny/small spawn decisions send a Dart instead: 2-4 fish come in from an edge, hook through the play
+  area in a round turn (built in pixels so it stays round on a wide screen) and leave out the same edge (60%) or the
+  top/bottom, over about 4.5-7 s, never faster than 2x the fish's normal speed. Not during The Current.
+  Lab: `--env half_and_half` = 5 pole-only Anglers and 5 gun-only players on alternating seats.
+- **Formations fix:** the library file had only ribbon/twin/wheel and overrode the game, so parallel and scatter
+  never played. All 5 play now, and more often (tiny 50%, small 40% of spawns once the 10-25 s gap has passed).
 
 ## Lab
 - `node lab/playerlab.js ...` as before; see `banks.md` in each run folder.
